@@ -30,10 +30,10 @@
   <select id="queryByPhoneAndPassword" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />
     from user
-    where phone = #{0}
-    and password = #{1}
+    where phone = #{arg0}
+    and password = #{arg1}
   </select>
-
+    <!-- 在MyBatis3.4.4版不能直接使用#{0}要使用 #{arg0} -->
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
