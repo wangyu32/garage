@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangyu.garage.mapper.GarageMapper">
+  <resultMap id="BaseResultMap" type="com.wangyu.garage.entity.Garage">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="total" jdbcType="INTEGER" property="total" />
+    <result column="inuse" jdbcType="INTEGER" property="inuse" />
+    <result column="unuse" jdbcType="INTEGER" property="unuse" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, total, inuse, unuse, price, createtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from garage
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from garage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wangyu.garage.entity.Garage">
+    insert into garage (name, total,
+      inuse, unuse, price, 
+      createtime)
+    values (#{name,jdbcType=VARCHAR}, #{total,jdbcType=INTEGER},
+      #{inuse,jdbcType=INTEGER}, #{unuse,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wangyu.garage.entity.Garage">
+    insert into garage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+      <if test="inuse != null">
+        inuse,
+      </if>
+      <if test="unuse != null">
+        unuse,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=INTEGER},
+      </if>
+      <if test="inuse != null">
+        #{inuse,jdbcType=INTEGER},
+      </if>
+      <if test="unuse != null">
+        #{unuse,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wangyu.garage.entity.Garage">
+    update garage
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=INTEGER},
+      </if>
+      <if test="inuse != null">
+        inuse = #{inuse,jdbcType=INTEGER},
+      </if>
+      <if test="unuse != null">
+        unuse = #{unuse,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wangyu.garage.entity.Garage">
+    update garage
+    set name = #{name,jdbcType=VARCHAR},
+      total = #{total,jdbcType=INTEGER},
+      inuse = #{inuse,jdbcType=INTEGER},
+      unuse = #{unuse,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

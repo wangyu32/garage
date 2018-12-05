@@ -1,0 +1,106 @@
+package com.wangyu.garage.controller;
+
+import com.wangyu.garage.common.Result;
+import com.wangyu.garage.common.ValidateResult;
+import com.wangyu.garage.contants.GarageConstants;
+import com.wangyu.garage.dto.LoginDTO;
+import com.wangyu.garage.dto.UserRegisterDTO;
+import com.wangyu.garage.entity.Garage;
+import com.wangyu.garage.entity.User;
+import com.wangyu.garage.enums.UserEnum;
+import com.wangyu.garage.service.GarageService;
+import com.wangyu.garage.service.UserService;
+import com.wangyu.garage.util.Util;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
+import java.util.Map;
+
+/**
+ * @Description 用户管理
+ * @Author wangyu
+ * @Date 2018/12/4 23:17
+ */
+@Slf4j
+@RestController
+@RequestMapping(value = "/user")
+public class UserController extends BaseController {
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private GarageService garageService;
+
+    @PostMapping(value = "/register")
+    public Result register(@RequestBody UserRegisterDTO userDto){
+        try{
+            ValidateResult v = userDto.validate();
+            if(v.isInvalid())
+                return failed(v);
+
+            //验证手机号是否已经注册过
+            User userExist = this.userService.queryByPhone(userDto.getPhone());
+            if(userExist != null)
+                return failed("该手机号码已注册");
+
+            Garage garage = null;
+            Long garageId = userDto.getGarageId();
+            if(garageId == null){
+                garageId = GarageConstants.DEFAULT_GARAGE_ID;
+                userDto.setGarageId(garageId);
+            } else {
+                garage = garageService.queryById(garageId);
+                if(garage == null){
+                    return failed("车库信息非法，请联系管理员");
+                }
+            }
+
+            User user = new User();
+            BeanUtils.copyProperties(userDto, user);
+            user.setPassword(Util.md5(userDto.getPassword()));
+            user.setPrice(garage.getPrice());
+            user.setType(UserEnum.COMMON.getType());
+            user.setCreatetime(new Date());
+
+            //保存用户
+            this.userService.save(user);
+
+            return success("注册成功");
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("注册失败");
+        }
+    }
+
+    @PostMapping(value = "/login")
+    public Result login(@RequestBody LoginDTO loginDto){
+        ValidateResult v = loginDto.validate();
+        if(v.isInvalid())
+            return failed(v);
+
+        try{
+            String password = loginDto.getPassword();
+            password = Util.md5(password);
+
+            //验证手机号是否已经注册过
+            User userExist = this.userService.queryByPhoneAndPassword(loginDto.getPhone(), password);
+            if(userExist == null){
+                return failed("用户不存在或者密码错误");
+            }
+
+            return success("登录成功");
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("登录失败");
+        }
+    }
+
+}
