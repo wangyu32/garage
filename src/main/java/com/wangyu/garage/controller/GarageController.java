@@ -1,18 +1,27 @@
 package com.wangyu.garage.controller;
 
-import com.wangyu.garage.common.Result;
+import com.wangyu.common.Result;
+import com.wangyu.common.validate.ValidateResult;
+import com.wangyu.garage.dto.UserComeInDTO;
+import com.wangyu.garage.dto.UserComeOutDTO;
 import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.StopRecording;
+import com.wangyu.garage.entity.User;
+import com.wangyu.garage.enums.CarStatusEnum;
+import com.wangyu.garage.enums.UserEnum;
+import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.service.GarageService;
 import com.wangyu.garage.service.StopRecordingService;
+import com.wangyu.garage.service.UserService;
+import com.wangyu.garage.util.NullUtil;
+import com.wangyu.garage.util.Util;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 /**
  * @Description
@@ -23,6 +32,9 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/garage")
 public class GarageController extends BaseController {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private GarageService garageService;
@@ -37,7 +49,7 @@ public class GarageController extends BaseController {
 
     @GetMapping(value = "/query")
     public Result query(Long id){
-        Garage garage = garageService.queryById(id);
+        Garage garage = garageService.getById(id);
         return success(garage);
     }
 
@@ -54,45 +66,117 @@ public class GarageController extends BaseController {
     }
 
     /**
-     * 停车
-     * @param stopRecording
+     * 入库
+     * @param dto
      * @return
      */
-    @RequestMapping(value = "/stop", method = RequestMethod.POST)
-    public Result stop(@RequestBody StopRecording stopRecording){
-        Long garageId = stopRecording.getId() == null ? 1 : stopRecording.getId();
-        stopRecording.setGarageid(garageId);//没传为默认车库
-        stopRecording.setIntime(new Date());//停车时间，当前时间
-        int num = stopRecordingService.save(stopRecording);
-        return success(stopRecording);
+    @RequestMapping(value = "/comein", method = RequestMethod.POST)
+    public Result comein(@RequestBody UserComeInDTO dto){
+        ValidateResult v = dto.validate();
+        if(v.isInvalid())
+            return failed(v);
+
+        try{
+            Long userId = dto.getUserId();
+            Long garageId = dto.getGarageId();
+
+            User user = userService.getById(userId);
+            if (user == null)
+                return failed("用户不存在，请注册");
+
+            Garage garage = garageService.getById(garageId);
+            if (garage == null)
+                return failed("车库不存在，请联系管理员");
+
+            StopRecordingQueryParameter stopRecordingQueryParameter = new StopRecordingQueryParameter();
+            stopRecordingQueryParameter.setGarageid(garageId);
+            stopRecordingQueryParameter.setUserid(userId);
+            stopRecordingQueryParameter.setStatus(CarStatusEnum.COME_IN.getValue());
+            //1.查询停车记录
+            List<StopRecording> stopRecordingList = stopRecordingService.queryByParameter(stopRecordingQueryParameter);
+            if (stopRecordingList.size() > 0){
+                return success("已经成功扫描入库");
+            }
+
+            StopRecording stopRecording = new StopRecording();
+            stopRecording.setGarageid(garageId);
+            stopRecording.setUserid(userId);
+            stopRecording.setStatus(CarStatusEnum.COME_IN.getValue());//入库
+            stopRecording.setIntime(new Date());//停车时间，当前时间
+
+            stopRecordingService.save(stopRecording);
+            return success(stopRecording);
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("入库失败");
+        }
     }
 
     /**
      * 取车离开结算
-     * @param stopRecording
+     * @param dto
      * @return
      */
-    @RequestMapping(value = "/out", method = RequestMethod.POST)
-    public Result out(@RequestBody StopRecording stopRecording){
-        Long garageId = stopRecording.getId() == null ? 1 : stopRecording.getId();
-        String userId = stopRecording.getUserid().toString();
+    @RequestMapping(value = "/comeout", method = RequestMethod.POST)
+    public Result comeout(@RequestBody UserComeOutDTO dto){
+        ValidateResult v = dto.validate();
+        if(v.isInvalid())
+            return failed(v);
 
-        StopRecording stopRecording1 = stopRecordingService.queryStopRecordingByUserId(userId);
-        long inTime = stopRecording1.getIntime().getTime();
-        Date outDate = new Date();//出库时间
-        long outTime = outDate.getTime();
-        long totalTime = outTime - inTime;
-        Garage garage = garageService.queryById(garageId);
-        BigDecimal unit = new BigDecimal(1000);
-        BigDecimal price = garage.getPrice();
-        BigDecimal amount = new BigDecimal(totalTime).multiply(price).divide(unit);
-        stopRecording1.setAmount(amount);
-        stopRecording1.setOuttime(outDate);
-        stopRecording1.setTotaltime(totalTime);
+        try {
+            Long userId = dto.getUserId();
+            Long garageId = dto.getGarageId();
 
-        int num  = stopRecordingService.update(stopRecording1);
+            User user = userService.getById(userId);
+            if (user == null)
+                return failed("用户不存在，请注册");
 
-        return success(stopRecording1);
+            Garage garage = garageService.getById(garageId);
+            if (garage == null)
+                return failed("车库不存在，请联系管理员");
+
+            StopRecordingQueryParameter stopRecordingQueryParameter = new StopRecordingQueryParameter();
+            stopRecordingQueryParameter.setGarageid(garageId);
+            stopRecordingQueryParameter.setUserid(userId);
+            stopRecordingQueryParameter.setStatus(CarStatusEnum.COME_IN.getValue());
+            //1.查询停车记录
+            List<StopRecording> stopRecordingList = stopRecordingService.queryByParameter(stopRecordingQueryParameter);
+            if(NullUtil.isNull(stopRecordingList)){
+                return failed("查询不到如入库记录");
+            }
+
+            if(stopRecordingList.size() > 1){
+                return failed("同时查询到多条入库未未结费记录");//TODO 管理端需要提供调整功能
+            }
+
+            StopRecording stopRecording = stopRecordingList.get(0);
+
+            long inTime = stopRecording.getIntime().getTime();
+            Date outDate = new Date();//出库时间
+            long outTime = outDate.getTime();
+            long totalTime = outTime - inTime;//停车时间
+
+            //TODO 不同类型用户可采取不同策略模式去计算钱数 未来可实现
+            BigDecimal price = garage.getPrice();
+
+            if(UserEnum.getByCode(user.getType()) == UserEnum.MEMBERSHIP){
+                price = user.getPrice();//会员用户使用自定义价格
+            }
+
+            BigDecimal unit = new BigDecimal(1000);
+            BigDecimal amount = new BigDecimal(totalTime).multiply(price).divide(unit);
+            stopRecording.setAmount(amount);
+            stopRecording.setOuttime(outDate);
+            stopRecording.setTotaltime(totalTime);
+            stopRecording.setStatus(CarStatusEnum.COME_OUT.getValue());
+
+            int num  = stopRecordingService.update(stopRecording);
+
+            return success(stopRecording);
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("出库失败");
+        }
     }
 
 }

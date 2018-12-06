@@ -1,7 +1,10 @@
 package com.wangyu.garage.mapper;
 
 import com.wangyu.garage.entity.StopRecording;
+import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface StopRecordingMapper {
@@ -47,4 +50,11 @@ public interface StopRecordingMapper {
      * @return
      */
     StopRecording queryStopRecordingByUserId(String userId);
+
+    /**
+     * 根据查询参数查询
+     * @param stopRecordingQueryParameter
+     * @return
+     */
+    List<StopRecording> queryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter);
 }

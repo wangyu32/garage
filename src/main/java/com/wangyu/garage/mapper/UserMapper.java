@@ -29,7 +29,7 @@ public interface UserMapper {
      *
      * @mbg.generated 2018-12-04
      */
-    User selectByPrimaryKey(Integer id);
+    User selectByPrimaryKey(Long id);
 
     /**
      *

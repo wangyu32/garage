@@ -29,7 +29,7 @@ public class GarageServiceImpl implements GarageService {
     private String value;
 
     @Override
-    public Garage queryById(Long id) {
+    public Garage getById(Long id) {
         return garageMapper.selectByPrimaryKey(id);
     }
 

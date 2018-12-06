@@ -1,6 +1,6 @@
 package com.wangyu.garage.entity;
 
-import com.wangyu.garage.common.Model;
+import com.wangyu.common.Model;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -22,7 +22,7 @@ public class StopRecording extends Model {
     /**
      * 用户ID
      */
-    private Integer userid;
+    private Long userid;
 
     /**
      * 车牌号
@@ -53,6 +53,11 @@ public class StopRecording extends Model {
      * 停车费
      */
     private BigDecimal amount;
+
+    /**
+     * 状态0-入库;1-出库
+     */
+    private Integer status;
 
     /**
      * 主键ID
@@ -90,7 +95,7 @@ public class StopRecording extends Model {
      * 用户ID
      * @return userid 用户ID
      */
-    public Integer getUserid() {
+    public Long getUserid() {
         return userid;
     }
 
@@ -98,7 +103,7 @@ public class StopRecording extends Model {
      * 用户ID
      * @param userid 用户ID
      */
-    public void setUserid(Integer userid) {
+    public void setUserid(Long userid) {
         this.userid = userid;
     }
 
@@ -196,5 +201,21 @@ public class StopRecording extends Model {
      */
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    /**
+     * 状态0-入库;1-出库
+     * @return status 状态0-入库;1-出库
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 状态0-入库;1-出库
+     * @param status 状态0-入库;1-出库
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

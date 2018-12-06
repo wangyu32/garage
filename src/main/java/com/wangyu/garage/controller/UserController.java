@@ -1,7 +1,7 @@
 package com.wangyu.garage.controller;
 
-import com.wangyu.garage.common.Result;
-import com.wangyu.garage.common.ValidateResult;
+import com.wangyu.common.Result;
+import com.wangyu.common.validate.ValidateResult;
 import com.wangyu.garage.contants.GarageConstants;
 import com.wangyu.garage.dto.UserChangePasswordDTO;
 import com.wangyu.garage.dto.UserLoginDTO;
@@ -10,6 +10,7 @@ import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.enums.UserEnum;
 import com.wangyu.garage.service.GarageService;
+import com.wangyu.garage.service.StopRecordingService;
 import com.wangyu.garage.service.UserService;
 import com.wangyu.garage.util.Util;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
-import java.util.Map;
 
 /**
  * @Description 用户管理
@@ -39,6 +39,9 @@ public class UserController extends BaseController {
     @Autowired
     private GarageService garageService;
 
+    @Autowired
+    private StopRecordingService stopRecordingService;
+
     /**
      * 注册账户
      * @param userDto
@@ -52,7 +55,7 @@ public class UserController extends BaseController {
                 return failed(v);
 
             //验证手机号是否已经注册过
-            User userExist = this.userService.queryByPhone(userDto.getPhone());
+            User userExist = this.userService.getByPhone(userDto.getPhone());
             if(userExist != null)
                 return failed("该手机号码已注册");
 
@@ -63,7 +66,7 @@ public class UserController extends BaseController {
                 garageId = GarageConstants.DEFAULT_GARAGE_ID;
                 userDto.setGarageId(garageId);
             } else {
-                garage = garageService.queryById(garageId);
+                garage = garageService.getById(garageId);
                 if(garage == null){
                     return failed("车库信息非法，请联系管理员");
                 }
@@ -73,7 +76,7 @@ public class UserController extends BaseController {
             BeanUtils.copyProperties(userDto, user);
             user.setPassword(Util.md5(userDto.getPassword()));
             user.setPrice(garage.getPrice());
-            user.setType(UserEnum.COMMON.getType());
+            user.setType(UserEnum.COMMON.getValue());
             user.setCreatetime(new Date());
 
             //保存用户
@@ -102,7 +105,7 @@ public class UserController extends BaseController {
             password = Util.md5(password);
 
             //查询账户密码是否匹配
-            User userExist = this.userService.queryByPhoneAndPassword(loginDto.getPhone(), password);
+            User userExist = this.userService.getByPhoneAndPassword(loginDto.getPhone(), password);
             if(userExist == null){
                 return failed("用户不存在或者密码错误");
             }
@@ -140,5 +143,15 @@ public class UserController extends BaseController {
             log.error(e.getMessage(), e);
             return failed("修改密码失败");
         }
+    }
+
+    /**
+     * 查询
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/stopRecording")
+    public Result stopRecording(){
+        return success();
     }
 }

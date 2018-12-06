@@ -1,6 +1,8 @@
 package com.wangyu.garage.util;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -27,6 +29,47 @@ public class NullUtil {
         return !isNull(s);
     }
 
+    public static boolean isNull(List list){
+        if(list == null || list.size() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNull(Map map){
+        if(map == null || map.size() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNull(Object[] array){
+        if(array == null || array.length == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean notNull(List list){
+        if(list != null && list.size() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean notNull(Map map){
+        if(map != null && map.size() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean notNull(Object[] array){
+        if(array != null && array.length > 0){
+            return true;
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         NullUtil nu = new NullUtil();

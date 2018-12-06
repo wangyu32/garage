@@ -1,6 +1,6 @@
 package com.wangyu.garage.entity;
 
-import com.wangyu.garage.common.Model;
+import com.wangyu.common.Model;
 
 import java.math.BigDecimal;
 import java.util.Date;

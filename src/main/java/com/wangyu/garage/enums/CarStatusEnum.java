@@ -1,27 +1,27 @@
 package com.wangyu.garage.enums;
 
 /**
- * @Description
+ * @Description 车辆状态枚举类
  * @Author wangyu
- * @Date 2018/12/5 1:30
+ * @Date 2018/12/6 17:46
  */
-public enum SexEnum {
+public enum CarStatusEnum {
 
-    MALE("男", 0),
+    COME_IN("入库", 0),
 
-    FEMALE("女", 1);
+    COME_OUT("出库", 1);
 
     private String name;
 
     private Integer value;
 
-    SexEnum(String name, Integer value) {
+    CarStatusEnum(String name, Integer value) {
         this.name = name;
         this.value = value;
     }
 
-    public static SexEnum getByCode(Integer value) {
-        for (SexEnum e : SexEnum.values()) {
+    public static CarStatusEnum getByCode(Integer value) {
+        for (CarStatusEnum e : CarStatusEnum.values()) {
             if (e.value == value) {
                 return e;
             }

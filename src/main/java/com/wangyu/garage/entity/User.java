@@ -1,6 +1,6 @@
 package com.wangyu.garage.entity;
 
-import com.wangyu.garage.common.Model;
+import com.wangyu.common.Model;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +9,7 @@ public class User extends Model {
     /**
      * 主键ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 姓名
@@ -50,7 +50,7 @@ public class User extends Model {
      * 主键ID
      * @return id 主键ID
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -58,7 +58,7 @@ public class User extends Model {
      * 主键ID
      * @param id 主键ID
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

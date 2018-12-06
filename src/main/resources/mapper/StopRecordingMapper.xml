@@ -4,17 +4,18 @@
   <resultMap id="BaseResultMap" type="com.wangyu.garage.entity.StopRecording">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="garageid" jdbcType="BIGINT" property="garageid" />
-    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="userid" jdbcType="BIGINT" property="userid" />
     <result column="car_number" jdbcType="VARCHAR" property="carNumber" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="intime" jdbcType="TIMESTAMP" property="intime" />
     <result column="outtime" jdbcType="TIMESTAMP" property="outtime" />
     <result column="totaltime" jdbcType="BIGINT" property="totaltime" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
   </resultMap>
 
   <sql id="Base_Column_List">
-    id, garageid, userid, car_number, phone, intime, outtime, totaltime, amount
+    id, garageid, userid, car_number, phone, intime, outtime, totaltime, amount, status
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -33,6 +34,18 @@
         limit 1
     </select>
 
+    <select id="queryByParameter" parameterType="com.wangyu.garage.parameter.StopRecordingQueryParameter" resultMap="BaseResultMap" >
+      select <include refid="Base_Column_List" />
+      from stop_recording
+      <where>
+          <if test="garageid    != null">                        and garageid = #{garageid}                      </if>
+          <if test="userid      != null">                        and userid = #{userid}                          </if>
+          <if test="carNumber   != null and carNumber != ''"> and carNumber like CONCAT('%',#{carNumber},'%')</if>
+          <if test="phone       != null and phone != ''">      and phone like CONCAT('%',#{phone},'%')        </if>
+          <if test="status      != null">                        and status = #{status}                          </if>
+      </where>
+
+    </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from stop_recording
@@ -42,12 +55,12 @@
   <insert id="insert" parameterType="com.wangyu.garage.entity.StopRecording">
     insert into stop_recording (garageid, userid,
       car_number, phone, intime, 
-      outtime, totaltime, amount
-      )
-    values (#{garageid,jdbcType=BIGINT}, #{userid,jdbcType=INTEGER},
+      outtime, totaltime, amount, 
+      status)
+    values (#{garageid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT},
       #{carNumber,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{intime,jdbcType=TIMESTAMP}, 
-      #{outtime,jdbcType=TIMESTAMP}, #{totaltime,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}
-      )
+      #{outtime,jdbcType=TIMESTAMP}, #{totaltime,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, 
+      #{status,jdbcType=SMALLINT})
   </insert>
 
   <insert id="insertSelective" parameterType="com.wangyu.garage.entity.StopRecording">
@@ -80,6 +93,9 @@
       <if test="amount != null">
         amount,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -89,7 +105,7 @@
         #{garageid,jdbcType=BIGINT},
       </if>
       <if test="userid != null">
-        #{userid,jdbcType=INTEGER},
+        #{userid,jdbcType=BIGINT},
       </if>
       <if test="carNumber != null">
         #{carNumber,jdbcType=VARCHAR},
@@ -108,6 +124,9 @@
       </if>
       <if test="amount != null">
         #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
       </if>
     </trim>
   </insert>
@@ -139,6 +158,9 @@
       <if test="amount != null">
         amount = #{amount,jdbcType=DECIMAL},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -146,13 +168,14 @@
   <update id="updateByPrimaryKey" parameterType="com.wangyu.garage.entity.StopRecording">
     update stop_recording
     set garageid = #{garageid,jdbcType=BIGINT},
-      userid = #{userid,jdbcType=INTEGER},
+      userid = #{userid,jdbcType=BIGINT},
       car_number = #{carNumber,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       intime = #{intime,jdbcType=TIMESTAMP},
       outtime = #{outtime,jdbcType=TIMESTAMP},
       totaltime = #{totaltime,jdbcType=BIGINT},
-      amount = #{amount,jdbcType=DECIMAL}
+      amount = #{amount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=SMALLINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

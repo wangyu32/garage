@@ -23,12 +23,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User queryByPhone(String phone) {
+    public User getById(Long id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public User getByPhone(String phone) {
         return userMapper.queryByPhone(phone);
     }
 
     @Override
-    public User queryByPhoneAndPassword(String phone, String password) {
+    public User getByPhoneAndPassword(String phone, String password) {
         return userMapper.queryByPhoneAndPassword(phone, password);
     }
 

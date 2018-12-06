@@ -2,10 +2,13 @@ package com.wangyu.garage.service.impl;
 
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.mapper.StopRecordingMapper;
+import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.service.StopRecordingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Description
@@ -32,5 +35,10 @@ public class StopRecordingServiceImpl implements StopRecordingService {
     @Override
     public StopRecording queryStopRecordingByUserId(String userId) {
         return stopRecordingMapper.queryStopRecordingByUserId(userId);
+    }
+
+    @Override
+    public List<StopRecording> queryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter) {
+        return stopRecordingMapper.queryByParameter(stopRecordingQueryParameter);
     }
 }

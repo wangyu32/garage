@@ -10,9 +10,19 @@ import com.wangyu.garage.entity.StopRecording;
  */
 public interface GarageService {
 
-    Garage queryById(Long id);
-
+    /**
+     * 保存车库
+     * @param model
+     * @return
+     */
     int save(Garage model);
+
+    /**
+     * 根据ID查询
+     * @param id
+     * @return
+     */
+    Garage getById(Long id);
 
     /**
      * 停车

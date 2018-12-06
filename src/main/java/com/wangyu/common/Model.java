@@ -1,4 +1,4 @@
-package com.wangyu.garage.common;
+package com.wangyu.common;
 
 import java.io.Serializable;
 

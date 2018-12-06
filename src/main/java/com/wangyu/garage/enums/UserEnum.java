@@ -8,30 +8,36 @@ package com.wangyu.garage.enums;
 public enum UserEnum {
 
     COMMON("普通用户", 0),
-    MEMBERSHIP("会员", 1);
+
+    MEMBERSHIP("会员用户", 1);
 
     private String name;
-    private Integer type;
 
-    UserEnum(String name, Integer type) {
+    private Integer value;
+
+    UserEnum(String name, Integer value) {
         this.name = name;
-        this.type = type;
+        this.value = value;
     }
 
-    public static UserEnum getByType(Integer type) {
+    public static UserEnum getByCode(Integer value) {
         for (UserEnum e : UserEnum.values()) {
-            if (e.type == type) {
+            if (e.value == value) {
                 return e;
             }
         }
         return null;
     }
 
-    public static boolean idValid(Integer type) {
-        return getByType(type) != null;
+    public static boolean idValid(Integer code) {
+        return getByCode(code) != null;
     }
 
-    public Integer getType() {
-        return type;
+    public String getName() {
+        return name;
+    }
+
+    public Integer getValue() {
+        return value;
     }
 }

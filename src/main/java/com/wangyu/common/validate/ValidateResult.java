@@ -1,4 +1,4 @@
-package com.wangyu.garage.common;
+package com.wangyu.common.validate;
 
 import lombok.Data;
 

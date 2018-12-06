@@ -1,6 +1,9 @@
 package com.wangyu.garage.service;
 
 import com.wangyu.garage.entity.StopRecording;
+import com.wangyu.garage.parameter.StopRecordingQueryParameter;
+
+import java.util.List;
 
 /**
  * @Description
@@ -18,4 +21,11 @@ public interface StopRecordingService {
      * @param userId
      */
     StopRecording queryStopRecordingByUserId(String userId);
+
+    /**
+     * 根据查询参数查询
+     * @param stopRecordingQueryParameter
+     * @return
+     */
+    List<StopRecording> queryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter);
 }

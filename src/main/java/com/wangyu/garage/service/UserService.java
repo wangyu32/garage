@@ -13,11 +13,18 @@ public interface UserService {
     int save(User user);
 
     /**
+     * 通过ID查询
+     * @param id
+     * @return
+     */
+    User getById(Long id);
+
+    /**
      * 通过手机号查询用户
      * @param phone 手机号
      * @return
      */
-    User queryByPhone(String phone);
+    User getByPhone(String phone);
 
     /**
      *  通过手机号和密码查询用户
@@ -25,7 +32,7 @@ public interface UserService {
      * @param password 密码
      * @return
      */
-    User queryByPhoneAndPassword(String phone, String password);
+    User getByPhoneAndPassword(String phone, String password);
 
     /**
      * 修改密码

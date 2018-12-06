@@ -1,10 +1,7 @@
 package com.wangyu.garage.controller;
 
-import com.wangyu.garage.common.Result;
-import com.wangyu.garage.common.ValidateResult;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.wangyu.common.Result;
+import com.wangyu.common.validate.ValidateResult;
 
 /**
  * @Description
