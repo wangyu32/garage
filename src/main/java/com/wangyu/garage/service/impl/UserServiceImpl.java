@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService {
     public User queryByPhoneAndPassword(String phone, String password) {
         return userMapper.queryByPhoneAndPassword(phone, password);
     }
+
+    @Override
+    public int changePassword(String phone, String oldPassword, String newPassword) {
+        return userMapper.updateUserPassword(phone, oldPassword, newPassword);
+    }
 }

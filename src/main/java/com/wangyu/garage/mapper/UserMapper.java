@@ -2,6 +2,8 @@ package com.wangyu.garage.mapper;
 
 import com.wangyu.garage.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserMapper {
@@ -55,4 +57,14 @@ public interface UserMapper {
      * @return
      */
     User queryByPhoneAndPassword(String phone, String password);
+
+    /**
+     * 修改密码
+     * @param phone 手机号码
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return
+     */
+    @Update("update user set password = #{arg2} where phone = #{arg0} and password = #{arg1}")
+    int updateUserPassword(String phone, String oldPassword, String newPassword);
 }

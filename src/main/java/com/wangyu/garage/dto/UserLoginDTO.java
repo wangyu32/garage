@@ -11,7 +11,7 @@ import lombok.Data;
  * @Date 2018/12/6 0:45
  */
 @Data
-public class LoginDTO {
+public class UserLoginDTO {
 
     /**
      * 手机号

@@ -3,7 +3,8 @@ package com.wangyu.garage.controller;
 import com.wangyu.garage.common.Result;
 import com.wangyu.garage.common.ValidateResult;
 import com.wangyu.garage.contants.GarageConstants;
-import com.wangyu.garage.dto.LoginDTO;
+import com.wangyu.garage.dto.UserChangePasswordDTO;
+import com.wangyu.garage.dto.UserLoginDTO;
 import com.wangyu.garage.dto.UserRegisterDTO;
 import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.User;
@@ -14,7 +15,6 @@ import com.wangyu.garage.util.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +39,11 @@ public class UserController extends BaseController {
     @Autowired
     private GarageService garageService;
 
+    /**
+     * 注册账户
+     * @param userDto
+     * @return
+     */
     @PostMapping(value = "/register")
     public Result register(@RequestBody UserRegisterDTO userDto){
         try{
@@ -54,6 +59,7 @@ public class UserController extends BaseController {
             Garage garage = null;
             Long garageId = userDto.getGarageId();
             if(garageId == null){
+                //不传位默认ID
                 garageId = GarageConstants.DEFAULT_GARAGE_ID;
                 userDto.setGarageId(garageId);
             } else {
@@ -80,8 +86,13 @@ public class UserController extends BaseController {
         }
     }
 
+    /**
+     * 登录
+     * @param loginDto
+     * @return
+     */
     @PostMapping(value = "/login")
-    public Result login(@RequestBody LoginDTO loginDto){
+    public Result login(@RequestBody UserLoginDTO loginDto){
         ValidateResult v = loginDto.validate();
         if(v.isInvalid())
             return failed(v);
@@ -90,7 +101,7 @@ public class UserController extends BaseController {
             String password = loginDto.getPassword();
             password = Util.md5(password);
 
-            //验证手机号是否已经注册过
+            //查询账户密码是否匹配
             User userExist = this.userService.queryByPhoneAndPassword(loginDto.getPhone(), password);
             if(userExist == null){
                 return failed("用户不存在或者密码错误");
@@ -103,4 +114,31 @@ public class UserController extends BaseController {
         }
     }
 
+
+    /**
+     * 修改密码
+     * @param userChangePasswordDTO
+     * @return
+     */
+    @PostMapping(value = "/changePassword")
+    public Result changePassword(@RequestBody UserChangePasswordDTO userChangePasswordDTO){
+        ValidateResult v = userChangePasswordDTO.validate();
+        if(v.isInvalid())
+            return failed(v);
+
+        try{
+            String oldPassword = Util.md5(userChangePasswordDTO.getOldPassword());
+            String newPassword = Util.md5(userChangePasswordDTO.getNewPassword());
+
+            int num = userService.changePassword(userChangePasswordDTO.getPhone(), oldPassword, newPassword);
+            if(num != 1){
+                return failed("修改密码失败，用户名或密码错误");
+            }
+
+            return success("修改密码成功");
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("修改密码失败");
+        }
+    }
 }

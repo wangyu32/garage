@@ -1,7 +1,11 @@
 server:
   context-path: /garage
   port: 8080
+
 spring:
+  profiles:
+    active: dev
+
   datasource:
     name: garage
     driver-class-name: com.mysql.jdbc.Driver
