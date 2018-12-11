@@ -55,6 +55,22 @@
             <version>1.16.16</version>
         </dependency>
 
+		<!--jsp页面使用jstl标签-->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!--用于编译jsp
+		-->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>8.0.53</version>
+			<scope>compile</scope>
+		</dependency>
+
         <!--
 
         <dependency>

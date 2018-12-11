@@ -1,0 +1,168 @@
+@CHARSET "UTF-8";
+/*重置标签*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;outline:none;}
+input.hidefocus::-moz-focus-inner {border:none;}
+table{border-collapse:collapse;border-spacing:0;empty-cells:show;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,var,optgroup,b{font-style:inherit;font-weight:inherit;}
+del,ins{text-decoration:none;}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal; font-family: "Microsoft YaHei" ;}
+q:before,q:after{content:'';}
+abbr,acronym{border:0;font-variant:normal;}
+sup{vertical-align:baseline;}
+sub{vertical-align:baseline;}
+legend{color:#5A5A5A;}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+input,button,textarea,select{font-size:100%;}
+i,em{font-style:normal;}
+td{vertical-align: middle !important;}
+/*通用部分*/
+body,html
+{
+	width: 100%;
+	height: 100%;
+	overflow-x:hidden;
+	overflow-y: hidden;
+	font-family: "Microsoft YaHei";
+	background:#fff;
+	color:#333;
+}
+a{ 
+	text-decoration:none; color:#333; outline:medium none; cursor: pointer;
+}
+a:link{
+	text-decoration:none;
+}
+a:visited{
+	text-decoration:none;
+}
+a:hover{ 
+	text-decoration:none;
+}
+a:active{ 
+	text-decoration:none;
+}
+a:focus {
+    outline: none;
+    outline-offset: 0;
+}
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 1000px white inset; 
+}
+.form-group label{
+	font-weight:none !important;
+}
+.mr3{
+	margin-right:3px;
+}
+.mb10{
+	margin-bottom:10px;
+}
+.tbc{
+	background-color: #f8f8f8;
+}
+.moneybg{
+	background:#ffffdf;
+}
+.nowrap{
+	white-space:nowrap;
+}
+/*搜索框样式*/
+.search-input input{
+	border:1px solid #ddd;
+	margin:10px 5px;
+	background-color:#fff !important;   
+}
+.search-input  select{	
+	border:1px solid #ddd;
+	border-radius: 4px;
+	margin-left:5px;
+}
+/* 导航栏 */
+.navbar{
+	margin-bottom:0px !important;
+}
+/* 黑名单日期 */
+#contant{
+	display:inline-block !important;
+}
+.margin{
+	width: 40px;
+    padding: 0px 11px;
+    line-height: 30px;
+}
+#dropdownlistWrapperjqxWidget{
+	background-color:#fff !important;
+}
+#jqxWidget{
+	border-color:#ccc !important;
+}
+#dropdownlistWrapperjqxWidget1{
+	background-color:#fff !important;
+}
+#jqxWidget1{
+	border-color:#ccc !important;
+}
+/*清除浮动开始*/
+.clear{clear:both; height:0; overflow:hidden;}
+.clearfix:after{ visibilimgity:hidden; display:block; font-size:0; content:" "; clear:both; height:0;}
+*html .clearfix{zoom : 1;} /*兼容ie6*/
+*:first-child+html .clearfix{ zoom:1;} /*兼容ie7*/
+/*清除浮动结束*/
+
+.pl30{
+	padding-left:30px !important;
+}
+a.redecoration{
+	text-decoration: underline;
+}
+.progress{
+	margin-top:6px;
+	display:none;
+}
+.table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td{
+	border:1px solid #eaeaea !important; 
+}
+.layui-layer{
+	border-radius: 8px !important;
+}
+.layui-layer-title{
+	border-radius: 8px 8px 0px 0px !important;
+	background:#eee;
+	height:40px;
+	line-height:40px;
+}
+.layui-layer-iframe .layui-layer-content{
+	border-radius: 8px !important;
+}
+#search-data input,#search-data button{
+	height:26px !important;
+	border-radius:6px;
+}
+#navbar input,#navbar button{
+	height:26px !important;
+}
+.plrb{
+	padding:0 10px 10px 10px;
+}
+.p5{
+	padding:5px;
+}
+.textclip{
+	width: 150px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+.has-success .form-control {
+	border-color:#ccc;
+}
+.has-success .form-control:focus {
+	border-color: #66afe9;
+}
+.has-success .control-label {
+	color:#333;
+}

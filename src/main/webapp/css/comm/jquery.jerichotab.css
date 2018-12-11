@@ -1,0 +1,221 @@
+/*-------jericho tab-------------------*/
+.jericho_tab
+{
+	width: 100%;
+}
+/*-------jericho tabpages-------------------*/
+.jericho_tab .tab_pages
+{
+	width: 100%;
+	float: left;
+	clear: both;
+}
+.jericho_tab .tab_pages .tabs
+{
+	height:40px;
+	overflow :hidden;
+	display:block;
+	position:relative;
+	float:left;
+}
+.jericho_tab .tab_pages div
+{
+	float: left;
+}
+/*-------jericho each tab -------------------*/
+.jericho_tab .tab_pages ul, .jericho_tab .tab_pages li
+{
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+.jericho_tab .tab_pages ul
+{
+	position:relative;
+	display:block;
+}
+.jericho_tab .tab_pages ul li 
+{
+	float:left;
+	background-color: #ebecf2;
+	border: 1px solid #d8dcdf;
+	border-radius: 5px 5px 0 0;
+	text-align: center;
+	/* margin-left: 10px; */
+	height: 38px;
+	cursor: pointer;
+}
+.jericho_tab .tab_pages .jericho_tabs
+{
+	width: 150px;
+    background:#f8f8f8;
+}
+.jericho_tab .tab_pages .tab_selected div
+{
+	height:100%;
+	line-height: 30px;
+}
+.jericho_tab .tab_pages .jericho_tabs div.tab_left
+{
+	/* width: 145px; */
+	 box-sizing: border-box;
+     padding: 0 23px 0 10px;
+     position: relative;
+}
+.jericho_tab .tab_pages .jericho_tabs div.tab_right
+{
+	display:none;
+}
+.jericho_tab .tab_pages .tab_unselect
+{
+	cursor: pointer;
+	background-color: #f8f8f8;
+}/* 
+.jericho_tab .tab_pages .tab_unselect .tab_close a
+{
+	background: url(../../images/home/error.png) no-repeat 0px 15px;
+} */
+.jericho_tab .tab_pages .tab_selected div.tab_left
+{
+	background-color: #fff;
+	border-radius: 5px 5px 0 0;
+	height: 40px;
+}
+/*-------jericho tab inner -------------------*/
+.jericho_tab .tab_pages .jericho_tabs .tab_left .tab_icon
+{
+	width: 25px;
+	text-align: right;
+	background-repeat: no-repeat;
+}
+.jericho_tab .tab_pages .tab_selected .tab_left .tab_icon
+{
+	background-position: right 7px;	
+	display:none;
+	}
+.jericho_tab .tab_pages .tab_unselect .tab_left .tab_icon
+{
+	background-position: right center;
+	display:none;	
+	}
+.jericho_tab .tab_pages .jericho_tabs .tab_left .tab_text
+{
+	font-size: 14px;
+	line-height: 40px;
+	height: 40px;
+	width: 100px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+.jericho_tab .tab_pages .jericho_tabs .tab_left .tab_close
+{
+	width: 20px;
+	/* text-align: center; */
+	position: absolute;
+    right:0;
+	
+}
+.jericho_tab .tab_pages .jericho_tabs .tab_left .tab_close a
+{
+	width: 20px;
+	height: 38px;
+	display: block;
+	overflow: hidden;
+	text-decoration: none;
+}
+.jericho_tab .tab_pages .tab_left .tab_close a
+{
+	background: url(../../images/home/error1.png) no-repeat 2px 15px;
+}
+/*-------jericho tab slider -------------------*/
+.jericho_tab .tab_pages .jericho_sliders
+{
+	width: 12px;
+	height: 12px;
+	margin:0;
+	cursor: pointer;
+	margin-top: 11px;
+	position: absolute;
+    top: 10px;
+    z-index: 2;
+}
+.jericho_tab .tab_pages .jericho_sliderleft_enable
+{
+	background: url(../../images/home/arrowleft-orange.png);
+	left: 6px;
+	top:16px;
+}
+.jericho_tab .tab_pages .jericho_sliderleft_hover
+{
+	background: url(../../images/home/arrowleft-orange.png);
+	left: 6px;
+	top:16px;
+}
+.jericho_tab .tab_pages .jericho_sliderleft_disable
+{
+	background: url(../../images/home/arrowleft-grey.png);
+	left: 6px;
+	top:16px;
+}
+
+.jericho_tab .tab_pages .jericho_sliderright_enable
+{
+	background: url(../../images/home/arrowright-orange.png);
+	right: 33px;
+	top:16px;
+}
+.jericho_tab .tab_pages .jericho_sliderright_hover
+{
+	background: url(../../images/home/arrowright-orange.png);
+	right: 33px;
+	top:16px;
+}
+.jericho_tab .tab_pages .jericho_sliderright_disable
+{
+	background: url(../../images/home/arrowright-grey.png);
+	right: 40px;
+	top:16px;
+}
+/*-------jericho tab content -------------------*/
+.jericho_tab .tab_content
+{
+	border: solid 1px #98A9B9;
+	border-top: solid 6px #CEDDFA;
+	float: left;
+	clear: both;
+	width: 100%;
+	background-color:#fff;
+}
+
+.jericho_tab .tab_content div.content
+{
+	font-family: "Microsoft YaHei";
+	font-size: 12px;
+	padding: 10px;
+	position:relative;
+	overflow:hidden;
+	display:block;
+}
+.jericho_tab .tab_content div.content .righttag
+{
+	display: none;
+	position:absolute;
+	top: 15px;
+    right: 10px;
+    width: 94px;
+    height: 32px;
+    line-height: 29px;
+	background:#EEF3F7 url(../../images/home/smallloader.gif) no-repeat 8px center;
+	border:1px solid #A5B6C8;
+	padding-left:30px;
+	z-index:9999;
+}
+.jericho_tab .tab_content div.loading
+{
+	background: url(../../images/home/jerichoload.gif) no-repeat center 30%;
+}
+iframe{
+	overflow: auto!important;
+}

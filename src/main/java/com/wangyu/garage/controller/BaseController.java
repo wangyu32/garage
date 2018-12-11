@@ -2,6 +2,10 @@ package com.wangyu.garage.controller;
 
 import com.wangyu.common.Result;
 import com.wangyu.common.validate.ValidateResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Description
@@ -19,6 +23,27 @@ public class BaseController {
     public static final String RETURN_CODE_KEY = "returncode";
     public static final String RETURN_MESSAGE_KEY = "returnMsg";
     public static final String RETURN_DATA_KEY = "data";
+
+    /**
+     * Http的request请求
+     */
+    protected HttpServletRequest request;
+
+    /**
+     * Http的response响应
+     */
+    protected HttpServletResponse response;
+
+    /**
+     * 默认处理 Request 和 Response 对象
+     * @param request
+     * @param response
+     */
+    @ModelAttribute
+    protected void setReqAndRes(HttpServletRequest request,HttpServletResponse response){
+        this.request = request;
+        this.response = response;
+    }
 
     public static Result success() {
         return Result.success();

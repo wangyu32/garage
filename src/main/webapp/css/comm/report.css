@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+button{
+	padding:3px 15px;
+}
+#table-report{
+	width:100%;
+}
+#table-report td,th{
+	text-align:center;
+	border:1px solid #ddd;
+	height:30px;
+}
+#table-report tr:nth-child(1) th{
+	background:#ebebeb;
+}
+#table-report tr:nth-child(2) th{
+	background:#f7f7f7;
+}
+#table-report tr .faceMoney{
+	background:#fff8f8;
+	text-align:right;
+}
+#table-report tr:last-child{
+	background:#f1f1f1;
+}
+#table-report tr:last-child td{
+	font-weight:bold;
+}
+#table-report tr:last-child .faceMoney{
+	color:red;
+	background:#f1f1f1;
+}
