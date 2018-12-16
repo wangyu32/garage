@@ -5,6 +5,7 @@ import com.wangyu.common.validate.ValidateResult;
 import com.wangyu.garage.contants.GarageConstants;
 import com.wangyu.garage.dto.UserChangePasswordDTO;
 import com.wangyu.garage.dto.UserLoginDTO;
+import com.wangyu.garage.dto.UserQueryDTO;
 import com.wangyu.garage.dto.UserRegisterDTO;
 import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.User;
@@ -65,11 +66,10 @@ public class UserController extends BaseController {
                 //不传位默认ID
                 garageId = GarageConstants.DEFAULT_GARAGE_ID;
                 userDto.setGarageId(garageId);
-            } else {
-                garage = garageService.getById(garageId);
-                if(garage == null){
-                    return failed("车库信息非法，请联系管理员");
-                }
+            }
+            garage = garageService.getById(garageId);
+            if(garage == null){
+                return failed("车库信息非法，请联系管理员");
             }
 
             User user = new User();
@@ -117,7 +117,6 @@ public class UserController extends BaseController {
         }
     }
 
-
     /**
      * 修改密码
      * @param userChangePasswordDTO
@@ -142,6 +141,30 @@ public class UserController extends BaseController {
         } catch (Exception e){
             log.error(e.getMessage(), e);
             return failed("修改密码失败");
+        }
+    }
+
+    /**
+     * 查询用户
+     * @param dto
+     * @return
+     */
+    @PostMapping(value = "/getUserByPhone")
+    public Result getUserByPhone(@RequestBody UserQueryDTO dto){
+        ValidateResult v = dto.validatePhone();
+        if(v.isInvalid())
+            return failed(v);
+
+        try{
+            User user = userService.getByPhone(dto.getPhone());
+            if(user == null){
+                return failed("用户不存在");
+            }
+            user.setPassword(null);
+            return success(user);
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("查询用户失败");
         }
     }
 

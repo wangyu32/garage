@@ -5,7 +5,6 @@ import com.wangyu.garage.enums.SexEnum;
 import com.wangyu.garage.util.NullUtil;
 import com.wangyu.garage.util.ValidateUtil;
 import lombok.Data;
-
 /**
  * @Description 用户注册DTO
  * @Author wangyu
@@ -39,6 +38,11 @@ public class UserRegisterDTO {
      */
     private String password;
 
+    /**
+     * 确认密码
+     */
+    private String passwordConfirm;
+
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
@@ -61,6 +65,10 @@ public class UserRegisterDTO {
         this.phone = phone == null ? null : phone.trim();
     }
 
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm == null ? null : passwordConfirm.trim();
+    }
+
     /**
      * 校验参数
      * @return
@@ -78,8 +86,15 @@ public class UserRegisterDTO {
         if (NullUtil.isNull(password))
             return ValidateResult.INVALID.setMessage("密码不能为空");
 
+        if (NullUtil.isNull(passwordConfirm))
+            return ValidateResult.INVALID.setMessage("确认密码不能为空");
+
         if (SexEnum.getByCode(sex) == null)
             return ValidateResult.INVALID.setMessage("性别错误");
+
+        if(!password.equals(passwordConfirm)){
+            return ValidateResult.INVALID.setMessage("两次输入密码不相同");
+        }
 
         if (phone.length() != 11) {
             return ValidateResult.INVALID.setMessage("手机号码长度错误");
