@@ -101,6 +101,7 @@ public class GarageController extends BaseController {
             StopRecording stopRecording = new StopRecording();
             stopRecording.setGarageid(garageId);
             stopRecording.setUserid(userId);
+            stopRecording.setPhone(user.getPhone());
             stopRecording.setStatus(CarStatusEnum.COME_IN.getValue());//入库
             stopRecording.setIntime(new Date());//停车时间，当前时间
 

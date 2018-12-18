@@ -37,8 +37,9 @@
 
     <!-- 定义各个包的详细路径，继承root的值
     <logger name="com.hry.spring" level="TRACE" />
-    -->
     <logger name="com.wangyu.garage" level="debug" />
+    <logger name="com.wangyu.prm" level="debug" />
+    -->
 
     <!-- 此值由 application.properties的spring.profiles.active=dev指定
     <springProfile name="dev">

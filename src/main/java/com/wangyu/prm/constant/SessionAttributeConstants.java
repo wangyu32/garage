@@ -1,4 +1,4 @@
-package com.wangyu.garage.contants;
+package com.wangyu.prm.constant;
 
 /**
  * session内缓存内容key值的常量类

@@ -1,7 +1,6 @@
 package com.wangyu.garage.dto;
 
 import com.wangyu.common.validate.ValidateResult;
-import com.wangyu.garage.util.ValidateUtil;
 import lombok.Data;
 
 /**

@@ -10,7 +10,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 
-import com.wangyu.garage.contants.SessionAttributeConstants;
+import com.wangyu.prm.constant.SessionAttributeConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 

@@ -1,7 +1,11 @@
 package com.wangyu.garage.controller;
 
+import com.google.gson.Gson;
 import com.wangyu.common.Result;
 import com.wangyu.common.validate.ValidateResult;
+import com.wangyu.prm.common.BaseResponse;
+import com.wangyu.prm.constant.SessionAttributeConstants;
+import com.wangyu.prm.response.UserLoginResponse;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +37,8 @@ public class BaseController {
      * Http的response响应
      */
     protected HttpServletResponse response;
+
+    protected Gson gson = new Gson();
 
     /**
      * 默认处理 Request 和 Response 对象
@@ -123,4 +129,46 @@ public class BaseController {
 //        rsMap.put(RETURN_DATA_KEY, data);
 //        return rsMap;
 //    }
+
+    /**
+     * 获取登录用户id
+     * @return 用户id
+     */
+    protected UserLoginResponse getCurrentUser(){
+        UserLoginResponse userInfo = (UserLoginResponse)request.getSession().getAttribute(SessionAttributeConstants.CURRENT_USER);
+        return userInfo;
+    }
+
+    /**
+     * 将http请求结果转为json
+     * @param response - http请求返回结果
+     * @return json格式信息
+     */
+    protected String responseToJson(BaseResponse response){
+        Gson gson = new Gson();
+        return gson.toJson(response);
+    }
+
+    /**
+     * 将http请求结果转为json
+     * @param response - http请求返回结果
+     * @param gson - Gson
+     * @return json格式信息
+     */
+    protected String responseToJson(BaseResponse response, Gson gson){
+        if(gson == null){
+            return responseToJson(response);
+        }
+        return gson.toJson(response);
+    }
+
+    /**
+     * 服务器响应错误
+     * @param code - 错误码
+     * @param message - 响应信息
+     * @return BaseResponse
+     */
+    public BaseResponse renderError(String code, String message){
+        return new BaseResponse().setCode(code).setMessage(message);
+    }
 }

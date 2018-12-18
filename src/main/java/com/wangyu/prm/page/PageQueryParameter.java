@@ -1,8 +1,8 @@
-package com.wangyu.common.page;
+package com.wangyu.prm.page;
 
 /**
  * 分页查询参数公共父类
- * @author wangyu 2016年10月30日
+ * @author 	wangyu wangyu@joygo.com 2016年10月30日
  *
  */
 public class PageQueryParameter {

@@ -9,7 +9,9 @@ public enum UserEnum {
 
     COMMON("普通用户", 0),
 
-    MEMBERSHIP("会员用户", 1);
+    MEMBERSHIP("会员用户", 1),
+
+    ADMIN("管理员", 2);
 
     private String name;
 
