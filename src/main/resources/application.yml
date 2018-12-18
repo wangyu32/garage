@@ -1,6 +1,6 @@
 server:
   context-path: /garage
-  port: 8081
+  port: 8080
 
 projectid: 1
 

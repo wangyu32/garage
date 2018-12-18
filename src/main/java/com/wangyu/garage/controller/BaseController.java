@@ -84,6 +84,10 @@ public class BaseController {
         return Result.success(data);
     }
 
+    public static Result success(String message, Object data) {
+        return Result.success(message, data);
+    }
+
     public static Result failed() {
         return Result.failed();
     }

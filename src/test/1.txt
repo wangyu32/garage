@@ -2,3 +2,11 @@ http://localhost:8080/garage/index.html
 http://localhost:8081/garage/index.html
 
 
+http://localhost:8080/garage/images/in.png
+http://localhost:8080/garage/images/out.png
+
+
+
+
+
+

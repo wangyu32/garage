@@ -95,7 +95,7 @@ public class GarageController extends BaseController {
             //1.查询停车记录
             List<StopRecording> stopRecordingList = stopRecordingService.queryByParameter(stopRecordingQueryParameter);
             if (stopRecordingList.size() > 0){
-                return success("已经成功扫描入库");
+                return success("已经成功扫描入库", stopRecordingList.get(0));
             }
 
             StopRecording stopRecording = new StopRecording();
@@ -155,7 +155,7 @@ public class GarageController extends BaseController {
             long inTime = stopRecording.getIntime().getTime();
             Date outDate = new Date();//出库时间
             long outTime = outDate.getTime();
-            long totalTime = outTime - inTime;//停车时间
+            long totalTime = (outTime - inTime) / 1000 * 1000;//停车时间去掉毫秒部分,按秒计算
 
             //TODO 不同类型用户可采取不同策略模式去计算钱数 未来可实现
             BigDecimal price = garage.getPrice();
@@ -165,7 +165,7 @@ public class GarageController extends BaseController {
             }
 
             BigDecimal unit = new BigDecimal(1000);
-            BigDecimal amount = new BigDecimal(totalTime).multiply(price).divide(unit);
+            BigDecimal amount = new BigDecimal(totalTime).multiply(price).divide(unit);//按秒算钱
             stopRecording.setAmount(amount);
             stopRecording.setOuttime(outDate);
             stopRecording.setTotaltime(totalTime);
