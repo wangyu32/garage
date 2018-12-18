@@ -31,6 +31,13 @@ public class UserRoleCheckedVOListResponse extends BaseResponse {
 		this.total = total;
 	}
 
+	public UserRoleCheckedVOListResponse(BaseResponse base) {
+		if(base != null){
+			setCode(base.getCode());
+			setMessage(base.getMessage());
+		}
+	}
+
 	public List<UserRoleCheckedVO> getList() {
 		return list;
 	}

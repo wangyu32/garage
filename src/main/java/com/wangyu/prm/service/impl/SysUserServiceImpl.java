@@ -29,7 +29,8 @@ import com.wangyu.prm.parameter.UserPageQueryParameter;
 import com.wangyu.prm.parameter.UserRoleParameter;
 import com.wangyu.prm.response.ModuleMenuResponse;
 import com.wangyu.prm.response.UserLoginResponse;
-import com.wangyu.prm.service.IUserService;
+import com.wangyu.prm.service.ISysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,10 +41,9 @@ import org.springframework.stereotype.Service;
  * @author 	wangyu	wangyu@joygo.com 2016年10月17日 上午10:03:54
  *
  */
-@Service("userService")
-public class UserServiceImpl implements IUserService {
-
-	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+@Slf4j
+@Service("sysUserService")
+public class SysUserServiceImpl implements ISysUserService {
 
 	@Resource
 	private UserModelMapper userModelMapper;
@@ -91,7 +91,7 @@ public class UserServiceImpl implements IUserService {
 				return Code.FAIL;
 			}
 		} catch (Exception e) {
-			logger.error("添加用户及分配角色错误:" + e.getMessage());
+			log.error("添加用户及分配角色错误:" + e.getMessage());
 			throw new RollbackableBizException(e.getMessage());
 		}
 	}
@@ -136,7 +136,7 @@ public class UserServiceImpl implements IUserService {
 				return Code.FAIL;
 			}
 		} catch (Exception e) {
-			logger.error("修改用户及分配角色错误:" + e.getMessage());
+			log.error("修改用户及分配角色错误:" + e.getMessage());
 			throw new RollbackableBizException(e.getMessage());
 		}
 	}
@@ -177,7 +177,7 @@ public class UserServiceImpl implements IUserService {
 			}
 			
 		} catch (Exception e) {
-			logger.error("修改用户及分配角色错误:" + e.getMessage());
+			log.error("修改用户及分配角色错误:" + e.getMessage());
 			throw new RollbackableBizException(e.getMessage());
 		}
 	}
@@ -239,7 +239,7 @@ public class UserServiceImpl implements IUserService {
 				return Code.FAIL;
 			}
 		} catch (Exception e) {
-			logger.error("给用户分配角色错误:" + e.getMessage());
+			log.error("给用户分配角色错误:" + e.getMessage());
 			throw new RollbackableBizException(e.getMessage());
 		}
 	}

@@ -7,6 +7,9 @@ package com.wangyu.prm.constant;
  */
 public class UserLogTypeConstants {
 
+	public static final String USER_LOGIN = "用户登录";
+	public static final String USER_LOGOUT = "用户登出";
+
 	public static final String ROLE_ADD = "添加角色";
 	public static final String ROLE_UPDATE = "修改角色";
 	public static final String ROLE_DELETE = "删除角色";

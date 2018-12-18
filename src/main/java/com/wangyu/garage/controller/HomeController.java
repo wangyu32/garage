@@ -14,10 +14,11 @@ import com.wangyu.prm.common.Code;
 import com.wangyu.prm.constant.CommonConstants;
 import com.wangyu.prm.constant.MessageConstants;
 import com.wangyu.prm.constant.SessionAttributeConstants;
+import com.wangyu.prm.constant.UserLogTypeConstants;
 import com.wangyu.prm.model.ProjectModel;
 import com.wangyu.prm.parameter.UserLoginParameter;
 import com.wangyu.prm.response.UserLoginResponse;
-import com.wangyu.prm.service.IUserService;
+import com.wangyu.prm.service.ISysUserService;
 import com.wangyu.prm.util.Md5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class HomeController extends BaseController{
 	
-	//登录服务访问入口
-	private static final String LOGIN = "/login/login";
-	
-	//获取系统单位接口
-	private static final String UNIT = "/config/list";
-	
 	 //保存cookie时的cookieName
     private final static String cookieDomainName = "garage";
 
@@ -49,8 +44,7 @@ public class HomeController extends BaseController{
     private final static int cookieMaxAge = 60 * 60 * 24 * 7 * 2;
 
     @Autowired
-//    @Qualifier("userService")
-    private IUserService userService;
+    private ISysUserService sysUserService;
 
 //    @Autowired
 //	@Qualifier("reportStatisticsService")
@@ -164,17 +158,12 @@ public class HomeController extends BaseController{
 		//密码MD5加密
 		String passwordMD5 = Md5Util.MD5Encode(password, null).toUpperCase();
 
-//		Map<String, String > paramsMap = new HashMap<String, String>();
-//		paramsMap.put("logname", logname);
-//		paramsMap.put("domain", domain);
-//		paramsMap.put("password", passwordMD5);
-
         UserLoginParameter userLoginParameter = new UserLoginParameter();
         userLoginParameter.setLogname(logname);
         userLoginParameter.setDomain(domain);
         userLoginParameter.setPassword(passwordMD5);
 
-		UserLoginResponse result = userService.login(userLoginParameter);
+		UserLoginResponse result = sysUserService.login(userLoginParameter);
 
 		if(Code.SUCCESS.equals(result.getCode())){
 			//登录成功，返回用户对应的菜单信息
@@ -206,6 +195,8 @@ public class HomeController extends BaseController{
 			} else {
 				saveCookie(userLoginBean, 0);
 			}
+
+            addLog(null, "用户登录", UserLogTypeConstants.USER_LOGIN, getCurrentUserIdStr(), username, toJson(userLoginParameter));
 
 			return responseToJson(new BaseResponse());
 		} else {

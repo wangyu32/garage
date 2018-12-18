@@ -17,7 +17,12 @@ import com.wangyu.prm.page.PageQueryResult;
 import com.wangyu.prm.parameter.RoleMenuParameter;
 import com.wangyu.prm.parameter.RolePageQueryParameter;
 import com.wangyu.prm.parameter.UserPageQueryParameter;
+import com.wangyu.prm.parameter.UserRolePageQueryParameter;
 import com.wangyu.prm.response.ModuleMenuResponse;
+import com.wangyu.prm.response.UserRoleCheckedVOListResponse;
+import com.wangyu.prm.service.ISysRoleService;
+import com.wangyu.prm.vo.UserRoleCheckedVO;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,19 +32,15 @@ import com.wangyu.prm.exception.RollbackableBizException;
 import com.wangyu.prm.model.ModuleMenuModel;
 import com.wangyu.prm.model.RoleMenuModel;
 import com.wangyu.prm.model.RoleModel;
-import com.wangyu.prm.model.UserModel;
-import com.wangyu.prm.model.UserRoleModel;
-import com.wangyu.prm.service.IRoleService;
 
 /**
  * 角色管理服务实现类
  * @author 	wangyu	wangyu@joygo.com 2016年10月17日 上午10:03:43
  *
  */
+@Slf4j
 @Service("roleService")
-public class RoleServiceImpl implements IRoleService {
-	
-	private static final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+public class SysRoleServiceImpl implements ISysRoleService {
 	
 	@Resource
 	private ModuleMenuModelMapper moduleMenuModelMapper;
@@ -87,7 +88,7 @@ public class RoleServiceImpl implements IRoleService {
 				return Code.FAIL;
 			}
 		} catch (Exception e) {
-			logger.error("添加用户及分配角色错误:" + e.getMessage());
+			log.error("添加用户及分配角色错误:" + e.getMessage());
 			throw new RollbackableBizException(e.getMessage());
 		}
 	}
@@ -133,7 +134,7 @@ public class RoleServiceImpl implements IRoleService {
 				return Code.FAIL;
 			}
 		} catch (Exception e) {
-			logger.error("添加用户及分配角色错误:" + e.getMessage());
+			log.error("添加用户及分配角色错误:" + e.getMessage());
 			throw new RollbackableBizException(e.getMessage());
 		}
 	}
@@ -173,7 +174,7 @@ public class RoleServiceImpl implements IRoleService {
 				return Code.FAIL;
 			}
 		} catch (Exception e) {
-			logger.error("删除角色及角色关联菜单错误:" + e.getMessage());
+			log.error("删除角色及角色关联菜单错误:" + e.getMessage());
 			throw new RollbackableBizException(e.getMessage());
 		}
 	}
@@ -289,7 +290,7 @@ public class RoleServiceImpl implements IRoleService {
 				return Code.FAIL;
 			}
 		} catch (Exception e) {
-			logger.error("给角色分配菜单错误:" + e.getMessage());
+			log.error("给角色分配菜单错误:" + e.getMessage());
 			throw new RollbackableBizException(e.getMessage());
 		}
 	}
@@ -313,8 +314,63 @@ public class RoleServiceImpl implements IRoleService {
 //	public RoleModel exist(RolePageQueryParameter parameter) {
 //		return roleModelMapper.exist(parameter);
 //	}
-	
-	
+
+
+    @Override
+    public UserRoleCheckedVOListResponse queryUserRoleChecked(UserRolePageQueryParameter parameter) {
+        UserRoleCheckedVOListResponse listResponse = new UserRoleCheckedVOListResponse();
+
+        RolePageQueryParameter rolePageQueryParameter = new RolePageQueryParameter();
+        rolePageQueryParameter.setRef_p_id(parameter.getRef_p_id());//项目ID
+        rolePageQueryParameter.setR_status(parameter.getR_status());
+        rolePageQueryParameter.setPageQuery(parameter.isPageQuery());
+        rolePageQueryParameter.setOrder(parameter.getOrder());
+        rolePageQueryParameter.setSort(parameter.getSort());
+        rolePageQueryParameter.setOffset(parameter.getOffset());
+        rolePageQueryParameter.setLimit(parameter.getLimit());
+
+        PageQueryResult result = this.findByPage(rolePageQueryParameter);
+        //全部角色
+        List<RoleModel> allRoleList = result.getResultList();
+
+        //关联用户的缓存Map
+        Map<Integer, RoleModel> userCache = new HashMap<Integer, RoleModel>();
+
+        //用户ID不为空时，是修改用户操作，需要查询出关联的角色
+        if(parameter.getU_id() != null){
+            UserPageQueryParameter userPageQueryParameter = new UserPageQueryParameter();
+            userPageQueryParameter.setRef_p_id(parameter.getRef_p_id());//项目ID
+            userPageQueryParameter.setU_id(parameter.getU_id());//用户ID
+
+            //用户关联的角色
+            List<RoleModel> userRoleList = this.findRolesByUserId(userPageQueryParameter);
+
+            if(NullUtil.notNull(userRoleList)){
+                for (int i = 0; i < userRoleList.size(); i++) {
+                    RoleModel model = userRoleList.get(i);
+                    userCache.put(model.getR_id(), model);
+                }
+            }
+        }
+
+        List<UserRoleCheckedVO> voList = new ArrayList<UserRoleCheckedVO>();
+        for (int i = 0; i < allRoleList.size(); i++) {
+            RoleModel model = allRoleList.get(i);
+            UserRoleCheckedVO vo = new UserRoleCheckedVO();
+            vo.setR_id(model.getR_id());
+            vo.setR_name(model.getR_name());
+            vo.setR_status(model.getR_status());
+            vo.setR_desc(model.getR_desc());
+            if(userCache.get(model.getR_id()) != null){
+                vo.setChecked(true);//关联的角色
+            }
+            voList.add(vo);
+        }
+
+        listResponse.setList(voList);
+        listResponse.setTotal(voList.size());
+        return listResponse;
+    }
 }
 
 

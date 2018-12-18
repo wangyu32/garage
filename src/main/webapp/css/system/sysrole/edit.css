@@ -1,0 +1,44 @@
+#menuDiv{
+	padding-right: 0px;
+	padding-left: 15px;
+	/*height: 300px; 
+	overflow-y: scroll*/
+}/* 
+#detailDiv .table td {
+    padding: 3px 3px 3px 10px;
+    border: 1px solid #d3d5d6;
+}
+.layui-layer .even {
+    width: 50px !important;
+} */
+#treeview{
+	height: 300px; 
+	overflow-y: scroll
+}
+.list-group-item {
+    padding: 1px 5px !important;
+}
+.roleHandelButton {
+	margin-top:5px;
+} 
+.roleHandelButton span{
+	padding:3px 8px;
+	background:#428bca;
+	border:1px solid #357ebd;
+	border-radius:3px;
+	color:#fff;
+	display:inline-block;/* 
+	margin-bottom:60%; */
+}
+.roleHandelButton span:hover{
+	background:#357ebd;
+	border:1px solid #357ebd;
+	cursor:pointer;
+}
+.roleHandelButton span:nth-child(1){/* 
+	margin-bottom:60%;
+	margin-top:35%; */
+}
+.roleHandelButton span:nth-child(4){
+	margin-bottom:0% !important;;
+}

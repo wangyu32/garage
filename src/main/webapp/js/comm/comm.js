@@ -349,27 +349,40 @@ function formatTimeDetailLen2(value){
 }
 
 //年-月-日 时：分：秒
-function formatDateTime (value,row,index) {	
-	if(!value){
-		return "";
-	}
-	if(value.indexOf('.0') > -1){
-		value = value.split('.')[0];
-		return value;
-	}
-	var date = new Date(value);
-    var y = date.getFullYear(); 
-    var m = date.getMonth() + 1;  
-    m = m < 10 ? ('0' + m) : m;  
-    var d = date.getDate();  
-    d = d < 10 ? ('0' + d) : d;  
+function formatDateTime (value,row,index) {
+    var date = new Date(value);
+    var y = date.getFullYear();
+    var m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    var d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
     var h = date.getHours();
     h = h < 10 ? ('0' + h) : h;
-    var mi = date.getMinutes();  
-    mi = mi < 10 ? ('0' + mi) : mi;
-    var s = date.getSeconds();  
-    s = s < 10 ? ('0' + s) : s;
-    return y + '-' + m + '-' + d +' '+ h + ':' + mi + ":" + s; 
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;
+    second = second < 10 ? ('0' + second) : second;
+    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    // if(!value){
+		// return "";
+    // }
+    // if(value.indexOf('.0') > -1){
+		// value = value.split('.')[0];
+		// return value;
+    // }
+    // var date = new Date(value);
+    // var y = date.getFullYear();
+    // var m = date.getMonth() + 1;
+    // m = m < 10 ? ('0' + m) : m;
+    // var d = date.getDate();
+    // d = d < 10 ? ('0' + d) : d;
+    // var h = date.getHours();
+    // h = h < 10 ? ('0' + h) : h;
+    // var mi = date.getMinutes();
+    // mi = mi < 10 ? ('0' + mi) : mi;
+    // var s = date.getSeconds();
+    // s = s < 10 ? ('0' + s) : s;
+    // return y + '-' + m + '-' + d +' '+ h + ':' + mi + ":" + s;
 };
 
 //回放时间 控制宽度

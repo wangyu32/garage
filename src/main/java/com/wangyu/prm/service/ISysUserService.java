@@ -11,6 +11,7 @@ import com.wangyu.prm.parameter.UserPageQueryParameter;
 import com.wangyu.prm.parameter.UserRoleParameter;
 import com.wangyu.prm.response.ModuleMenuResponse;
 import com.wangyu.prm.response.UserLoginResponse;
+import com.wangyu.prm.response.UserResponse;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * @author 	wangyu	wangyu@joygo.com 2016年10月13日 上午9:36:30
  *
  */
-public interface IUserService{
+public interface ISysUserService{
 
 	/**
 	 * 增加用户信息
@@ -178,4 +179,5 @@ public interface IUserService{
      * @return UserLoginResponse
      */
     UserLoginResponse login(UserLoginParameter userLoginParameter);
+
 }

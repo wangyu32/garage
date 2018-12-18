@@ -7,7 +7,9 @@ import com.wangyu.prm.page.PageQueryResult;
 import com.wangyu.prm.parameter.RoleMenuParameter;
 import com.wangyu.prm.parameter.RolePageQueryParameter;
 import com.wangyu.prm.parameter.UserPageQueryParameter;
+import com.wangyu.prm.parameter.UserRolePageQueryParameter;
 import com.wangyu.prm.response.ModuleMenuResponse;
+import com.wangyu.prm.response.UserRoleCheckedVOListResponse;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ import java.util.List;
  * @author 	wangyu wangyu@joygo.com 2016年10月13日
  *
  */
-public interface IRoleService{
+public interface ISysRoleService{
 	
 	/**
 	 * 增加角色信息
@@ -143,4 +145,10 @@ public interface IRoleService{
 	 */
 //	RoleModel exist(RolePageQueryParameter parameter);
 
+	/**
+	 * 查询用户关联角色在所有角色中的选择情况
+	 * @param parameter 查询参数
+	 * @return UserRoleCheckedVOListResponse
+	 */
+	UserRoleCheckedVOListResponse queryUserRoleChecked(UserRolePageQueryParameter parameter);
 }

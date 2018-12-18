@@ -2,6 +2,8 @@ server:
   context-path: /garage
   port: 8081
 
+projectid: 1
+
 spring:
   profiles:
     active: prod
