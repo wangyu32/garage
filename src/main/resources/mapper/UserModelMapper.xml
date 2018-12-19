@@ -228,7 +228,7 @@
   <!-- 查询角色关联的用户数 -->
   <select id="findRoleUserCount" parameterType="com.wangyu.prm.common.DeleteParameter" resultType="com.wangyu.prm.model.RoleUserCountModel">
 	SELECT r.r_id, r.r_name, count(u.u_id) as user_count
-	  FROM sys_user u, role r, sys_user_role ur
+	  FROM sys_user u, sys_role r, sys_user_role ur
 	 WHERE u.u_id = ur.ref_u_id
 	   AND u.u_del = 0
 	   AND r.r_del = 0

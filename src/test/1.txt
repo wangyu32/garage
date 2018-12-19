@@ -4,6 +4,10 @@ http://localhost:8081/garage/index.html
 
 http://localhost:8080/garage/images/in.png
 http://localhost:8080/garage/images/out.png
+http://localhost:8080/garage/apk/garage.apk
+
+
+http://39.107.85.17:8080/garage/apk/garage.apk
 
 
 

@@ -6,7 +6,7 @@
 	<groupId>com.wangyu</groupId>
 	<artifactId>garage</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>garage</name>
 	<description>Demo project for Spring Boot</description>
@@ -29,7 +29,25 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+            <!--
+            -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
+
+            <!--打包的时候可以不用包进去，别的设施会提供。事实上该依赖理论上可以参与编译，测试，运行等周期。相当于compile，但是打包阶段做了exclude操作-->
+        <!--
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
@@ -150,6 +168,8 @@
 	</dependencies>
 
 	<build>
+        <!-- 应与application.properties(或application.yml)中context-path保持一致 -->
+        <finalName>garage</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -157,6 +177,7 @@
 				<configuration>
 					<!--fork:设置True，否则可能devtools不会起作用-->
 					<fork>true</fork>
+                    <mainClass>com.wangyu.GarageApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -9,12 +9,12 @@
   </resultMap>
   
   <delete id="deleteByRoleid" parameterType="java.lang.Integer">
-    delete from role_menu
+    delete from sys_role_menu
     where ref_r_id = #{ref_r_id,jdbcType=INTEGER}
   </delete>
 
   <delete id="deleteByRoleidArray" parameterType="com.wangyu.prm.common.DeleteParameter">
-    delete from role_menu
+    delete from sys_role_menu
      where ref_r_id in
 	   <foreach collection="idArray" item ="item" index="i" open="(" separator="," close=")">  
 	     #{item}
@@ -22,12 +22,12 @@
   </delete>
  
   <insert id="insert" parameterType="com.wangyu.prm.model.RoleMenuModel">
-    insert into role_menu (ref_r_id, ref_mm_id)
+    insert into sys_role_menu (ref_r_id, ref_mm_id)
     values (#{ref_r_id,jdbcType=INTEGER}, #{ref_mm_id,jdbcType=INTEGER})
   </insert>
   
   <insert id="insertList" parameterType="com.wangyu.prm.model.RoleMenuModel" useGeneratedKeys="true" keyProperty="rm_id">
-    insert into role_menu (ref_r_id, ref_mm_id)
+    insert into sys_role_menu (ref_r_id, ref_mm_id)
     values 
     <foreach collection="list" item="item" index="index" separator="," >
         (#{item.ref_r_id,jdbcType=INTEGER}, #{item.ref_mm_id,jdbcType=INTEGER})
