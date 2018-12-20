@@ -21,7 +21,12 @@ public class PageQueryParameter {
 	 * 开始记录数
 	 */
 	private int offset = 0;
-	
+
+	/**
+	 * 页数
+	 */
+	private int pageNumber = 0;
+
 	/**
 	 * 排序字段
 	 */
@@ -44,11 +49,22 @@ public class PageQueryParameter {
 		this.order = order;
 	}
 
+	public PageQueryParameter(boolean pageQuery, int limit, int offset, int pageNumber, String sort, String order) {
+		super();
+		this.pageQuery = pageQuery;
+		this.limit = limit;
+		this.offset = offset;
+		this.pageNumber = pageNumber;
+		this.sort = sort;
+		this.order = order;
+	}
+
 	public PageQueryParameter(PageQueryParameter parameter) {
 		super();
 		this.pageQuery = parameter.isPageQuery();
 		this.limit = parameter.getLimit();
 		this.offset = parameter.getOffset();
+		this.pageNumber = parameter.getPageNumber();
 		this.sort = parameter.getSort();
 		this.order = parameter.getOrder();
 	}
@@ -92,5 +108,12 @@ public class PageQueryParameter {
 	public void setPageQuery(boolean pageQuery) {
 		this.pageQuery = pageQuery;
 	}
-	
+
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
 }

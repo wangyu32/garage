@@ -1,5 +1,6 @@
 package com.wangyu.garage.service;
 
+import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 
@@ -28,4 +29,11 @@ public interface StopRecordingService {
      * @return
      */
     List<StopRecording> queryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter);
+
+    /**
+     * 分页查询停车记录
+     * @param stopRecordingQueryParameter
+     * @return
+     */
+    PageInfo<StopRecording> pageQueryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter);
 }

@@ -1,5 +1,6 @@
 package com.wangyu.garage.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.wangyu.common.Result;
 import com.wangyu.common.validate.ValidateResult;
 import com.wangyu.garage.dto.UserComeInDTO;
@@ -174,6 +175,23 @@ public class GarageController extends BaseController {
             int num  = stopRecordingService.update(stopRecording);
 
             return success(stopRecording);
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("出库失败");
+        }
+    }
+
+    /**
+     * 查询停车记录
+     * @param stopRecordingQueryParameter
+     * @return
+     */
+    @RequestMapping(value = "/queryStopRecording", method = RequestMethod.GET)
+    public Result queryStopRecording(StopRecordingQueryParameter stopRecordingQueryParameter){
+        try {
+            log.info("查询停车记录：" + toJson(stopRecordingQueryParameter));
+            PageInfo<StopRecording> pageInfo = stopRecordingService.pageQueryByParameter(stopRecordingQueryParameter);
+            return success(pageInfo);
         } catch (Exception e){
             log.error(e.getMessage(), e);
             return failed("出库失败");

@@ -57,7 +57,6 @@ public class BaseController {
 
     protected Gson gson = new Gson();
 
-
     @Autowired
     private IUserLogService userLogService;
 

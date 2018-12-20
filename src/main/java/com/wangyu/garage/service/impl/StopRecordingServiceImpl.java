@@ -1,5 +1,7 @@
 package com.wangyu.garage.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.mapper.StopRecordingMapper;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
@@ -40,5 +42,13 @@ public class StopRecordingServiceImpl implements StopRecordingService {
     @Override
     public List<StopRecording> queryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter) {
         return stopRecordingMapper.queryByParameter(stopRecordingQueryParameter);
+    }
+
+    @Override
+    public PageInfo<StopRecording> pageQueryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter) {
+        PageHelper.startPage(stopRecordingQueryParameter.getPageNumber(), stopRecordingQueryParameter.getLimit());
+        List<StopRecording> list = this.stopRecordingMapper.queryByParameter(stopRecordingQueryParameter);
+        PageInfo<StopRecording> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 }
