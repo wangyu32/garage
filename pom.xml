@@ -129,7 +129,15 @@
             <version>1.2.29</version>
         </dependency>
 
-        <!--
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+
+
+		<!--
 
         <dependency>
             <groupId>log4j</groupId>
