@@ -1,8 +1,16 @@
 package com.wangyu.garage;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.wangyu.common.Result;
+import com.wangyu.garage.entity.StopRecording;
+import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.util.HttpUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,6 +21,41 @@ import java.util.Map;
 public class HttpUtilTest {
 
     public static void main(String[] args) throws Exception{
+//        test1();
+        stopRecoding();
+    }
+
+    private static void stopRecoding() throws Exception{
+        //查询停车记录
+        StopRecordingQueryParameter parameter = new StopRecordingQueryParameter();
+        parameter.setUserid(1L);
+        parameter.setGarageid(1L);
+        parameter.setStatus(1);
+
+        String url = "http://localhost:8080/garage/garage/queryStopRecording";
+
+        Map<String, String> map = new HashMap<>();
+        map.put("userid", "1");
+        map.put("garageid", "1");
+        map.put("status", "1");
+
+//        String json = HttpUtils.submitGetData(url, map);
+        String json = HttpUtils.get(url, map);
+        System.out.println(json);
+        Result result = JSON.parseObject(json, Result.class);
+
+        List<StopRecording> list = new ArrayList<>();
+        if(result.isSuccess()){
+            JSONArray jsonArray = (JSONArray)result.getData();
+            for(Object object : jsonArray){
+                JSONObject jsonObject = (JSONObject)object;
+                list.add(convertJSONObjectToStopRecording(jsonObject));
+            }
+        }
+        System.out.println(list);
+    }
+
+    private static void test1() throws Exception{
         String url = "http://localhost:8080/garage/user/login";
 
         Map<String, String> params = new HashMap<>();
@@ -28,4 +71,24 @@ public class HttpUtilTest {
         System.out.println(json);
     }
 
+    public static StopRecording convertJSONObjectToStopRecording(JSONObject jsonObject) throws Exception {
+        try {
+            if (jsonObject == null)
+                return null;
+            StopRecording bean = new StopRecording();
+            bean.setId(jsonObject.getLong("id"));
+            bean.setGarageid(jsonObject.getLong("garageid"));
+            bean.setUserid(jsonObject.getLong("userid"));
+            bean.setCarNumber(jsonObject.getString("carNumber"));
+            bean.setPhone(jsonObject.getString("phone"));
+            bean.setIntime(jsonObject.getDate("intime"));
+            bean.setOuttime(jsonObject.getDate("outtime"));
+            bean.setTotaltime(jsonObject.getLong("totaltime"));
+            bean.setStatus(jsonObject.getInteger("status"));
+            bean.setAmount(jsonObject.getBigDecimal("amount"));
+            return bean;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

@@ -190,6 +190,23 @@ public class GarageController extends BaseController {
     public Result queryStopRecording(StopRecordingQueryParameter stopRecordingQueryParameter){
         try {
             log.info("查询停车记录：" + toJson(stopRecordingQueryParameter));
+            List<StopRecording> pageInfo = stopRecordingService.queryByParameter(stopRecordingQueryParameter);
+            return success(pageInfo);
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("出库失败");
+        }
+    }
+
+    /**
+     * 分页查询停车记录
+     * @param stopRecordingQueryParameter
+     * @return
+     */
+    @RequestMapping(value = "/pageQueryStopRecording", method = RequestMethod.GET)
+    public Result pageQueryStopRecording(StopRecordingQueryParameter stopRecordingQueryParameter){
+        try {
+            log.info("查询停车记录：" + toJson(stopRecordingQueryParameter));
             PageInfo<StopRecording> pageInfo = stopRecordingService.pageQueryByParameter(stopRecordingQueryParameter);
             return success(pageInfo);
         } catch (Exception e){
