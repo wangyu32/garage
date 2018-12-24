@@ -1,10 +1,15 @@
 package com.wangyu.garage.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.mapper.UserMapper;
+import com.wangyu.garage.parameter.UserPageQueryParameter;
 import com.wangyu.garage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Description
@@ -40,5 +45,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public int changePassword(String phone, String oldPassword, String newPassword) {
         return userMapper.updateUserPassword(phone, oldPassword, newPassword);
+    }
+
+    @Override
+    public PageInfo<User> pageQueryByParameter(UserPageQueryParameter parameter) {
+        PageHelper.startPage(parameter.getPageNumber(), parameter.getLimit());
+        List<User> list = this.userMapper.queryByParameter(parameter);
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 }

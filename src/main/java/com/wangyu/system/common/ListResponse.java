@@ -65,4 +65,18 @@ public class ListResponse extends BaseResponse {
 		this.total = 0;
 		return this;
 	}
+
+    public static ListResponse faild(){
+        ListResponse listResponse = new ListResponse();
+        listResponse.setCode(Code.FAIL);
+        return listResponse;
+    }
+
+    public static ListResponse faild(String message){
+        ListResponse listResponse = new ListResponse();
+        listResponse.setCode(Code.FAIL);
+        listResponse.setMessage(message);
+        return listResponse;
+    }
+
 }

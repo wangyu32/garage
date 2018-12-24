@@ -1,7 +1,9 @@
 package com.wangyu.garage.service;
 
 
+import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.entity.User;
+import com.wangyu.garage.parameter.UserPageQueryParameter;
 
 public interface UserService {
 
@@ -42,4 +44,12 @@ public interface UserService {
      * @return
      */
     int changePassword(String phone, String oldPassword, String newPassword);
+
+    /**
+     * 分页查询用户
+     * @param parameter
+     * @return
+     */
+    PageInfo<User> pageQueryByParameter(UserPageQueryParameter parameter);
+
 }

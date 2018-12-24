@@ -1,9 +1,12 @@
 package com.wangyu.garage.mapper;
 
 import com.wangyu.garage.entity.User;
+import com.wangyu.garage.parameter.UserPageQueryParameter;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -67,4 +70,11 @@ public interface UserMapper {
      */
     @Update("update user set password = #{arg2} where phone = #{arg0} and password = #{arg1}")
     int updateUserPassword(String phone, String oldPassword, String newPassword);
+
+    /**
+     *
+     * @param parameter
+     * @return
+     */
+    List<User> queryByParameter(UserPageQueryParameter parameter);
 }

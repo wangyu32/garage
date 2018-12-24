@@ -1,5 +1,6 @@
 package com.wangyu.garage.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.wangyu.common.Result;
 import com.wangyu.common.validate.ValidateResult;
 import com.wangyu.garage.contants.GarageConstants;
@@ -8,8 +9,10 @@ import com.wangyu.garage.dto.UserLoginDTO;
 import com.wangyu.garage.dto.UserQueryDTO;
 import com.wangyu.garage.dto.UserRegisterDTO;
 import com.wangyu.garage.entity.Garage;
+import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.enums.UserEnum;
+import com.wangyu.garage.parameter.UserPageQueryParameter;
 import com.wangyu.garage.service.GarageService;
 import com.wangyu.garage.service.StopRecordingService;
 import com.wangyu.garage.service.UserService;
@@ -25,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Description 用户管理
@@ -210,17 +214,18 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/datalist", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ListResponse dataList(SysUserPageQueryParameter parameter) {
-        parameter.setRef_p_id(getCurrentProjectId());
-        if (!isAdminUser()) {
-            //不是管理员账户，查询用户的结果不能包含自己，也不能包含管理员，否则容易引起修改自己权限问题
-            parameter.setU_id_not_equals(getCurrentUserId());
-            parameter.setU_isadmin_not_equals(getCurrentUserId());
+    public ListResponse dataList(UserPageQueryParameter parameter) {
+        try {
+            log.info("查询用户信息：" + toJson(parameter));
+            PageInfo<User> pageInfo  = userService.pageQueryByParameter(parameter);
+            ListResponse listResponse = new ListResponse();
+            listResponse.setList(pageInfo.getList());
+            listResponse.setTotal((int)pageInfo.getTotal());
+            return listResponse;
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return ListResponse.faild("查询用户失败");
         }
-
-        PageQueryResult result = null; //userService.findByPage(parameter);
-        ListResponse listResponse = new ListResponse(result.getResultList(), result.getTotal());
-        return listResponse;
     }
 
 

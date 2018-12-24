@@ -498,19 +498,20 @@ public class SysUserController extends BaseController{
 
     /**
      * 根据用户id删除批量删除
-     * @param parameter - 批量删除参数
+     * @param ids
      * @return BaseResponse
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public BaseResponse delete(DeleteParameter parameter) {
+    public BaseResponse delete(Integer[] ids) {
+        DeleteParameter parameter = new DeleteParameter();
+        parameter.setIdArray(ids);
         //校验
         if(NullUtil.isNull(parameter.getIdArray())){
             return renderError(Code.FAIL, MessageConstants.PRM_USER_ID_CAN_NOT_BE_NULL);
         }
-        if(parameter.getRef_p_id() == null){
-            return renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL);
-        }
+
+        parameter.setRef_p_id(getCurrentProjectId());
 
         //查询用户中是否存在管理员账户
         List<SysUserModel> list = sysUserService.findAdminUser(parameter);

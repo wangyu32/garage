@@ -35,6 +35,17 @@
   </select>
     <!-- 在MyBatis3.4.4版不能直接使用#{0}要使用 #{arg0} -->
 
+  <select id="queryByParameter" parameterType="com.wangyu.garage.parameter.UserPageQueryParameter" resultMap="BaseResultMap" >
+  select <include refid="Base_Column_List" />
+  from user
+  <where>
+    <if test="sex    != null">                        and sex = #{sex}                          </if>
+    <if test="type   != null">                        and type = #{type}                       </if>
+    <if test="name   != null and name != ''">       and name like CONCAT('%',#{name},'%')   </if>
+    <if test="phone  != null and phone != ''">      and phone like CONCAT('%',#{phone},'%') </if>
+  </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from user
     where id = #{id,jdbcType=INTEGER}
