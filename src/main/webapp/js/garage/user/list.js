@@ -192,6 +192,7 @@ function getData(params){
 	    	"order":params.order,
 	    	"offset":params.offset,
 	    	"limit":params.limit,
+	    	"pageNumber": params.offset / params.limit + 1,
 	    },
 	    dataType:"json",
 	        async:false,
@@ -219,18 +220,22 @@ function ajaxRequest(params) {
 }
 
 //编辑
-function formatName(value,row,index){
-	var id = row.id;
-    var action = '<a href = "edit?id='+id+'" style="color:#428bca;">' + value + '</a>';
-  return action;
+function formatName(value, row, index) {
+    var id = row.id;
+    var action = '<a href = "edit?id=' + id + '" style="color:#428bca;">' + value + '</a>';
+    return action;
+};
+
+function formatterPrice(value, row, index) {
+    return value + "元";
 };
 
 //用户类型
 function formatterType(value,row,index){
     if(value == 0){
-        return '会员';
+        return '临时用户';
     } else if(value == 1){
-        return '临时';
+        return '会员';
     } else if(value == 2){
         return '管理员';
     } else {
