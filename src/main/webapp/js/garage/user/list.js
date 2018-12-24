@@ -35,7 +35,7 @@ $(document).ready(function(){
 		//数组
 		var ids = new Array();  
 		for (var i = 0; i < obj.length; i++) {
-			ids.push(obj[i].u_id);  
+			ids.push(obj[i].id);
 		};
 		
 		layer.confirm('您确认删除记录？', {

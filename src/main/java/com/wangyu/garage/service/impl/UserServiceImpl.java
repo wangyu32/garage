@@ -6,6 +6,7 @@ import com.wangyu.garage.entity.User;
 import com.wangyu.garage.mapper.UserMapper;
 import com.wangyu.garage.parameter.UserPageQueryParameter;
 import com.wangyu.garage.service.UserService;
+import com.wangyu.system.common.DeleteParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public int save(User user) {
         return userMapper.insert(user);
+    }
+
+    @Override
+    public int update(User user) {
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(User user) {
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public int deleteBatch(DeleteParameter parameter) {
+        return userMapper.deleteBatch(parameter);
     }
 
     @Override
@@ -49,7 +65,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageInfo<User> pageQueryByParameter(UserPageQueryParameter parameter) {
-        PageHelper.startPage(parameter.getPageNumber(), parameter.getLimit());
+        if(parameter.isPageQuery()){
+            PageHelper.startPage(parameter.getPageNumber(), parameter.getLimit());
+        }
         List<User> list = this.userMapper.queryByParameter(parameter);
         PageInfo<User> pageInfo = new PageInfo<>(list);
         return pageInfo;

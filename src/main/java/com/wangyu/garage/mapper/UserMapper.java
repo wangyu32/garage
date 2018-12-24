@@ -2,6 +2,7 @@ package com.wangyu.garage.mapper;
 
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.parameter.UserPageQueryParameter;
+import com.wangyu.system.common.DeleteParameter;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -45,6 +46,13 @@ public interface UserMapper {
      * @mbg.generated 2018-12-04
      */
     int updateByPrimaryKey(User record);
+
+    /**
+     * 批量删除
+     * @param parameter 删除参数
+     * @return 删除的记录数
+     */
+    int deleteBatch(DeleteParameter parameter);
 
     /**
      * 通过手机号查询用户

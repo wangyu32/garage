@@ -26,7 +26,7 @@
 	<div class="form-group clearfix">
 		<label class="col-sm-2 control-label">手机号</label>
 		<div class="col-sm-6">
-			<input type="text" name="phone" class="form-control" min="1" maxlength=20  value="${model.phone}">
+			<input type="text" name="phone" class="form-control" min="1" maxlength=20  value="${model.phone}" id="phone">
 		</div>
 	</div>
 	<div class="form-group clearfix">

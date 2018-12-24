@@ -25,6 +25,11 @@ public class StopRecordingQueryParameter extends PageQueryParameter {
     private Long userid;
 
     /**
+     * 用户ID数组
+     */
+    private Long[] useridArray;
+
+    /**
      * 车牌号
      */
     private String carNumber;

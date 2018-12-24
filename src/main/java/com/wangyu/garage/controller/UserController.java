@@ -11,19 +11,31 @@ import com.wangyu.garage.dto.UserRegisterDTO;
 import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.entity.User;
+import com.wangyu.garage.enums.CarStatusEnum;
 import com.wangyu.garage.enums.UserEnum;
+import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.parameter.UserPageQueryParameter;
 import com.wangyu.garage.service.GarageService;
 import com.wangyu.garage.service.StopRecordingService;
 import com.wangyu.garage.service.UserService;
+import com.wangyu.garage.util.NullUtil;
 import com.wangyu.garage.util.StringUtil;
 import com.wangyu.garage.util.Util;
+import com.wangyu.system.common.BaseResponse;
+import com.wangyu.system.common.Code;
+import com.wangyu.system.common.DeleteParameter;
 import com.wangyu.system.common.ListResponse;
 import com.wangyu.system.constant.CommonConstants;
+import com.wangyu.system.constant.MessageConstants;
 import com.wangyu.system.constant.SessionAttributeConstants;
+import com.wangyu.system.constant.UserLogTypeConstants;
+import com.wangyu.system.exception.RollbackableBizException;
+import com.wangyu.system.model.SysUserModel;
 import com.wangyu.system.page.PageQueryResult;
 import com.wangyu.system.parameter.SysUserPageQueryParameter;
+import com.wangyu.system.response.UserResponse;
 import com.wangyu.system.util.DateUtil;
+import com.wangyu.system.util.Md5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +44,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @Description 用户管理
@@ -61,7 +78,13 @@ public class UserController extends BaseController {
     @PostMapping(value = "/register")
     public Result register(@RequestBody UserRegisterDTO userDto){
         try{
-            ValidateResult v = userDto.validate();
+            if(userDto.getId() != null){
+            //修改用户
+                return update(userDto);
+            }
+
+
+            ValidateResult v = userDto.validateRegister();
             if(v.isInvalid())
                 return failed(v);
 
@@ -248,6 +271,137 @@ public class UserController extends BaseController {
         }
     }
 
+    /**
+     * 修改用户
+     * @param userDto
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value = "/update")
+    public Result update(@RequestBody UserRegisterDTO userDto){
+        try{
+            ValidateResult v = userDto.validateUpdate();
+            if(v.isInvalid())
+                return failed(v);
+
+            Garage garage = null;
+            Long garageId = userDto.getGarageId();
+            if(garageId == null){
+                //不传位默认ID
+                garageId = GarageConstants.DEFAULT_GARAGE_ID;
+                userDto.setGarageId(garageId);
+            }
+            garage = garageService.getById(garageId);
+            if(garage == null){
+                return failed("车库信息非法，请联系管理员");
+            }
+
+            User user = new User();
+            BeanUtils.copyProperties(userDto, user);
+            user.setPassword(null);
+            if(userDto.getPrice() != null){
+                //web端自定义价格
+                user.setPrice(userDto.getPrice());
+            } else {
+                //手机用户注册的默认价格
+                user.setPrice(garage.getPrice());
+            }
+
+            user.setCreatetime(new Date());
+
+            //保存用户
+            this.userService.updateByPrimaryKeySelective(user);
+
+            return success("修改成功");
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("修改失败");
+        }
+    }
+
+    /**
+     * 根据用户id删除批量删除
+     * @param ids
+     * @return BaseResponse
+     */
+    @PostMapping(value = "/delete", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public BaseResponse delete(Integer[] ids) {
+        DeleteParameter parameter = new DeleteParameter();
+        parameter.setIdArray(ids);
+        //校验
+        if(NullUtil.isNull(parameter.getIdArray())){
+            return renderError(Code.FAIL, MessageConstants.PRM_USER_ID_CAN_NOT_BE_NULL);
+        }
+
+        Long[] useridArray = new Long[ids.length];
+        for (int i = 0; i < ids.length; i++) {
+            useridArray[i] = Long.valueOf(ids[i]);
+        }
+
+        UserPageQueryParameter userPageQueryParameter = new UserPageQueryParameter();
+        userPageQueryParameter.setUseridArray(useridArray);
+        userPageQueryParameter.setPageQuery(false);//不分页查询
+        PageInfo<User> pageInfo = userService.pageQueryByParameter(userPageQueryParameter);
+        List<User> userList = pageInfo.getList();
+        if(NullUtil.isNull(userList)){
+            return renderSuccess("删除成功");//用户不存在也算删除成功
+        }
+
+        //如果有未出库的记录，则不能删除用户
+        StopRecordingQueryParameter stopRecordingQueryParameter = new StopRecordingQueryParameter();
+        stopRecordingQueryParameter.setUseridArray(useridArray);
+        stopRecordingQueryParameter.setStatus(CarStatusEnum.COME_IN.getValue());
+        //1.查询停车记录
+        List<StopRecording> stopRecordingList = stopRecordingService.queryByParameter(stopRecordingQueryParameter);
+        if (stopRecordingList.size() > 0){
+            Map<Long, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, Function.identity()));
+            StringJoiner sb = new StringJoiner(",","用户[","]存在未出库停车记录，不能删除");
+            stopRecordingList.stream().distinct().forEach(e -> {
+                sb.add(userMap.get(e.getUserid()).getName());
+            });
+            return renderError(Code.FAIL, sb.toString());
+        }
+
+        try {
+            userService.deleteBatch(parameter);
+            return renderSuccess();
+        } catch (Exception e) {
+            log.error("删除角色信息失败!", e);
+            return renderError(Code.FAIL);
+        }
+    }
+
+    /**
+     * 管理员重置用户密码
+     * @param model - 用户Model
+     * @return json
+     */
+    @PostMapping(value = "/resetpassword")
+    @ResponseBody
+    public Result resetPassword(@RequestBody User model) {
+        if(StringUtil.isBlank(model.getPassword())){
+            return failed(MessageConstants.USER_PASSWORD_CAN_NOT_BE_NULL);
+        }
+        if(model.getId() == null){
+            return failed(MessageConstants.PRM_USER_ID_CAN_NOT_BE_NULL);
+        }
+
+        User user = userService.getById(model.getId());
+
+        try{
+            String newPassword = Util.md5(model.getPassword());
+            int num = userService.changePassword(user.getPhone(), user.getPassword(), newPassword);
+            if(num != 1){
+                return failed("修改密码失败，用户名或密码错误");
+            }
+
+            return success("修改密码成功");
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("修改密码失败");
+        }
+    }
 
     /**
      * 根据对象ID获取缓存到Session的key

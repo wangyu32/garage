@@ -39,6 +39,13 @@
       select <include refid="Base_Column_List" />
       from user
       <where>
+          <if test="useridArray != null">
+              and id in
+              <foreach collection="useridArray" item ="item" index="i" open="(" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
+
         <if test="sex       != null">                        and sex = #{sex}                          </if>
         <if test="type      != null">                        and type = #{type}                       </if>
         <if test="name      != null and name != ''">       and name like CONCAT('%',#{name},'%')   </if>
@@ -60,6 +67,15 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+    <update id="deleteBatch" parameterType="com.wangyu.system.common.DeleteParameter" >
+        delete from user
+        where id in
+        <foreach collection="idArray" item ="item" index="i" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
   <insert id="insert" parameterType="com.wangyu.garage.entity.User">
     insert into user (name, sex,
       password, phone, type, 
@@ -68,6 +84,7 @@
       #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, 
       #{price,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP})
   </insert>
+
   <insert id="insertSelective" parameterType="com.wangyu.garage.entity.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -123,6 +140,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.wangyu.garage.entity.User">
     update user
     <set>
@@ -150,6 +168,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.wangyu.garage.entity.User">
     update user
     set name = #{name,jdbcType=VARCHAR},
@@ -161,4 +180,6 @@
       createtime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
 </mapper>

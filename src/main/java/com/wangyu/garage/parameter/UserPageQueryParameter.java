@@ -10,6 +10,11 @@ import com.wangyu.system.page.PageQueryParameter;
 public class UserPageQueryParameter extends PageQueryParameter {
 
     /**
+     * 用户ID数组
+     */
+    private Long[] useridArray;
+
+    /**
      * 姓名
      */
     private String name;
@@ -38,6 +43,14 @@ public class UserPageQueryParameter extends PageQueryParameter {
      * 结束时间-结束时间
      */
     private String endTime = "";
+
+    public Long[] getUseridArray() {
+        return useridArray;
+    }
+
+    public void setUseridArray(Long[] useridArray) {
+        this.useridArray = useridArray;
+    }
 
     public String getName() {
         return name;

@@ -43,9 +43,29 @@
           <if test="carNumber   != null and carNumber != ''"> and carNumber like CONCAT('%',#{carNumber},'%')</if>
           <if test="phone       != null and phone != ''">      and phone like CONCAT('%',#{phone},'%')        </if>
           <if test="status      != null">                        and status = #{status}                          </if>
+
+          <if test="useridArray != null">
+             and userid in
+            <foreach collection="useridArray" item ="item" index="i" open="(" separator="," close=")">
+              #{item}
+            </foreach>
+          </if>
       </where>
 
-      order by intime desc
+        <if test=" sort != ''">
+            order by ${sort}
+            <if test=" order != ''">
+                ${order}
+            </if>
+        </if>
+
+        <if test=" sort == null or sort == ''">
+            order by intime
+            <if test=" order == null or order == ''">
+                desc
+            </if>
+        </if>
+
     </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

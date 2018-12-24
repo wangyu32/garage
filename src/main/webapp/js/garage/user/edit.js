@@ -5,7 +5,9 @@ $(document).ready(function() {
 	if (id) {
 		$(".title").text("编辑用户");
 		$("#up_password").hide();//编辑时，隐藏密码行
-		$("#u_password").val("1");//防止校验出错
+		$("#u_password").val("");//防止校验出错
+		$("#phone").attr("readonly","readonly");
+
 	} else {
 		$(".title").text("增加用户");
 		$("#repassword").hide();//增加时，隐藏重设密码按
@@ -24,15 +26,8 @@ $(document).ready(function() {
 					      <input type="password" class="form-control" placeholder="" id="repassone" name="repassone" value="">\
 					    </div>\
 					</div>\
-					<div class="form-group clearfix pass2">\
-					    <label class="col-sm-4 control-label text-right">确认密码：</label>\
-					    <div class="col-sm-8">\
-					      <input type="password" class="form-control" placeholder="" id="repasstwo" name="repasstwo" value="">\
-					    </div>\
-					</div>\
-					<small style="display:none;padding-left: 80px;" class="text-danger passone">请输入新密码</small>\
-					<small style="display:none;padding-left: 80px;" class="text-danger passtow">两次输入不一致，请重新输入！</small>';
-	
+					<small style="display:none;padding-left: 80px;" class="text-danger passone">请输入新密码</small>';
+
 	$('#repassword').click(function(){
 		layer.confirm(
 			passHTML,
@@ -40,36 +35,42 @@ $(document).ready(function() {
 			  btn: ['保存','取消'], 
 			  yes: function(index,layero){
 				  	$('.passone').hide();
-			  		$('.passtow').hide();
-			  		
+
 				  	if($('#repassone').val() == ''){
 				  		$('.passone').show();
 				  		return;
 				  	}
 				  	
-				  	if($('#repassone').val() == $('#repasstwo').val()){
 				  		$('.passone').hide();
-				  		$('.passtow').hide();
+
+				  	    var postData = {
+                            id:$('input[name="id"]').val(),
+                            password:$('#repassone').val(),
+                        };
+
 						$.ajax({
 							url:'resetpassword',
 							type:'post',
+                            contentType: "application/json; charset=utf-8",
 							dataType:'json',
-							data:{
-								u_id:$('input[name="u_id"]').val(),
-								u_password:$('#repasstwo').val()
-							},
-							success:function(json){
-								layer.msg('保存成功', {icon: 1,time:2000});
-								layer.close(index);
+                            data: JSON.stringify(postData),
+							success:function(res){
+                                if (res.code == 0) {
+                                    layer.msg(
+                                        res.message,
+                                        {icon : 1, time:2000},
+                                        function(){
+								            layer.close(index);
+                                        }
+                                    );
+                                } else {
+                                    layer.msg(res.message, {icon : 2, time:2000});
+                                }
 							},
 							error:function(err){
 								layer.msg(err, {icon: 2,time:2000});
 							}
 						})
-					}else{
-						$('.passone').hide();
-						$('.passtow').show();
-					}
 			  	}
 			}
 		);

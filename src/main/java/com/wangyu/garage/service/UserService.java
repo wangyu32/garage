@@ -4,6 +4,7 @@ package com.wangyu.garage.service;
 import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.parameter.UserPageQueryParameter;
+import com.wangyu.system.common.DeleteParameter;
 
 public interface UserService {
 
@@ -13,6 +14,27 @@ public interface UserService {
      * @return
      */
     int save(User user);
+
+    /**
+     * 修改用户
+     * @param user
+     * @return
+     */
+    int update(User user);
+
+    /**
+     * 根据属性修改
+     * @param user
+     * @return
+     */
+    int updateByPrimaryKeySelective(User user);
+
+    /**
+     * 批量删除用户
+     * @param parameter
+     * @return
+     */
+    int deleteBatch(DeleteParameter parameter);
 
     /**
      * 通过ID查询

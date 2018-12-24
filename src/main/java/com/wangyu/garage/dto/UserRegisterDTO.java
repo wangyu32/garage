@@ -2,6 +2,7 @@ package com.wangyu.garage.dto;
 
 import com.wangyu.common.validate.ValidateResult;
 import com.wangyu.garage.enums.SexEnum;
+import com.wangyu.garage.enums.UserEnum;
 import com.wangyu.garage.util.NullUtil;
 import com.wangyu.garage.util.ValidateUtil;
 import lombok.Data;
@@ -15,6 +16,11 @@ import java.math.BigDecimal;
  */
 @Data
 public class UserRegisterDTO {
+
+    /**
+     * 用户ID
+     */
+    private Long id;
 
     /**
      * 车库ID
@@ -45,6 +51,11 @@ public class UserRegisterDTO {
      * 确认密码
      */
     private String passwordConfirm;
+
+    /**
+     * 用户类型
+     */
+    private Integer type;
 
     /**
      * 单价
@@ -81,7 +92,7 @@ public class UserRegisterDTO {
      * 校验参数
      * @return
      */
-    public ValidateResult validate() {
+    public ValidateResult validateRegister() {
         if (NullUtil.isNull(phone))
             return ValidateResult.INVALID.setMessage("手机号不能为空");
 
@@ -103,6 +114,40 @@ public class UserRegisterDTO {
         if(!password.equals(passwordConfirm)){
             return ValidateResult.INVALID.setMessage("两次输入密码不相同");
         }
+
+        if (phone.length() != 11) {
+            return ValidateResult.INVALID.setMessage("手机号码长度错误");
+        }
+
+        if (!ValidateUtil.isMobiPhoneNumber(phone)) {
+            return ValidateResult.INVALID.setMessage("手机号码格式错误");
+        }
+
+        return ValidateResult.VALID;
+    }
+
+    /**
+     * 校验参数
+     * @return
+     */
+    public ValidateResult validateUpdate() {
+        if (NullUtil.isNull(phone))
+            return ValidateResult.INVALID.setMessage("手机号不能为空");
+
+        if (NullUtil.isNull(name))
+            return ValidateResult.INVALID.setMessage("姓名不能为空");
+
+        if (NullUtil.isNull(sex))
+            return ValidateResult.INVALID.setMessage("性别不能为空");
+
+        if (type == null)
+            return ValidateResult.INVALID.setMessage("用户类型不能为空");
+
+        if (SexEnum.getByCode(sex) == null)
+            return ValidateResult.INVALID.setMessage("性别错误");
+
+        if (UserEnum.getByCode(type) == null)
+            return ValidateResult.INVALID.setMessage("用户类型错误");
 
         if (phone.length() != 11) {
             return ValidateResult.INVALID.setMessage("手机号码长度错误");
