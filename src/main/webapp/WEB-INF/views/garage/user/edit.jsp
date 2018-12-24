@@ -57,10 +57,10 @@
 		<label class="col-sm-2 control-label clearfix">类型</label>
 		<div class=" col-sm-6">
 			<label class="radio-inline">
-				<input type="radio" name="type" value='0' <c:if test="${(model.type eq 0) or (model.type eq null)}">checked</c:if> />会员
+				<input type="radio" name="type" value='0' <c:if test="${(model.type eq 0) or (model.type eq null)}">checked</c:if> />临时用户
 			</label>
 			<label class="radio-inline">
-				<input type="radio" name="type" value='1' <c:if test="${(model.type eq 1)}">checked</c:if> />临时
+				<input type="radio" name="type" value='1' <c:if test="${(model.type eq 1)}">checked</c:if> />会员
 			</label>
 			<label class="radio-inline">
 				<input type="radio" name="type" value='2' <c:if test="${(model.type eq 2)}">checked</c:if> />管理员

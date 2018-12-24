@@ -47,8 +47,8 @@
 					<b>类型</b>
 					<select class="type" name="type">
 						<option value="">所有</option>
-						<option value="0">会员</option>
-						<option value="1">临时</option>
+						<option value="0">临时用户</option>
+						<option value="1">会员</option>
 						<option value="2">管理员</option>
 					</select>
 				</span>
@@ -82,7 +82,7 @@
 				<th data-field="sex" data-sortable="true"  data-width="50" data-align="center" data-formatter='formatterSex'>性别</th>
 				<th data-field="phone" data-sortable="true" data-width="200"  data-align="center">手机号</th>
 				<th data-field="type" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterType'>类型</th>
-				<th data-field="price" data-sortable="true" data-width="80"  data-align="right" >单价</th>
+				<th data-field="price" data-sortable="true" data-width="80"  data-align="right" data-formatter='formatterPrice'>单价</th>
 				<th data-field="createtime" data-sortable="true" data-width="180" data-align="center" data-formatter="formatDateTime">创建于</th>
 			</tr>
 		</thead>
