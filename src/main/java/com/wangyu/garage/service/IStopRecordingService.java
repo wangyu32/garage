@@ -14,7 +14,7 @@ import java.util.List;
  * @Author wangyu
  * @Date 2018/12/3 23:51
  */
-public interface StopRecordingService {
+public interface IStopRecordingService {
 
     /**
      * 报错停车记录

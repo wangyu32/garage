@@ -6,7 +6,7 @@ import com.wangyu.garage.entity.User;
 import com.wangyu.garage.parameter.UserPageQueryParameter;
 import com.wangyu.system.common.DeleteParameter;
 
-public interface UserService {
+public interface IUserService {
 
     /**
      * 保存用户

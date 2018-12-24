@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wangyu.common.Result;
+import com.wangyu.garage.dto.UserComeOutDTO;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
+import com.wangyu.garage.result.ComeinoutResult;
 import com.wangyu.garage.util.HttpUtils;
 
 import java.util.ArrayList;
@@ -22,7 +24,23 @@ public class HttpUtilTest {
 
     public static void main(String[] args) throws Exception{
 //        test1();
-        stopRecoding();
+//        stopRecoding();
+
+        testComeout();
+
+    }
+
+    private static void testComeout() throws Exception {
+        UserComeOutDTO userComeOutDTO = new UserComeOutDTO();
+        userComeOutDTO.setGarageId(1L);
+        userComeOutDTO.setUserId(1L);
+
+        String url = "http://localhost:8081/garage/garage/comeout";
+        String json = HttpUtils.postJson(url, JSON.toJSONString(userComeOutDTO));
+        Result result = JSON.parseObject(json, Result.class);
+
+        ComeinoutResult comeinoutResult = JSON.parseObject(json, ComeinoutResult.class);
+        System.out.println(comeinoutResult);
     }
 
     private static void stopRecoding() throws Exception{

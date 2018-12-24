@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.mapper.UserMapper;
 import com.wangyu.garage.parameter.UserPageQueryParameter;
-import com.wangyu.garage.service.UserService;
+import com.wangyu.garage.service.IUserService;
 import com.wangyu.system.common.DeleteParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.List;
  * @Date 2018/12/4 23:48
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;

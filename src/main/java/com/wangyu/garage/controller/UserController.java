@@ -15,9 +15,9 @@ import com.wangyu.garage.enums.CarStatusEnum;
 import com.wangyu.garage.enums.UserEnum;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.parameter.UserPageQueryParameter;
-import com.wangyu.garage.service.GarageService;
-import com.wangyu.garage.service.StopRecordingService;
-import com.wangyu.garage.service.UserService;
+import com.wangyu.garage.service.IGarageService;
+import com.wangyu.garage.service.IStopRecordingService;
+import com.wangyu.garage.service.IUserService;
 import com.wangyu.garage.util.NullUtil;
 import com.wangyu.garage.util.StringUtil;
 import com.wangyu.garage.util.Util;
@@ -28,14 +28,7 @@ import com.wangyu.system.common.ListResponse;
 import com.wangyu.system.constant.CommonConstants;
 import com.wangyu.system.constant.MessageConstants;
 import com.wangyu.system.constant.SessionAttributeConstants;
-import com.wangyu.system.constant.UserLogTypeConstants;
-import com.wangyu.system.exception.RollbackableBizException;
-import com.wangyu.system.model.SysUserModel;
-import com.wangyu.system.page.PageQueryResult;
-import com.wangyu.system.parameter.SysUserPageQueryParameter;
-import com.wangyu.system.response.UserResponse;
 import com.wangyu.system.util.DateUtil;
-import com.wangyu.system.util.Md5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -61,13 +53,13 @@ import java.util.stream.Collectors;
 public class UserController extends BaseController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @Autowired
-    private GarageService garageService;
+    private IGarageService garageService;
 
     @Autowired
-    private StopRecordingService stopRecordingService;
+    private IStopRecordingService stopRecordingService;
 
     /**
      * 注册账户

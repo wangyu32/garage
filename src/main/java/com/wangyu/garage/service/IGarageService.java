@@ -8,7 +8,7 @@ import com.wangyu.garage.entity.StopRecording;
  * @Author wangyu
  * @Date 2018/12/2 16:26
  */
-public interface GarageService {
+public interface IGarageService {
 
     /**
      * 保存车库

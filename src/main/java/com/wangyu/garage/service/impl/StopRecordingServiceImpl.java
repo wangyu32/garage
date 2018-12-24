@@ -12,9 +12,8 @@ import com.wangyu.garage.mapper.GarageMapper;
 import com.wangyu.garage.mapper.StopRecordingMapper;
 import com.wangyu.garage.mapper.UserMapper;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
-import com.wangyu.garage.service.StopRecordingService;
+import com.wangyu.garage.service.IStopRecordingService;
 import com.wangyu.garage.vo.ComeinoutVO;
-import com.wangyu.garage.vo.ComeoutVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class StopRecordingServiceImpl implements StopRecordingService {
+public class StopRecordingServiceImpl implements IStopRecordingService {
 
     @Autowired
     private StopRecordingMapper stopRecordingMapper;
@@ -116,7 +115,7 @@ public class StopRecordingServiceImpl implements StopRecordingService {
         stopRecording.setStatus(CarStatusEnum.COME_OUT.getValue());
 
         //保存停车记录
-        stopRecordingMapper.insert(stopRecording);
+        stopRecordingMapper.updateByPrimaryKey(stopRecording);
 
         garage.setInuse(garage.getInuse() + 1);//可用车位减1
         garage.setUnuse(garage.getUnuse() - 1);//已用车位加1

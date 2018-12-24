@@ -12,12 +12,11 @@ import com.wangyu.garage.entity.User;
 import com.wangyu.garage.enums.CarStatusEnum;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.response.GarageResponse;
-import com.wangyu.garage.service.GarageService;
-import com.wangyu.garage.service.StopRecordingService;
-import com.wangyu.garage.service.UserService;
+import com.wangyu.garage.service.IGarageService;
+import com.wangyu.garage.service.IStopRecordingService;
+import com.wangyu.garage.service.IUserService;
 import com.wangyu.garage.util.NullUtil;
 import com.wangyu.garage.vo.ComeinoutVO;
-import com.wangyu.garage.vo.ComeoutVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,13 +36,13 @@ import java.util.List;
 public class GarageController extends BaseController {
 
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @Autowired
-    private GarageService garageService;
+    private IGarageService garageService;
 
     @Autowired
-    private StopRecordingService stopRecordingService;
+    private IStopRecordingService stopRecordingService;
 
     @ResponseBody
     @RequestMapping(value = "/test")

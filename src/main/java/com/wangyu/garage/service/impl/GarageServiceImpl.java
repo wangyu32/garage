@@ -2,14 +2,12 @@ package com.wangyu.garage.service.impl;
 
 import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.StopRecording;
-import com.wangyu.garage.service.GarageService;
+import com.wangyu.garage.service.IGarageService;
 import com.wangyu.garage.mapper.GarageMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * @Description
@@ -18,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Service
-public class GarageServiceImpl implements GarageService {
+public class GarageServiceImpl implements IGarageService {
 
     //TODO 事务配置  异常
 
