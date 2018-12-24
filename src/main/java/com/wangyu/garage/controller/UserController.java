@@ -200,7 +200,7 @@ public class UserController extends BaseController {
         //结束日期-当天
         String lg_createtime_end = DateUtil.getNowTime("yyyy-MM-dd");
         //开始日期-3个月前
-        String lg_createtime_begin = DateUtil.addDateStr(lg_createtime_end, -6, "d");
+        String lg_createtime_begin = DateUtil.addDateStr(lg_createtime_end, -1, "m");
 
         request.setAttribute("startTime", lg_createtime_begin);
         request.setAttribute("endTime", lg_createtime_end);
