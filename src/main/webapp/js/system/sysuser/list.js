@@ -219,6 +219,6 @@ function ajaxRequest(params) {
 function formatName(value,row,index){
 	var id = row.u_id;
 	var p_domain = row.p_domain;
-    var action = '<a href = "edit?id='+id+'" style="color:#428bca;">' + value + '@' + p_domain + '</a>';
+    var action = '<a href = "edit?id='+id+'" style="color:#428bca;">' + value + '</a>';
   return action;
 };

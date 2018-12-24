@@ -9,9 +9,12 @@
 		<jsp:param value="yes" name="table"/>
 		<jsp:param value="yes" name="layer"/>
 		<jsp:param value="yes" name="bootstrap"/>
+        <jsp:param value="yes" name="ckplayer"/>
+        <jsp:param value="yes" name="switch"/>
+        <jsp:param value="yes" name="DatePicker"/>
 	</jsp:include>
 	<link rel="stylesheet" href="<c:url value='/css/comm/global.css' />"/>
-	<script src='<c:url value="/js/system/sysuser/list.js" />'></script>
+	<script src='<c:url value="/js/garage/user/list.js" />'></script>
 </head>
 
 <body style="padding:0px 10px 10px 10px;">
@@ -25,29 +28,35 @@
 	<div class="search-input navml15 search-current" id="search-input">
 			<div class="list-search" id="list-search">
 				<span>
-					<b>登录名</b>
-					<input type="text" class="u_logname" size="15" maxlength="30" name="u_logname"/>
-				</span>
-				<span>
 					<b>姓名</b>
-					<input type="text" class="u_realname" size="10" maxlength="25" name="u_realname"/>
-				</span>
-				<span >
-					<b>电子邮箱</b>
-					<input type="text" class="u_email" size="18" maxlength="25"  name="u_email"/>
-				</span>
-				<span >
-					<b>联系方式</b>
-					<input type="text" class="u_mobilephone" size="12" maxlength="20"  name="u_mobilephone"/>
+					<input type="text" class="name" size="10" maxlength="15" name="name"/>
 				</span>
 				<span>
-					<b>状态</b>
-					<select class="u_status" name="u_status">
-						<option value="0">启用</option>
-						<option value="1">禁用</option>
+					<b>性别</b>
+					<select class="sex" name="sex">
 						<option value="">所有</option>
+						<option value="0">男</option>
+						<option value="1">女</option>
 					</select>
 				</span>
+				<span >
+					<b>手机号</b>
+					<input type="text" class="phone" size="12" maxlength="20"  name="phone"/>
+				</span>
+				<span>
+					<b>类型</b>
+					<select class="type" name="type">
+						<option value="">所有</option>
+						<option value="0">会员</option>
+						<option value="1">临时</option>
+						<option value="2">管理员</option>
+					</select>
+				</span>
+                <span>
+                    <b>创建时间</b>
+                    <input type="text" id="startTime" class="dateimg mr3 startTime  Wdate" name="startTime" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style='width:110px;'>至
+                    <input type="text" id="endTime" class="dateimg endTime  Wdate"  name="endTime"  value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style='width:110px;'>
+                </span>
 				<span class="btn-search">
         			<button class="search-btn" type="button">搜索</button>
 				</span>
@@ -60,7 +69,7 @@
 			  data-ajax="ajaxRequest"  
 			  data-side-pagination="server" 
 			  data-pagination="true" 
-			  data-sort-name="u_updatetime" 
+			  data-sort-name="createtime"
 			  data-sort-order="desc"
 			  class="table-bordered table-condensed table-striped">
 		<thead>
@@ -69,12 +78,12 @@
 				<%--
 				<th data-field="u_id" data-width="40" data-sortable="true" data-halign="center" data-align="center">用户ID</th>
 				 --%>
-				<th data-field="u_logname" data-sortable="true" data-halign="center" data-align="left" data-formatter='formatName'>登录名</th>
-				<th data-field="u_realname" data-sortable="true"  data-halign="center" data-align="left">姓名</th>
-				<th data-field="u_email" data-sortable="true"  data-halign="center" data-align="left">电子邮箱</th>
-				<th data-field="u_mobilephone" data-width="120"  data-sortable="true"  data-halign="center" data-align="center">联系方式</th>
-				<th data-field="u_status" data-width="80"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
-				<th data-field="u_updatetime" data-width="180" data-sortable="true"  data-halign="center" data-align="center" data-formatter="formatDateTime">最后修改于</th>
+				<th data-field="name" data-sortable="true" data-width="150" data-align="center" data-formatter='formatName'>姓名</th>
+				<th data-field="sex" data-sortable="true"  data-width="50" data-align="center" data-formatter='formatterSex'>性别</th>
+				<th data-field="phone" data-sortable="true" data-width="200"  data-align="center">手机号</th>
+				<th data-field="type" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterType'>类型</th>
+				<th data-field="price" data-sortable="true" data-width="80"  data-align="right" >单价</th>
+				<th data-field="createtime" data-sortable="true" data-width="180" data-align="center" data-formatter="formatDateTime">创建于</th>
 			</tr>
 		</thead>
 	</table>

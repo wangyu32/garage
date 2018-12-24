@@ -48,6 +48,7 @@
 	      u_realname = #{u_realname,jdbcType=VARCHAR},
 	      u_email = #{u_email,jdbcType=VARCHAR},
 	      u_mobilephone = #{u_mobilephone,jdbcType=VARCHAR},
+	      u_status = #{u_status,jdbcType=TINYINT},
 	      u_updatetime = now()
     where u_id = #{u_id}
       and ref_p_id = #{ref_p_id}

@@ -5,6 +5,9 @@ import com.wangyu.garage.enums.SexEnum;
 import com.wangyu.garage.util.NullUtil;
 import com.wangyu.garage.util.ValidateUtil;
 import lombok.Data;
+
+import java.math.BigDecimal;
+
 /**
  * @Description 用户注册DTO
  * @Author wangyu
@@ -42,6 +45,11 @@ public class UserRegisterDTO {
      * 确认密码
      */
     private String passwordConfirm;
+
+    /**
+     * 单价
+     */
+    private BigDecimal price;
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();

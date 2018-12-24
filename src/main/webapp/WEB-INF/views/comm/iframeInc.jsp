@@ -7,7 +7,8 @@
 %> --%>
 <link rel="stylesheet" href="<c:url value='/css/comm/global.css' />"/>
 <script src='<c:url value="/js/comm/jquery-1.12.0.min.js" />'></script>
-<script src='<c:url value="/js/comm/hashMap.js" />'></script> 
+<script src='<c:url value="/js/comm/jquery.serializejson.js" />'></script>
+<script src='<c:url value="/js/comm/hashMap.js" />'></script>
 <script src='<c:url value="/js/comm/comm.js" />'></script> 
 <!-- <script type="text/javascript">
 var basePath = "${basePath}";

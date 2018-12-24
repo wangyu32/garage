@@ -33,9 +33,9 @@
 				<span>
 					<b>状态</b>
 					<select name="r_status" id="r_status">
+						<option value="">所有</option>
 						<option value="0">启用</option>
 						<option value="1">禁用</option>
-						<option value="">所有</option>
 					</select>
 				</span>
 				<span class="btn-search">

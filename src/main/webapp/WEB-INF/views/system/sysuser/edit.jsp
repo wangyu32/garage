@@ -26,17 +26,14 @@
 		<div class="form-group clearfix">
 		    <label class="col-sm-2 control-label"> 登录名</label>
 		    <div class="col-sm-6">
-				<div class="input-group">
-				  <input type="text" name="u_logname" class="form-control" maxlength=30  value="${model.u_logname}" data-noempty='登录名' data-loginname='登录名'>
-				  <span class="input-group-addon" id="basic-addon2">@${CURRENT_USER.p_domain }</span>
-				</div>
+                <input type="text" name="u_logname" class="form-control" maxlength=30  value="${model.u_logname}" data-noempty='登录名' data-loginname='登录名'>
 			</div>
 			<span class="required">*</span>
 		</div>
 		<div class="form-group clearfix" id="up_password">
 		    <label class="col-sm-2 control-label">密码</label>
 		    <div class="col-sm-6">
-		      <input type="password" name="u_password" class="form-control"  maxlength=25  value="${model.u_password}" data-noempty='密码' id="u_password">
+		      <input type="text" name="u_password" class="form-control"  maxlength=25  value="${model.u_password}" data-noempty='密码' id="u_password">
 		    </div><span class="required">*</span>
 		</div>
 		<!-- 角色 -->

@@ -16,11 +16,14 @@ import com.wangyu.garage.parameter.UserPageQueryParameter;
 import com.wangyu.garage.service.GarageService;
 import com.wangyu.garage.service.StopRecordingService;
 import com.wangyu.garage.service.UserService;
+import com.wangyu.garage.util.StringUtil;
 import com.wangyu.garage.util.Util;
 import com.wangyu.system.common.ListResponse;
+import com.wangyu.system.constant.CommonConstants;
 import com.wangyu.system.constant.SessionAttributeConstants;
 import com.wangyu.system.page.PageQueryResult;
 import com.wangyu.system.parameter.SysUserPageQueryParameter;
+import com.wangyu.system.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +85,14 @@ public class UserController extends BaseController {
             User user = new User();
             BeanUtils.copyProperties(userDto, user);
             user.setPassword(Util.md5(userDto.getPassword()));
-            user.setPrice(garage.getPrice());
+            if(userDto.getPrice() != null){
+                //web端自定义价格
+                user.setPrice(userDto.getPrice());
+            } else {
+                //手机用户注册的默认价格
+                user.setPrice(garage.getPrice());
+            }
+
             user.setType(UserEnum.COMMON.getValue());
             user.setCreatetime(new Date());
 
@@ -185,8 +195,15 @@ public class UserController extends BaseController {
      * @param
      * @return
      */
-    @PostMapping(value = "/list",  produces="text/html;charset=utf-8")
+    @GetMapping(value = "/list",  produces="text/html;charset=utf-8")
     public String list(){
+        //结束日期-当天
+        String lg_createtime_end = DateUtil.getNowTime("yyyy-MM-dd");
+        //开始日期-3个月前
+        String lg_createtime_begin = DateUtil.addDateStr(lg_createtime_end, -6, "d");
+
+        request.setAttribute("startTime", lg_createtime_begin);
+        request.setAttribute("endTime", lg_createtime_end);
         return "garage/user/list";
     }
 
@@ -195,7 +212,7 @@ public class UserController extends BaseController {
      * “编辑”按钮
      * @return 跳转页面
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.GET, produces = "text/html;charset=utf-8")
+    @GetMapping(value = "/edit", produces = "text/html;charset=utf-8")
     public String edit(Long id) {
         if(id != null){
             User model = userService.getById(id);
@@ -212,11 +229,14 @@ public class UserController extends BaseController {
      * @param parameter -用户信分页查询参数
      * @return String
      */
-    @RequestMapping(value = "/datalist", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @GetMapping(value = "/datalist", produces = "application/json;charset=utf-8")
     @ResponseBody
     public ListResponse dataList(UserPageQueryParameter parameter) {
         try {
             log.info("查询用户信息：" + toJson(parameter));
+            if (StringUtil.notBlank(parameter.getEndTime())) {
+                parameter.setEndTime(parameter.getEndTime() + CommonConstants.TIME_235959);
+            }
             PageInfo<User> pageInfo  = userService.pageQueryByParameter(parameter);
             ListResponse listResponse = new ListResponse();
             listResponse.setList(pageInfo.getList());

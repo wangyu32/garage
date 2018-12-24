@@ -15,6 +15,7 @@ import com.wangyu.system.constant.UserLogTypeConstants;
 import com.wangyu.system.model.ProjectModel;
 import com.wangyu.system.parameter.UserLoginParameter;
 import com.wangyu.system.response.UserLoginResponse;
+import com.wangyu.system.service.IProjectService;
 import com.wangyu.system.service.ISysUserService;
 import com.wangyu.system.util.Md5Util;
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +43,9 @@ public class HomeController extends BaseController{
     @Autowired
     private ISysUserService sysUserService;
 
-//    @Autowired
-//	@Qualifier("reportStatisticsService")
-//	private IReportStatisticsService reportService;
-	
+    @Autowired
+    private IProjectService projectService;
+
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces="text/html;charset=utf-8")
 	public String root(){
 		return home();
@@ -131,32 +131,36 @@ public class HomeController extends BaseController{
 		request.setAttribute("password", password);
 
 		//验证码不能为空
-		if(StringUtil.isBlank(checkcode)){
-			return reLogin(MessageConstants.CHECKCODE_CAN_NOT_BE_NULL);
-		}
+//		if(StringUtil.isBlank(checkcode)){
+//			return reLogin(MessageConstants.CHECKCODE_CAN_NOT_BE_NULL);
+//		}
+//
+//		//判断验证码是否正确
+//		String checkCodeInSesssion = (String)request.getSession().getAttribute(SessionAttributeConstants.LOGINCHECKCODE);
+//		if(!checkcode.equals(checkCodeInSesssion)){
+//			return reLogin(MessageConstants.CHECKCODE_ERROR);
+//		}
 
-		//判断验证码是否正确
-		String checkCodeInSesssion = (String)request.getSession().getAttribute(SessionAttributeConstants.LOGINCHECKCODE);
-		if(!checkcode.equals(checkCodeInSesssion)){
-			return reLogin(MessageConstants.CHECKCODE_ERROR);
-		}
+		//验证用户格式
+//		String[] userDomain = username.split("@");
+//		if(userDomain.length != 2){
+//			return reLogin(MessageConstants.LOGNAME_PATTERN_NOT_RIGHT);
+//		}
 
-		String[] userDomain = username.split("@");
-		if(userDomain.length != 2){
-			return reLogin(MessageConstants.LOGNAME_PATTERN_NOT_RIGHT);
-		}
+//		//用户登录名
+//		String logname = userDomain[0];
+//		//项目域名, POST方式传值@符号会自动转换，所以先分隔出域名，再调登录服务
+//		String domain = userDomain[1];
 
-		//用户登录名
-		String logname = userDomain[0];
-		//项目域名, POST方式传值@符号会自动转换，所以先分隔出域名，再调登录服务
-		String domain = userDomain[1];
+        ProjectModel projectModel = projectService.findByPrimaryKey(getCurrentProjectId());//使用系统默认配置的项目ID
 
 		//密码MD5加密
 		String passwordMD5 = Md5Util.MD5Encode(password, null).toUpperCase();
 
         UserLoginParameter userLoginParameter = new UserLoginParameter();
-        userLoginParameter.setLogname(logname);
-        userLoginParameter.setDomain(domain);
+        userLoginParameter.setLogname(username);
+//        userLoginParameter.setLogname(logname);
+        userLoginParameter.setDomain(projectModel.getP_domain());
         userLoginParameter.setPassword(passwordMD5);
 
 		UserLoginResponse result = sysUserService.login(userLoginParameter);

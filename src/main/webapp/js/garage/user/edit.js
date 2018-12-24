@@ -1,13 +1,13 @@
 $(document).ready(function() {
 
 	// 判断 新增 or 编辑
-	var id = $("#u_id").val();
+	var id = $("#id").val();
 	if (id) {
-		$(".title").text("编辑操作员");
+		$(".title").text("编辑用户");
 		$("#up_password").hide();//编辑时，隐藏密码行
 		$("#u_password").val("1");//防止校验出错
 	} else {
-		$(".title").text("增加操作员");
+		$(".title").text("增加用户");
 		$("#repassword").hide();//增加时，隐藏重设密码按
 	};
 	
@@ -75,19 +75,8 @@ $(document).ready(function() {
 		);
 	});
 	
-	// 表单验证不能为空
-//	$('#form').bootstrapValidator({
-//		debug : false,
-//		submitHandler : function(validator, form, submitButton) {
-//			save();
-//		}
-//	});
-
 	$('#save').click(function() {
 		othertips='';
-		if(getRoleIdsArray().length == 0){
-			othertips +='● 请至少选择一个角色！\n';
-		}
 		if(forminvalid()){
     		return;
     	}
@@ -96,15 +85,30 @@ $(document).ready(function() {
 	
 	// 保存
 	function save() {
-		var postData = $('#form').serializeArray();
-		
-		var r_id_array = getRoleIdsArray();
-		var object1 = new Object;
-		object1.name = "r_id_array";
-		object1.value = r_id_array;
-		postData.push(object1);
-		
-		$.post('save', postData, function(res) {
+		var postData = $('#form').serializeJSON();
+
+        $.ajax({
+            type: "POST",
+            url: "register",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(postData),
+            dataType: "json",
+            success: function(res){
+                if (res.code == 0) {
+                    layer.msg(
+                        res.message,
+                        {icon : 1, time:2000},
+                        function(){
+                            window.location.href = 'list';
+                        }
+                    );
+                } else {
+                    layer.msg(res.message, {icon : 2, time:2000});
+                }
+            } //可选参数
+        });
+/**
+		$.post('register', postData, function(res) {
 			if (res.code == 200) {
 				layer.msg(
 						res.message, 
@@ -117,43 +121,9 @@ $(document).ready(function() {
 				layer.msg(res.message, {icon : 2, time:2000});
 			}
 		}, 'json');
+ */
 	}
 });
-
-//分配角色
-//获取选择的角色id,数组形式
-function getRoleIdsArray(){
-	var ids = [];
-	var obj = $("#roleTable").bootstrapTable('getAllSelections');
-	if(obj.length > 0){
-		for(var i = 0; i<obj.length; i++){
-			var r_id = obj[i].r_id;
-			ids.push(r_id);
-		}
-	}
-	return ids;
-}
-
-//请求数据
-function getData(params){
-	var u_id = $("#u_id").val();
-	$.ajax({
-		type:"get",
-	    url:"queryuserrolechecked",
-	    data:{
-	    	"u_id":u_id,
-//	    	"r_status":"0",
-	    	"sort":params.sort,
-	    	"order":params.order,
-	    },
-	    dataType:"json",
-	        async:false,
-	        success:function(res){
-	            data = res;
-	        }
-	    });
-	return data;
-}
 
 function ajaxRequest(params) {
 	var json = getData(params.data);

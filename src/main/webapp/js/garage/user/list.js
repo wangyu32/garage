@@ -168,24 +168,26 @@ $(document).ready(function(){
 //请求数据
 function getData(params){
 	var current             = $('.search-current');
-	var u_logname           = current.find(".u_logname").val();
-	var u_realname          = current.find(".u_realname").val();
-	var u_email             = current.find(".u_email").val();
-	var u_mobilephone       = current.find(".u_mobilephone").val();
-	var u_status            = current.find(".u_status").val();
-	
+	var name                = current.find(".name").val();
+	var sex                 = current.find(".sex").val();
+	var phone               = current.find(".phone").val();
+	var type                = current.find(".type").val();
+    var startTime           = current.find(".startTime").val();
+    var endTime             = current.find(".endTime").val();
+
 	var sort                = params.sort;
-	if(sort == undefined) sort = "u_logname";
+	if(sort == undefined) sort = "createtime";
 	
 	$.ajax({
 		type:"get",
 	    url:"datalist",
 	    data:{
-	    	"u_logname":u_logname,
-	    	"u_realname":u_realname,
-	    	"u_email":u_email,
-	    	"u_mobilephone":u_mobilephone,
-	    	"u_status":u_status,
+	    	"name":name,
+	    	"sex":sex,
+	    	"phone":phone,
+	    	"type":type,
+	    	"startTime":startTime,
+	    	"endTime":endTime,
 	    	"sort":sort,
 	    	"order":params.order,
 	    	"offset":params.offset,
@@ -215,10 +217,23 @@ function ajaxRequest(params) {
 		return;
 	}
 }
+
 //编辑
 function formatName(value,row,index){
-	var id = row.u_id;
-	var p_domain = row.p_domain;
-    var action = '<a href = "edit?id='+id+'" style="color:#428bca;">' + value + '@' + p_domain + '</a>';
+	var id = row.id;
+    var action = '<a href = "edit?id='+id+'" style="color:#428bca;">' + value + '</a>';
   return action;
 };
+
+//用户类型
+function formatterType(value,row,index){
+    if(value == 0){
+        return '会员';
+    } else if(value == 1){
+        return '临时';
+    } else if(value == 2){
+        return '管理员';
+    } else {
+        return '-';
+    }
+}
