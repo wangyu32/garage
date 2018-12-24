@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
-@MapperScan({"com.wangyu.garage.mapper","com.wangyu.prm.mapper"})
+@MapperScan({"com.wangyu.garage.mapper","com.wangyu.system.mapper"})
 @SpringBootApplication
 public class GarageApplication extends SpringBootServletInitializer {
 

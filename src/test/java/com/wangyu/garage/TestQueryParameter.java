@@ -1,7 +1,7 @@
 package com.wangyu.garage;
 
 import com.wangyu.garage.util.StringUtil;
-import com.wangyu.prm.page.PageQueryParameter;
+import com.wangyu.system.page.PageQueryParameter;
 import junit.framework.TestCase;
 
 import java.io.File;

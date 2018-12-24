@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wangyu.prm.mapper.UserLogModelMapper">
+<mapper namespace="com.wangyu.system.mapper.UserLogModelMapper">
   
-  <resultMap id="BaseResultMap" type="com.wangyu.prm.model.UserLogModel">
+  <resultMap id="BaseResultMap" type="com.wangyu.system.model.UserLogModel">
     <id column="lg_id" jdbcType="INTEGER" property="lg_id" />
     <result column="lg_menu" jdbcType="VARCHAR" property="lg_menu" />
     <result column="lg_type" jdbcType="VARCHAR" property="lg_type" />
@@ -14,7 +14,7 @@
     <result column="lg_desc" jdbcType="LONGVARCHAR" property="lg_desc" />
   </resultMap>
   
-  <insert id="insert" parameterType="com.wangyu.prm.model.UserLogModel">
+  <insert id="insert" parameterType="com.wangyu.system.model.UserLogModel">
     insert into user_log (
     	lg_menu, 
     	lg_type, 
@@ -37,7 +37,7 @@
       )
   </insert>
   
-   <select id="findCountByPage" parameterType="com.wangyu.prm.parameter.UserLogPageQueryParameter" resultType="java.lang.Integer">
+   <select id="findCountByPage" parameterType="com.wangyu.system.parameter.UserLogPageQueryParameter" resultType="java.lang.Integer">
 	     select count(0)
 		   from user_log 
 		  where 1=1
@@ -61,7 +61,7 @@
 
     </select>
   
-    <select id="findByPage" parameterType="com.wangyu.prm.parameter.UserLogPageQueryParameter" resultType="com.wangyu.prm.model.UserLogModel">
+    <select id="findByPage" parameterType="com.wangyu.system.parameter.UserLogPageQueryParameter" resultType="com.wangyu.system.model.UserLogModel">
 	     select lg_id, lg_menu, lg_type, ref_u_id, lg_obj_id, lg_obj_desc, lg_ip, lg_createtime, lg_desc
 		   from user_log
 		  where 1=1

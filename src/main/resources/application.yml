@@ -1,6 +1,6 @@
 server:
   context-path: /garage
-  port: 8080
+  port: 8081
 
 projectid: 1
 
@@ -53,6 +53,6 @@ pagehelper:
 
 logging:
   level:
+    com.wangyu.system: debug
     com.wangyu.garage: debug
-    com.wangyu.prm: debug
 

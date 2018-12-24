@@ -1,6 +1,6 @@
 package com.wangyu.garage.parameter;
 
-import com.wangyu.prm.page.PageQueryParameter;
+import com.wangyu.system.page.PageQueryParameter;
 import lombok.Data;
 
 import java.math.BigDecimal;

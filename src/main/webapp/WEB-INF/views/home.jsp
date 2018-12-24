@@ -70,11 +70,14 @@
 			    		<input type="text" id="search_order" data-v="场地订单搜素(手机号)">
 			    		<img src="images/home/search.png">
 			    	</div> -->
+					<!--
+
 			       <a class="message"  href="javascript:void(0);">
 			        	<img src="images/home/message.png">
 			        	<span>消息</span>
             			<b></b>
 			        </a>
+			        -->
 			        <!-- <a  href="help" target="_blank">
 			        	<img src="images/home/question.png">
 			        	<span>帮助</span>

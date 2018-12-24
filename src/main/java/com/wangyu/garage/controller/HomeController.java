@@ -1,28 +1,24 @@
 package com.wangyu.garage.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 
-import com.google.gson.Gson;
 import com.wangyu.garage.util.StringUtil;
-import com.wangyu.prm.bean.UserLoginBean;
-import com.wangyu.prm.common.BaseResponse;
-import com.wangyu.prm.common.Code;
-import com.wangyu.prm.constant.CommonConstants;
-import com.wangyu.prm.constant.MessageConstants;
-import com.wangyu.prm.constant.SessionAttributeConstants;
-import com.wangyu.prm.constant.UserLogTypeConstants;
-import com.wangyu.prm.model.ProjectModel;
-import com.wangyu.prm.parameter.UserLoginParameter;
-import com.wangyu.prm.response.UserLoginResponse;
-import com.wangyu.prm.service.ISysUserService;
-import com.wangyu.prm.util.Md5Util;
+import com.wangyu.system.bean.UserLoginBean;
+import com.wangyu.system.common.BaseResponse;
+import com.wangyu.system.common.Code;
+import com.wangyu.system.constant.CommonConstants;
+import com.wangyu.system.constant.MessageConstants;
+import com.wangyu.system.constant.SessionAttributeConstants;
+import com.wangyu.system.constant.UserLogTypeConstants;
+import com.wangyu.system.model.ProjectModel;
+import com.wangyu.system.parameter.UserLoginParameter;
+import com.wangyu.system.response.UserLoginResponse;
+import com.wangyu.system.service.ISysUserService;
+import com.wangyu.system.util.Md5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

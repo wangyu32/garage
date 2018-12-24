@@ -1,7 +1,7 @@
 package com.wangyu.garage.response;
 
 import com.wangyu.garage.entity.Garage;
-import com.wangyu.prm.common.BaseResponse;
+import com.wangyu.system.common.BaseResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

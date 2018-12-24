@@ -14,13 +14,15 @@ import com.wangyu.garage.service.GarageService;
 import com.wangyu.garage.service.StopRecordingService;
 import com.wangyu.garage.service.UserService;
 import com.wangyu.garage.util.Util;
+import com.wangyu.system.common.ListResponse;
+import com.wangyu.system.constant.SessionAttributeConstants;
+import com.wangyu.system.page.PageQueryResult;
+import com.wangyu.system.parameter.SysUserPageQueryParameter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -30,7 +32,7 @@ import java.util.Date;
  * @Date 2018/12/4 23:17
  */
 @Slf4j
-@RestController
+@Controller
 @RequestMapping(value = "/user")
 public class UserController extends BaseController {
 
@@ -48,6 +50,7 @@ public class UserController extends BaseController {
      * @param userDto
      * @return
      */
+    @ResponseBody
     @PostMapping(value = "/register")
     public Result register(@RequestBody UserRegisterDTO userDto){
         try{
@@ -94,6 +97,7 @@ public class UserController extends BaseController {
      * @param loginDto
      * @return
      */
+    @ResponseBody
     @PostMapping(value = "/login")
     public Result login(@RequestBody UserLoginDTO loginDto){
         ValidateResult v = loginDto.validate();
@@ -122,6 +126,7 @@ public class UserController extends BaseController {
      * @param userChangePasswordDTO
      * @return
      */
+    @ResponseBody
     @PostMapping(value = "/changePassword")
     public Result changePassword(@RequestBody UserChangePasswordDTO userChangePasswordDTO){
         ValidateResult v = userChangePasswordDTO.validate();
@@ -149,6 +154,7 @@ public class UserController extends BaseController {
      * @param dto
      * @return
      */
+    @ResponseBody
     @PostMapping(value = "/getUserByPhone")
     public Result getUserByPhone(@RequestBody UserQueryDTO dto){
         ValidateResult v = dto.validatePhone();
@@ -168,13 +174,62 @@ public class UserController extends BaseController {
         }
     }
 
+    /**-----------------------以下为web端管理使用------------------------------**/
+
     /**
-     * 查询
+     * 跳转用户列表
      * @param
      * @return
      */
-    @PostMapping(value = "/stopRecording")
-    public Result stopRecording(){
-        return success();
+    @PostMapping(value = "/list",  produces="text/html;charset=utf-8")
+    public String list(){
+        return "garage/user/list";
+    }
+
+
+    /**
+     * “编辑”按钮
+     * @return 跳转页面
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.GET, produces = "text/html;charset=utf-8")
+    public String edit(Long id) {
+        if(id != null){
+            User model = userService.getById(id);
+//            model.setU_password(null);//修改时，密码默认设置为空
+            request.setAttribute("model", model);
+            setSessionAttribute(getSessionKey(model.getId()), model);//缓存到session
+        }
+        return "garage/user/edit";
+    }
+
+
+    /**
+     * 分页查询用户信息
+     * @param parameter -用户信分页查询参数
+     * @return String
+     */
+    @RequestMapping(value = "/datalist", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public ListResponse dataList(SysUserPageQueryParameter parameter) {
+        parameter.setRef_p_id(getCurrentProjectId());
+        if (!isAdminUser()) {
+            //不是管理员账户，查询用户的结果不能包含自己，也不能包含管理员，否则容易引起修改自己权限问题
+            parameter.setU_id_not_equals(getCurrentUserId());
+            parameter.setU_isadmin_not_equals(getCurrentUserId());
+        }
+
+        PageQueryResult result = null; //userService.findByPage(parameter);
+        ListResponse listResponse = new ListResponse(result.getResultList(), result.getTotal());
+        return listResponse;
+    }
+
+
+    /**
+     * 根据对象ID获取缓存到Session的key
+     * @param id - 实体model的ID
+     * @return 缓存到Session的key
+     */
+    private String getSessionKey(Long id){
+        return SessionAttributeConstants.USER_ + id + "_" + getSessionid();
     }
 }

@@ -1,40 +1,36 @@
 package com.wangyu.garage.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.wangyu.garage.util.NullUtil;
 import com.wangyu.garage.util.StringUtil;
-import com.wangyu.prm.common.BaseResponse;
-import com.wangyu.prm.common.Code;
-import com.wangyu.prm.common.DeleteParameter;
-import com.wangyu.prm.common.ListResponse;
-import com.wangyu.prm.constant.MessageConstants;
-import com.wangyu.prm.constant.SessionAttributeConstants;
-import com.wangyu.prm.constant.UserLogTypeConstants;
-import com.wangyu.prm.exception.RollbackableBizException;
-import com.wangyu.prm.page.PageQueryResult;
-import com.wangyu.prm.parameter.ChangePasswordParameter;
-import com.wangyu.prm.parameter.UserPageQueryParameter;
-import com.wangyu.prm.parameter.UserRolePageQueryParameter;
-import com.wangyu.prm.response.ModuleMenuResponse;
-import com.wangyu.prm.response.UserLoginResponse;
-import com.wangyu.prm.response.UserResponse;
-import com.wangyu.prm.response.UserRoleCheckedVOListResponse;
-import com.wangyu.prm.service.ISysRoleService;
-import com.wangyu.prm.service.ISysUserService;
-import com.wangyu.prm.util.Md5Util;
-import com.wangyu.prm.vo.UserRoleCheckedVO;
+import com.wangyu.system.common.BaseResponse;
+import com.wangyu.system.common.Code;
+import com.wangyu.system.common.DeleteParameter;
+import com.wangyu.system.common.ListResponse;
+import com.wangyu.system.constant.MessageConstants;
+import com.wangyu.system.constant.SessionAttributeConstants;
+import com.wangyu.system.constant.UserLogTypeConstants;
+import com.wangyu.system.exception.RollbackableBizException;
+import com.wangyu.system.model.SysUserModel;
+import com.wangyu.system.page.PageQueryResult;
+import com.wangyu.system.parameter.ChangePasswordParameter;
+import com.wangyu.system.parameter.SysUserPageQueryParameter;
+import com.wangyu.system.parameter.SysUserRolePageQueryParameter;
+import com.wangyu.system.response.ModuleMenuResponse;
+import com.wangyu.system.response.UserResponse;
+import com.wangyu.system.response.UserRoleCheckedVOListResponse;
+import com.wangyu.system.service.ISysRoleService;
+import com.wangyu.system.service.ISysUserService;
+import com.wangyu.system.util.Md5Util;
+import com.wangyu.system.vo.SysUserRoleCheckedVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.wangyu.prm.model.UserModel;
 
 /**
  * 用户的控制层
@@ -98,7 +94,7 @@ public class SysUserController extends BaseController{
     @RequestMapping(value = "/edit", method = RequestMethod.GET, produces = "text/html;charset=utf-8")
     public String edit(Integer id) {
         if(id != null){
-            UserModel model = sysUserService.findByPrimaryKey(id);
+            SysUserModel model = sysUserService.findByPrimaryKey(id);
             model.setU_password(null);//修改时，密码默认设置为空
             request.setAttribute("model", model);
             setSessionAttribute(getSessionKey(model.getU_id()), model);//缓存到session
@@ -113,7 +109,7 @@ public class SysUserController extends BaseController{
      */
     @RequestMapping(value = "/queryuserrolechecked", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public UserRoleCheckedVOListResponse queryUserRoleChecked(UserRolePageQueryParameter parameter) {
+    public UserRoleCheckedVOListResponse queryUserRoleChecked(SysUserRolePageQueryParameter parameter) {
         parameter.setRef_p_id(getCurrentProjectId());
         try {
             Integer u_id = parameter.getU_id();
@@ -122,9 +118,9 @@ public class SysUserController extends BaseController{
             //修改用户时操作
                 List<String> roleIdList = new ArrayList<String>();
                 if(NullUtil.notNull(userRoleCheckedVOListResponse.getList())){
-                    List<UserRoleCheckedVO> roleList = userRoleCheckedVOListResponse.getList();
+                    List<SysUserRoleCheckedVO> roleList = userRoleCheckedVOListResponse.getList();
                     for (int i = 0; i < roleList.size(); i++) {
-                        UserRoleCheckedVO roleCheckedVO = roleList.get(i);
+                        SysUserRoleCheckedVO roleCheckedVO = roleList.get(i);
                         if(roleCheckedVO.isChecked()){
                             //checked的节点说明是已分配给该用户的
                             roleIdList.add(String.valueOf(roleCheckedVO.getR_id()));
@@ -133,7 +129,7 @@ public class SysUserController extends BaseController{
                 }
 
                 //session缓存处理
-                UserModel userSession = (UserModel)getSessionAttribute(getSessionKey(u_id));
+                SysUserModel userSession = (SysUserModel)getSessionAttribute(getSessionKey(u_id));
                 userSession.setR_id_array(roleIdList.toArray(new String[0]));//set角色节点ID
                 setSessionAttribute(getSessionKey(u_id), userSession);
             }
@@ -156,7 +152,7 @@ public class SysUserController extends BaseController{
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public UserResponse save(UserModel userModel) {
+    public UserResponse save(SysUserModel userModel) {
         userModel.setRef_p_id(getCurrentProjectId());
 
         Integer u_id = userModel.getU_id();
@@ -177,7 +173,7 @@ public class SysUserController extends BaseController{
 
                 //添加成功，记录操作日志
                 if(isSuccessResponse(response)){
-                    UserModel addUser =	response.getData();
+                    SysUserModel addUser =	response.getData();
                     userModel.setU_id(addUser.getU_id());
 
                     //记录日志
@@ -197,7 +193,7 @@ public class SysUserController extends BaseController{
                 //修改成功，记录日志
                 if(isSuccessResponse(baseResponse)){
                     //从session中读取
-                    UserModel userSession = (UserModel)getSessionAttribute(getSessionKey(u_id));
+                    SysUserModel userSession = (SysUserModel)getSessionAttribute(getSessionKey(u_id));
                     //记录日志
                     addLog(null, MENU_NAME, UserLogTypeConstants.USER_UPDATE, u_id + "", userModel.getU_logname(), toJson(userSession));
                     //从session中移除
@@ -246,7 +242,7 @@ public class SysUserController extends BaseController{
      */
     @RequestMapping(value = "/datalist", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ListResponse dataList(UserPageQueryParameter parameter) {
+    public ListResponse dataList(SysUserPageQueryParameter parameter) {
         parameter.setRef_p_id(getCurrentProjectId());
         if(!isAdminUser()){
             //不是管理员账户，查询用户的结果不能包含自己，也不能包含管理员，否则容易引起修改自己权限问题
@@ -307,7 +303,7 @@ public class SysUserController extends BaseController{
      */
     @RequestMapping(value = "/resetpassword", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public UserResponse resetPassword(UserModel model) {
+    public UserResponse resetPassword(SysUserModel model) {
         if(StringUtil.isBlank(model.getU_password())){
             return new UserResponse(renderError(Code.FAIL, MessageConstants.USER_PASSWORD_CAN_NOT_BE_NULL));
         }
@@ -400,7 +396,7 @@ public class SysUserController extends BaseController{
      * @return 缓存到Session的key
      */
     private String getSessionKey(Integer id){
-        return SessionAttributeConstants.USER_ + id + "_" + getSessionid();
+        return SessionAttributeConstants.SYS_USER_ + id + "_" + getSessionid();
     }
 
     /**
@@ -408,7 +404,7 @@ public class SysUserController extends BaseController{
      * @param model
      * @return
      */
-    private UserResponse add(UserModel model) {
+    private UserResponse add(SysUserModel model) {
         if(model.getRef_p_id() == null){
             return new UserResponse(renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL));
         }
@@ -422,7 +418,7 @@ public class SysUserController extends BaseController{
             return new UserResponse(renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL));
         }
 
-        UserPageQueryParameter parameter = new UserPageQueryParameter();
+        SysUserPageQueryParameter parameter = new SysUserPageQueryParameter();
         parameter.setRef_p_id(model.getRef_p_id());
         parameter.setU_logname(model.getU_logname());
 
@@ -444,7 +440,7 @@ public class SysUserController extends BaseController{
         if(Code.SUCCESS.equals(message)){
             UserResponse response = new UserResponse();
             response.setMessage(SAVE_SUCCESS);
-            UserModel newModel = new UserModel();
+            SysUserModel newModel = new SysUserModel();
             newModel.setU_id(model.getU_id());
             response.setData(newModel);
             return response;
@@ -460,7 +456,7 @@ public class SysUserController extends BaseController{
      * @return BaseResponse
      */
 //    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    private BaseResponse update(UserModel model) {
+    private BaseResponse update(SysUserModel model) {
         if(model.getU_id() == null){
             return renderError(Code.FAIL, MessageConstants.PRIMARY_KEY_CAN_NOT_BE_NULL);
         }
@@ -475,7 +471,7 @@ public class SysUserController extends BaseController{
         }
 
         //同一项目id对应的登录名不应该有重复
-        UserPageQueryParameter parameter = new UserPageQueryParameter();
+        SysUserPageQueryParameter parameter = new SysUserPageQueryParameter();
         parameter.setU_id(model.getU_id());//排除此uid的
         parameter.setRef_p_id(model.getRef_p_id());
         parameter.setU_logname(model.getU_logname());
@@ -517,13 +513,13 @@ public class SysUserController extends BaseController{
         }
 
         //查询用户中是否存在管理员账户
-        List<UserModel> list = sysUserService.findAdminUser(parameter);
+        List<SysUserModel> list = sysUserService.findAdminUser(parameter);
 
         if(NullUtil.notNull(list)){
             StringBuffer s = new StringBuffer();
             s.append("用户");
             for (int i = 0; i < list.size(); i++) {
-                UserModel model = list.get(i);
+                SysUserModel model = list.get(i);
                 String name = model.getU_logname();
                 if(i == 0){
                     s.append("[");
@@ -561,7 +557,7 @@ public class SysUserController extends BaseController{
      * @return BaseResponse
      */
 //    @RequestMapping(value = "/updatestatus", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    private BaseResponse updateStatus(UserModel userModel) {
+    private BaseResponse updateStatus(SysUserModel userModel) {
         String message = sysUserService.updateStatus(userModel);
         if(Code.SUCCESS.equals(message)){
             return renderSuccess();
@@ -577,7 +573,7 @@ public class SysUserController extends BaseController{
      * @return ListResponse
      */
 //    @RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    private ListResponse list(UserPageQueryParameter parameter) {
+    private ListResponse list(SysUserPageQueryParameter parameter) {
         PageQueryResult result = sysUserService.findByPage(parameter);
         ListResponse listResponse = new ListResponse(result.getResultList(), result.getTotal());
         return listResponse;
@@ -590,7 +586,7 @@ public class SysUserController extends BaseController{
      */
 //    @RequestMapping(value = "/findbyid", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     private UserResponse findById(Integer u_id){
-        UserModel model = sysUserService.findByPrimaryKey(u_id);
+        SysUserModel model = sysUserService.findByPrimaryKey(u_id);
         return new UserResponse(model);
     }
 
@@ -613,7 +609,7 @@ public class SysUserController extends BaseController{
      * @return BaseResponse
      */
 //    @RequestMapping(value = "/resetpassword", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    private UserResponse resetPassword0(UserModel model) {
+//    private UserResponse resetPassword0(SysUserModel model) {
 //        if(model.getRef_p_id() == null){
 //            return new UserResponse(renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL));
 //        }

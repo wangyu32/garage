@@ -20,6 +20,7 @@ import com.wangyu.garage.vo.ComeinoutVO;
 import com.wangyu.garage.vo.ComeoutVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -31,7 +32,7 @@ import java.util.List;
  * @Date 2018/12/2 15:49
  */
 @Slf4j
-@RestController
+@Controller
 @RequestMapping(value = "/garage")
 public class GarageController extends BaseController {
 
@@ -44,17 +45,20 @@ public class GarageController extends BaseController {
     @Autowired
     private StopRecordingService stopRecordingService;
 
+    @ResponseBody
     @RequestMapping(value = "/test")
     public String test(){
         return "hello world";
     }
 
+    @ResponseBody
     @GetMapping(value = "/query")
     public GarageResponse query(Long id){
         Garage garage = garageService.getById(id);
         return new GarageResponse(garage);
     }
 
+    @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Result save(@RequestBody Garage model){
         int total = model.getTotal();
@@ -72,6 +76,7 @@ public class GarageController extends BaseController {
      * @param dto
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/comein", method = RequestMethod.POST)
     public Result comein(@RequestBody UserComeInDTO dto){
         ValidateResult v = dto.validate();
@@ -121,6 +126,7 @@ public class GarageController extends BaseController {
      * @param dto
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/comeout", method = RequestMethod.POST)
     public Result comeout(@RequestBody UserComeOutDTO dto){
         ValidateResult v = dto.validate();
@@ -169,6 +175,7 @@ public class GarageController extends BaseController {
      * @param stopRecordingQueryParameter
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/queryStopRecording", method = RequestMethod.GET)
     public Result queryStopRecording(StopRecordingQueryParameter stopRecordingQueryParameter){
         try {
@@ -186,6 +193,7 @@ public class GarageController extends BaseController {
      * @param stopRecordingQueryParameter
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/pageQueryStopRecording", method = RequestMethod.GET)
     public Result pageQueryStopRecording(StopRecordingQueryParameter stopRecordingQueryParameter){
         try {
@@ -197,5 +205,7 @@ public class GarageController extends BaseController {
             return failed("出库失败");
         }
     }
+
+//    public String
 
 }

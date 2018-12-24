@@ -7,30 +7,28 @@ import java.util.Map;
 
 import com.wangyu.garage.util.NullUtil;
 import com.wangyu.garage.util.StringUtil;
-import com.wangyu.prm.common.*;
-import com.wangyu.prm.constant.CommonConstants;
-import com.wangyu.prm.constant.MessageConstants;
-import com.wangyu.prm.constant.SessionAttributeConstants;
-import com.wangyu.prm.constant.UserLogTypeConstants;
-import com.wangyu.prm.exception.RollbackableBizException;
-import com.wangyu.prm.model.ModuleMenuModel;
-import com.wangyu.prm.model.RoleModel;
-import com.wangyu.prm.model.RoleUserCountModel;
-import com.wangyu.prm.page.PageQueryResult;
-import com.wangyu.prm.parameter.RolePageQueryParameter;
-import com.wangyu.prm.response.ModuleMenuResponse;
-import com.wangyu.prm.response.ModuleMenuTreeNodeListResponse;
-import com.wangyu.prm.response.RoleResponse;
-import com.wangyu.prm.service.ISysRoleService;
-import com.wangyu.prm.service.ISysUserService;
+import com.wangyu.system.common.*;
+import com.wangyu.system.constant.CommonConstants;
+import com.wangyu.system.constant.MessageConstants;
+import com.wangyu.system.constant.SessionAttributeConstants;
+import com.wangyu.system.constant.UserLogTypeConstants;
+import com.wangyu.system.exception.RollbackableBizException;
+import com.wangyu.system.model.SysModuleMenuModel;
+import com.wangyu.system.model.SysRoleModel;
+import com.wangyu.system.model.SysRoleUserCountModel;
+import com.wangyu.system.page.PageQueryResult;
+import com.wangyu.system.parameter.SysRolePageQueryParameter;
+import com.wangyu.system.response.ModuleMenuResponse;
+import com.wangyu.system.response.ModuleMenuTreeNodeListResponse;
+import com.wangyu.system.response.RoleResponse;
+import com.wangyu.system.service.ISysRoleService;
+import com.wangyu.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.Gson;
 
 /**
  * 角色的控制层
@@ -67,7 +65,7 @@ public class SysRoleController extends BaseController{
 	@RequestMapping(value = "/edit", method = RequestMethod.GET, produces = "text/html;charset=utf-8")
 	public String edit(Integer id) {
 		if(id != null){
-			RoleModel roleModel = sysRoleService.findByPrimaryKey(id);
+			SysRoleModel roleModel = sysRoleService.findByPrimaryKey(id);
 			request.setAttribute("model", roleModel);//此处roleModel不包含关联菜单信息
 			setSessionAttribute(getSessionKey(roleModel.getR_id()), roleModel);//缓存到session
 		}
@@ -110,7 +108,7 @@ public class SysRoleController extends BaseController{
 				}
 				
 				//session缓存处理
-				RoleModel roleSession = (RoleModel)getSessionAttribute(getSessionKey(r_id));
+				SysRoleModel roleSession = (SysRoleModel)getSessionAttribute(getSessionKey(r_id));
 				roleSession.setMm_id_array(menuIdList.toArray(new String[0]));//set菜单节点ID
 				setSessionAttribute(getSessionKey(r_id), roleSession);
 			}
@@ -128,7 +126,7 @@ public class SysRoleController extends BaseController{
 	 */
     @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String save(RoleModel roleModel) {
+    public String save(SysRoleModel roleModel) {
         roleModel.setRef_p_id(getCurrentProjectId());
 
     	Integer r_id = roleModel.getR_id();
@@ -140,7 +138,7 @@ public class SysRoleController extends BaseController{
                 json = toJson(response);
 				//添加成功，记录操作日志
 				if(isSuccessResponse(response)){
-					RoleModel addRole =	response.getData();
+					SysRoleModel addRole =	response.getData();
 					roleModel.setR_id(addRole.getR_id());
 					//记录日志
 					addLog(json, MENU_NAME, UserLogTypeConstants.ROLE_ADD, String.valueOf(roleModel.getR_id()), roleModel.getR_name(), toJson(roleModel));
@@ -152,7 +150,7 @@ public class SysRoleController extends BaseController{
 				//修改成功，记录日志
 				if(isSuccessResponse(baseResponse)){
 					//从session中读取
-					RoleModel modelInSession = (RoleModel)getSessionAttribute(getSessionKey(r_id));
+					SysRoleModel modelInSession = (SysRoleModel)getSessionAttribute(getSessionKey(r_id));
 					//记录日志
 					addLog(null, MENU_NAME, UserLogTypeConstants.ROLE_UPDATE, r_id + "", roleModel.getR_name(), toJson(modelInSession));
 					//从session中移除
@@ -208,13 +206,13 @@ public class SysRoleController extends BaseController{
         parameter.setRef_p_id(getCurrentProjectId());
 
         //查询关联的主播个数
-        List<RoleUserCountModel> list = sysUserService.findRoleUserCount(parameter);
+        List<SysRoleUserCountModel> list = sysUserService.findRoleUserCount(parameter);
 
         if(NullUtil.notNull(list)){
             StringBuffer s = new StringBuffer();
             s.append("角色");
             for (int i = 0; i < list.size(); i++) {
-                RoleUserCountModel model = list.get(i);
+                SysRoleUserCountModel model = list.get(i);
                 String name = model.getR_name();
                 if(i == 0){
                     s.append("[");
@@ -256,7 +254,7 @@ public class SysRoleController extends BaseController{
      */
 	@RequestMapping(value = "/datalist", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
 	@ResponseBody
-    public ListResponse dataList(RolePageQueryParameter parameter) {
+    public ListResponse dataList(SysRolePageQueryParameter parameter) {
         parameter.setRef_p_id(getCurrentProjectId());
         PageQueryResult result = sysRoleService.findByPage(parameter);
         ListResponse listResponse = new ListResponse(result.getResultList(), result.getTotal());
@@ -295,7 +293,7 @@ public class SysRoleController extends BaseController{
 	 * @return 缓存到Session的key
 	 */
 	private String getSessionKey(Integer id){
-		return SessionAttributeConstants.ROLE_ + id + "_" + getSessionid();
+		return SessionAttributeConstants.SYS_ROLE_ + id + "_" + getSessionid();
 	}
 
     /**
@@ -354,10 +352,10 @@ public class SysRoleController extends BaseController{
                 menuList.add(module_node);
 
                 //菜单
-                List<ModuleMenuModel> menus = module.getItems();
+                List<SysModuleMenuModel> menus = module.getItems();
                 if(NullUtil.notNull(menus)){
                     for (int j = 0; j < menus.size(); j++) {
-                        ModuleMenuModel menu = menus.get(j);
+                        SysModuleMenuModel menu = menus.get(j);
                         id = menu.getMm_id().toString();
                         menu_key = CommonConstants.MENU_TYPE_MENU + "_" + id;//使用"_"分隔
                         ModuleMenuTreeNode menu_node = roleMenuMap.get(menu_key);
@@ -405,10 +403,10 @@ public class SysRoleController extends BaseController{
                 map.put(module_key, module_node);
 
                 //菜单
-                List<ModuleMenuModel> menus = module.getItems();
+                List<SysModuleMenuModel> menus = module.getItems();
                 if(NullUtil.notNull(menus)){
                     for (int j = 0; j < menus.size(); j++) {
-                        ModuleMenuModel menu = menus.get(j);
+                        SysModuleMenuModel menu = menus.get(j);
                         id = menu.getMm_id().toString();
                         menu_key = CommonConstants.MENU_TYPE_MENU + "_" + id;//使用"_"分隔
 
@@ -431,7 +429,7 @@ public class SysRoleController extends BaseController{
      * @return BaseResponse
      */
 //    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    private RoleResponse add(RoleModel model) {
+    private RoleResponse add(SysRoleModel model) {
         //校验
         if(model.getRef_p_id() == null){
             return new RoleResponse(renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL));
@@ -444,7 +442,7 @@ public class SysRoleController extends BaseController{
         }
 
         Integer pid = model.getRef_p_id();
-        RolePageQueryParameter parameter = new RolePageQueryParameter();
+        SysRolePageQueryParameter parameter = new SysRolePageQueryParameter();
         parameter.setRef_p_id(pid);
         parameter.setR_name(model.getR_name());
 
@@ -465,7 +463,7 @@ public class SysRoleController extends BaseController{
         if(Code.SUCCESS.equals(message)){
             RoleResponse response = new RoleResponse();
             response.setMessage(SAVE_SUCCESS);
-            RoleModel newModel = new RoleModel();
+            SysRoleModel newModel = new SysRoleModel();
             newModel.setR_id(model.getR_id());
             response.setData(newModel);
             return response;
@@ -481,7 +479,7 @@ public class SysRoleController extends BaseController{
      * @return BaseResponse
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    private BaseResponse update(RoleModel model) {
+    private BaseResponse update(SysRoleModel model) {
         //校验
         if(model.getR_id() == null){
             return renderError(Code.FAIL, MessageConstants.PRIMARY_KEY_CAN_NOT_BE_NULL);
@@ -497,7 +495,7 @@ public class SysRoleController extends BaseController{
         }
 
         //同一项目id对应的角色名称不应该有重复,否则容易混淆
-        RolePageQueryParameter parameter = new RolePageQueryParameter();
+        SysRolePageQueryParameter parameter = new SysRolePageQueryParameter();
         parameter.setR_id(model.getR_id());
         parameter.setRef_p_id(model.getRef_p_id());
         parameter.setR_name(model.getR_name());
