@@ -1,8 +1,11 @@
 package com.wangyu.garage.service;
 
 import com.github.pagehelper.PageInfo;
+import com.wangyu.garage.dto.ComeinoutDto;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
+import com.wangyu.garage.vo.ComeinoutVO;
+import com.wangyu.garage.vo.ComeoutVO;
 
 import java.util.List;
 
@@ -13,9 +16,31 @@ import java.util.List;
  */
 public interface StopRecordingService {
 
+    /**
+     * 报错停车记录
+     * @param stopRecording
+     * @return
+     */
     int save (StopRecording stopRecording);
 
+    /**
+     * 修改停车记录
+     * @param stopRecording
+     * @return
+     */
     int update (StopRecording stopRecording);
+
+    /**
+     * 入库停车
+     */
+    ComeinoutVO carComein(ComeinoutDto comeinoutDto);
+
+    /**
+     * 提车出库
+     * @param comeinoutDto
+     * @return
+     */
+    ComeinoutVO carComeout(ComeinoutDto comeinoutDto);
 
     /**
      * 查询停车记录

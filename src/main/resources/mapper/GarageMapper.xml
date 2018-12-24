@@ -8,13 +8,15 @@
     <result column="inuse" jdbcType="INTEGER" property="inuse" />
     <result column="unuse" jdbcType="INTEGER" property="unuse" />
     <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="server_ip" jdbcType="VARCHAR" property="serverIp" />
+    <result column="server_port" jdbcType="INTEGER" property="serverPort" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, name, total, inuse, unuse, price, createtime
+    id, name, total, inuse, unuse, price, server_ip, server_port, createtime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from garage
     where id = #{id,jdbcType=BIGINT}
@@ -25,11 +27,13 @@
   </delete>
   <insert id="insert" parameterType="com.wangyu.garage.entity.Garage">
     insert into garage (name, total,
-      inuse, unuse, price, 
-      createtime)
+      inuse, unuse, price,
+      server_ip, server_port, createtime
+      )
     values (#{name,jdbcType=VARCHAR}, #{total,jdbcType=INTEGER},
-      #{inuse,jdbcType=INTEGER}, #{unuse,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, 
-      #{createtime,jdbcType=TIMESTAMP})
+      #{inuse,jdbcType=INTEGER}, #{unuse,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL},
+      #{serverIp,jdbcType=VARCHAR}, #{serverPort,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.wangyu.garage.entity.Garage">
     insert into garage
@@ -51,6 +55,12 @@
       </if>
       <if test="price != null">
         price,
+      </if>
+      <if test="serverIp != null">
+        server_ip,
+      </if>
+      <if test="serverPort != null">
+        server_port,
       </if>
       <if test="createtime != null">
         createtime,
@@ -75,6 +85,12 @@
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
       </if>
+      <if test="serverIp != null">
+        #{serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="serverPort != null">
+        #{serverPort,jdbcType=INTEGER},
+      </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -98,6 +114,12 @@
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
       </if>
+      <if test="serverIp != null">
+        server_ip = #{serverIp,jdbcType=VARCHAR},
+      </if>
+      <if test="serverPort != null">
+        server_port = #{serverPort,jdbcType=INTEGER},
+      </if>
       <if test="createtime != null">
         createtime = #{createtime,jdbcType=TIMESTAMP},
       </if>
@@ -111,6 +133,8 @@
       inuse = #{inuse,jdbcType=INTEGER},
       unuse = #{unuse,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
+      server_ip = #{serverIp,jdbcType=VARCHAR},
+      server_port = #{serverPort,jdbcType=INTEGER},
       createtime = #{createtime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>

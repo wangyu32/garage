@@ -3,24 +3,25 @@ package com.wangyu.garage.controller;
 import com.github.pagehelper.PageInfo;
 import com.wangyu.common.Result;
 import com.wangyu.common.validate.ValidateResult;
+import com.wangyu.garage.dto.ComeinoutDto;
 import com.wangyu.garage.dto.UserComeInDTO;
 import com.wangyu.garage.dto.UserComeOutDTO;
 import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.enums.CarStatusEnum;
-import com.wangyu.garage.enums.UserEnum;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
+import com.wangyu.garage.response.GarageResponse;
 import com.wangyu.garage.service.GarageService;
 import com.wangyu.garage.service.StopRecordingService;
 import com.wangyu.garage.service.UserService;
 import com.wangyu.garage.util.NullUtil;
-import com.wangyu.garage.util.Util;
+import com.wangyu.garage.vo.ComeinoutVO;
+import com.wangyu.garage.vo.ComeoutVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -49,9 +50,9 @@ public class GarageController extends BaseController {
     }
 
     @GetMapping(value = "/query")
-    public Result query(Long id){
+    public GarageResponse query(Long id){
         Garage garage = garageService.getById(id);
-        return success(garage);
+        return new GarageResponse(garage);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -89,6 +90,11 @@ public class GarageController extends BaseController {
             if (garage == null)
                 return failed("车库不存在，请联系管理员");
 
+            if (garage.getUnuse() == 0){
+                //车位已满，提示用户
+                return failed("车位已满，暂时无法入库停车");
+            }
+
             StopRecordingQueryParameter stopRecordingQueryParameter = new StopRecordingQueryParameter();
             stopRecordingQueryParameter.setGarageid(garageId);
             stopRecordingQueryParameter.setUserid(userId);
@@ -99,15 +105,11 @@ public class GarageController extends BaseController {
                 return success("已经成功扫描入库", stopRecordingList.get(0));
             }
 
-            StopRecording stopRecording = new StopRecording();
-            stopRecording.setGarageid(garageId);
-            stopRecording.setUserid(userId);
-            stopRecording.setPhone(user.getPhone());
-            stopRecording.setStatus(CarStatusEnum.COME_IN.getValue());//入库
-            stopRecording.setIntime(new Date());//停车时间，当前时间
+            ComeinoutDto comeinoutDto = new ComeinoutDto(garageId, userId);
 
-            stopRecordingService.save(stopRecording);
-            return success(stopRecording);
+            ComeinoutVO comeinoutVO = stopRecordingService.carComein(comeinoutDto);
+//            stopRecordingService.save(stopRecording);
+            return success(comeinoutVO);
         } catch (Exception e){
             log.error(e.getMessage(), e);
             return failed("入库失败");
@@ -152,29 +154,10 @@ public class GarageController extends BaseController {
             }
 
             StopRecording stopRecording = stopRecordingList.get(0);
-
-            long inTime = stopRecording.getIntime().getTime();
-            Date outDate = new Date();//出库时间
-            long outTime = outDate.getTime();
-            long totalTime = (outTime - inTime) / 1000 * 1000;//停车时间去掉毫秒部分,按秒计算
-
-            //TODO 不同类型用户可采取不同策略模式去计算钱数 未来可实现
-            BigDecimal price = garage.getPrice();
-
-            if(UserEnum.getByCode(user.getType()) == UserEnum.MEMBERSHIP){
-                price = user.getPrice();//会员用户使用自定义价格
-            }
-
-            BigDecimal unit = new BigDecimal(1000);
-            BigDecimal amount = new BigDecimal(totalTime).multiply(price).divide(unit);//按秒算钱
-            stopRecording.setAmount(amount);
-            stopRecording.setOuttime(outDate);
-            stopRecording.setTotaltime(totalTime);
-            stopRecording.setStatus(CarStatusEnum.COME_OUT.getValue());
-
-            int num  = stopRecordingService.update(stopRecording);
-
-            return success(stopRecording);
+            ComeinoutDto comeinoutDto = new ComeinoutDto(garageId, userId, stopRecording.getId());
+            ComeinoutVO comeoutVO = stopRecordingService.carComeout(comeinoutDto);
+//            int num  = stopRecordingService.update(stopRecording);
+            return success(comeoutVO);
         } catch (Exception e){
             log.error(e.getMessage(), e);
             return failed("出库失败");

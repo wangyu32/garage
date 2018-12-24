@@ -40,6 +40,16 @@ public class Garage extends Model {
     private BigDecimal price;
 
     /**
+     * 服务IP
+     */
+    private String serverIp;
+
+    /**
+     * 服务端口
+     */
+    private Integer serverPort;
+
+    /**
      * 创建时间
      */
     private Date createtime;
@@ -138,6 +148,38 @@ public class Garage extends Model {
      */
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    /**
+     * 服务ip
+     * @return server_ip 服务ip
+     */
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    /**
+     * 服务ip
+     * @param serverIp 服务ip
+     */
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp == null ? null : serverIp.trim();
+    }
+
+    /**
+     * 服务端口
+     * @return server_port 服务端口
+     */
+    public Integer getServerPort() {
+        return serverPort;
+    }
+
+    /**
+     * 服务端口
+     * @param serverPort 服务端口
+     */
+    public void setServerPort(Integer serverPort) {
+        this.serverPort = serverPort;
     }
 
     /**
