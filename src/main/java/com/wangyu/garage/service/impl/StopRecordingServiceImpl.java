@@ -109,6 +109,7 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
 
         BigDecimal unit = new BigDecimal(1000);
         BigDecimal amount = new BigDecimal(totalTime).multiply(price).divide(unit);//按秒算钱
+        stopRecording.setPrice(price);
         stopRecording.setAmount(amount);
         stopRecording.setOuttime(outDate);
         stopRecording.setTotaltime(totalTime);

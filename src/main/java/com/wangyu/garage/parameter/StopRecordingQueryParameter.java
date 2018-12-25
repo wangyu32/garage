@@ -40,14 +40,24 @@ public class StopRecordingQueryParameter extends PageQueryParameter {
     private String phone;
 
     /**
-     * 进入车库时间
+     * 进入车库时间 - 开始时间
      */
-    private Date intime;
+    private String intimeStart;
 
     /**
-     * 离开车库时间
+     * 进入车库时间 - 结束时间
      */
-    private Date outtime;
+    private String intimeEnd;
+
+    /**
+     * 离开车库时间 - 开始时间
+     */
+    private String outtimeStart;
+
+    /**
+     * 离开车库时间 - 结束时间
+     */
+    private String outtimeEnd;
 
     /**
      * 停车费

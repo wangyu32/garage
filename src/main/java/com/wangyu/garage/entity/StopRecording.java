@@ -50,6 +50,11 @@ public class StopRecording extends Model {
     private Long totaltime;
 
     /**
+     * 单价
+     */
+    private BigDecimal price;
+
+    /**
      * 停车费
      */
     private BigDecimal amount;
@@ -185,6 +190,22 @@ public class StopRecording extends Model {
      */
     public void setTotaltime(Long totaltime) {
         this.totaltime = totaltime;
+    }
+
+    /**
+     * 单价
+     * @return price 单价
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * 单价
+     * @param price 单价
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     /**
