@@ -12,8 +12,10 @@ import com.wangyu.garage.mapper.GarageMapper;
 import com.wangyu.garage.mapper.StopRecordingMapper;
 import com.wangyu.garage.mapper.UserMapper;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
+import com.wangyu.garage.parameter.UserStopRecordingQueryParameter;
 import com.wangyu.garage.service.IStopRecordingService;
 import com.wangyu.garage.vo.ComeinoutVO;
+import com.wangyu.garage.vo.UserStopRecordingVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -144,6 +146,16 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         PageHelper.startPage(stopRecordingQueryParameter.getPageNumber(), stopRecordingQueryParameter.getLimit());
         List<StopRecording> list = this.stopRecordingMapper.queryByParameter(stopRecordingQueryParameter);
         PageInfo<StopRecording> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public PageInfo<UserStopRecordingVO> queryUserStopRecording(UserStopRecordingQueryParameter parameter) {
+        if(parameter.isPageQuery()){
+            PageHelper.startPage(parameter.getPageNumber(), parameter.getLimit());
+        }
+        List<UserStopRecordingVO> list = this.stopRecordingMapper.queryUserStopRecording(parameter);
+        PageInfo<UserStopRecordingVO> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
 }

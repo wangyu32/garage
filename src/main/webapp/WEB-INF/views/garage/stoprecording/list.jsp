@@ -14,16 +14,17 @@
         <jsp:param value="yes" name="DatePicker"/>
 	</jsp:include>
 	<link rel="stylesheet" href="<c:url value='/css/comm/global.css' />"/>
-	<script src='<c:url value="/js/garage/user/list.js" />'></script>
+	<script src='<c:url value="/js/garage/stoprecording/list.js" />'></script>
 </head>
 
 <body style="padding:0px 10px 10px 10px;">
-	<%--菜单栏--%>
+	<%--菜单栏
 	<nav class="navbar" id="navbar">
         <button id="addBtn" type="button">新增</button>
         <button id="delBtn" type="button">删除</button>
 	</nav>
 	<div class='listSplitLine'></div>
+	--%>
 	<!--查询栏-->
 	<div class="search-input navml15 search-current" id="search-input">
 			<div class="list-search" id="list-search">
@@ -81,9 +82,12 @@
 				<th data-field="name" data-sortable="true" data-width="150" data-align="center" data-formatter='formatName'>姓名</th>
 				<th data-field="sex" data-sortable="true"  data-width="50" data-align="center" data-formatter='formatterSex'>性别</th>
 				<th data-field="phone" data-sortable="true" data-width="200"  data-align="center">手机号</th>
-				<th data-field="type" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterType'>类型</th>
-				<th data-field="price" data-sortable="true" data-width="80"  data-align="right" data-formatter='formatterPrice'>单价</th>
-				<th data-field="createtime" data-sortable="true" data-width="180" data-align="center" data-formatter="formatDateTime">创建于</th>
+				<th data-field="type" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterType'>用户类型</th>
+				<th data-field="intime" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatDateTime'>入库时间</th>
+				<th data-field="outtime" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatDateTime'>出库时间</th>
+				<th data-field="totaltime" data-sortable="true" data-width="80"  data-align="center" >停车时长</th>
+				<th data-field="amount" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterPrice'>金额</th>
+				<th data-field="price" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterPrice'>单价</th>
 			</tr>
 		</thead>
 	</table>

@@ -1,5 +1,7 @@
 package com.wangyu.garage.vo;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -8,6 +10,8 @@ import java.util.Date;
  * @Author wangyu
  * @Date 2018/12/25
  */
+
+@Data
 public class UserStopRecordingVO {
 
     /**
@@ -34,7 +38,6 @@ public class UserStopRecordingVO {
      * 类型0-固定;1-临时；2-管理员
      */
     private Integer type;
-
 
     /**
      * 车库ID

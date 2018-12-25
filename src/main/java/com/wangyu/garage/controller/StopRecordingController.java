@@ -3,10 +3,13 @@ package com.wangyu.garage.controller;
 import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
+import com.wangyu.garage.parameter.UserStopRecordingQueryParameter;
 import com.wangyu.garage.service.IGarageService;
 import com.wangyu.garage.service.IStopRecordingService;
 import com.wangyu.garage.service.IUserService;
 import com.wangyu.garage.util.StringUtil;
+import com.wangyu.garage.vo.StopRecordingVO;
+import com.wangyu.garage.vo.UserStopRecordingVO;
 import com.wangyu.system.common.ListResponse;
 import com.wangyu.system.constant.CommonConstants;
 import com.wangyu.system.util.DateUtil;
@@ -24,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Slf4j
 @Controller
-@RequestMapping(value = "/stopRecording")
+@RequestMapping(value = "/stoprecording")
 public class StopRecordingController extends BaseController {
 
     @Autowired
@@ -61,7 +64,7 @@ public class StopRecordingController extends BaseController {
      */
     @GetMapping(value = "/datalist", produces = "application/json;charset=utf-8")
     @ResponseBody
-    public ListResponse dataList(StopRecordingQueryParameter parameter) {
+    public ListResponse dataList(UserStopRecordingQueryParameter parameter) {
         try {
             log.info("查询停车记录信息：" + toJson(parameter));
             if (StringUtil.notBlank(parameter.getIntimeEnd())) {
@@ -70,7 +73,7 @@ public class StopRecordingController extends BaseController {
             if (StringUtil.notBlank(parameter.getOuttimeEnd())) {
                 parameter.setOuttimeEnd(parameter.getOuttimeEnd() + CommonConstants.TIME_235959);
             }
-            PageInfo<StopRecording> pageInfo  = stopRecordingService.pageQueryByParameter(parameter);
+            PageInfo<UserStopRecordingVO> pageInfo  = stopRecordingService.queryUserStopRecording(parameter);
             ListResponse listResponse = new ListResponse();
             listResponse.setList(pageInfo.getList());
             listResponse.setTotal((int)pageInfo.getTotal());

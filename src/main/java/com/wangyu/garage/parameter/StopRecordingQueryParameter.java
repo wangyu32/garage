@@ -65,6 +65,11 @@ public class StopRecordingQueryParameter extends PageQueryParameter {
     private BigDecimal amount;
 
     /**
+     * 停车单价
+     */
+    private BigDecimal price;
+
+    /**
      * 状态0-入库;1-出库
      */
     private Integer status;

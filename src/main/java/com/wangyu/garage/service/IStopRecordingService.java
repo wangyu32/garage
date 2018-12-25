@@ -4,8 +4,10 @@ import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.dto.ComeinoutDto;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
+import com.wangyu.garage.parameter.UserStopRecordingQueryParameter;
 import com.wangyu.garage.vo.ComeinoutVO;
 import com.wangyu.garage.vo.ComeoutVO;
+import com.wangyu.garage.vo.UserStopRecordingVO;
 
 import java.util.List;
 
@@ -61,4 +63,11 @@ public interface IStopRecordingService {
      * @return
      */
     PageInfo<StopRecording> pageQueryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter);
+
+    /**
+     * 分页查询用户停车记录
+     * @param stopRecordingQueryParameter
+     * @return
+     */
+    PageInfo<UserStopRecordingVO> queryUserStopRecording(UserStopRecordingQueryParameter stopRecordingQueryParameter);
 }

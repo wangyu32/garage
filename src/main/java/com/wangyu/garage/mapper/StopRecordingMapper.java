@@ -61,5 +61,5 @@ public interface StopRecordingMapper {
     List<StopRecording> queryByParameter(StopRecordingQueryParameter stopRecordingQueryParameter);
 
 
-    List<UserStopRecordingVO> queryByParameter(UserStopRecordingQueryParameter parameter);
+    List<UserStopRecordingVO> queryUserStopRecording(UserStopRecordingQueryParameter parameter);
 }

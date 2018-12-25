@@ -50,8 +50,8 @@
         <if test="type      != null">                        and type = #{type}                       </if>
         <if test="name      != null and name != ''">       and name like CONCAT('%',#{name},'%')   </if>
         <if test="phone     != null and phone != ''">      and phone like CONCAT('%',#{phone},'%') </if>
-        <if test="startTime != ''	">                       and createtime  &gt;=	#{startTime}	   </if>
-        <if test="endTime   != ''	">                       and createtime	 &lt;=	#{endTime}		   </if>
+        <if test="startTime != null and startTime != '' ">and createtime  &gt;= #{startTime}        </if>
+        <if test="endTime   != null and endTime   != '' ">and createtime  &lt;= #{endTime}          </if>
       </where>
 
       <if test=" sort != ''">
