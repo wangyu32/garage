@@ -79,7 +79,7 @@
           <if test="userid    != null">                        and userid = #{userid}                    </if>
           <if test="name      != null and name != ''">       and name like CONCAT('%',#{name},'%')   </if>
           <if test="sex       != null">                        and sex = #{sex}                          </if>
-          <if test="phone     != null and phone != ''">      and phone like CONCAT('%',#{phone},'%') </if>
+          <if test="phone     != null and phone != ''">      and s.phone like CONCAT('%',#{phone},'%') </if>
           <if test="type      != null">                        and type = #{type}                       </if>
 
 

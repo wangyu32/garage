@@ -114,14 +114,14 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         stopRecording.setPrice(price);
         stopRecording.setAmount(amount);
         stopRecording.setOuttime(outDate);
-        stopRecording.setTotaltime(totalTime);
+        stopRecording.setTotaltime(totalTime / 1000);
         stopRecording.setStatus(CarStatusEnum.COME_OUT.getValue());
 
         //保存停车记录
         stopRecordingMapper.updateByPrimaryKey(stopRecording);
 
-        garage.setInuse(garage.getInuse() + 1);//可用车位减1
-        garage.setUnuse(garage.getUnuse() - 1);//已用车位加1
+        garage.setInuse(garage.getInuse() - 1);//可用车位加1
+        garage.setUnuse(garage.getUnuse() + 1);//已用车位减1
         //更新车库信息
         garageMapper.updateByPrimaryKey(garage);
 

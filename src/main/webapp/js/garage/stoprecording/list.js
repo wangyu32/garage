@@ -4,67 +4,6 @@ $(document).ready(function(){
 	var searchInput = $('#search-input');
 	var searchMore = $("#search-more-wrapper");
 
-	//增加
-    $('#addBtn').click(function(){
-        window.location.href = 'edit';
-    });
-
-    //增加
-    $('#roleBtn').click(function(){
-    	var obj = $('#dataTable').bootstrapTable('getAllSelections');
-		if (obj.length == 0) {
-			layer.msg('请至少选择一个条记录！',{icon:0,time:2000});
-			return;
-		}
-		if (obj.length > 1) {
-			layer.msg('只能选择一个条记录！',{icon:0,time:2000});
-			return;
-		}
-		var param = "u_id=" + obj[0].u_id;
-    	window.location.href = 'adduserrole?' + param;
-    });
-    
-    // 删除按钮
-	$("#delBtn").click(function() {
-		var obj = $('#dataTable').bootstrapTable('getAllSelections');
-		if (obj.length == 0) {
-			layer.msg('请至少选择一个条记录！',{icon:0,time:2000});
-			return;
-		}
-		
-		//数组
-		var ids = new Array();  
-		for (var i = 0; i < obj.length; i++) {
-			ids.push(obj[i].id);
-		};
-		
-		layer.confirm('您确认删除记录？', {
-			btn : [ '确认', '取消' ],
-			yes : function(index, layero) {
-				$.ajax({
-					type : 'post',
-					url : "delete",
-					traditional :true, //传统方式
-					data:{'ids': ids},
-					dataType : "json",
-					success : function(res) {
-						if (res.code == 200) {
-							layer.msg(
-								"删除成功",
-								{icon:1, time:2000},
-								function(){
-									window.location.href = 'list';
-								}
-							);
-						} else {
-							layer.msg(res.message,{icon:2, time:2000});
-						}
-					}
-				});
-			}
-		});
-	});
-    
     //展示数据
 	function refresh(){
 		table.bootstrapTable('refresh');
@@ -109,60 +48,7 @@ $(document).ready(function(){
 			}
 		});
 	});
-    
-    // 启用按钮
-	$("#enableBtn").click(function() {
-		var obj = table.bootstrapTable('getAllSelections');
-		if (obj.length == 0) {
-			layer.msg('请至少选择一个条记录！',{icon:0,time:2000});
-			return;
-		}
-		if (obj.length > 1) {
-			layer.msg('只能选择一个条记录！',{icon:0,time:2000});
-			return;
-		}
-		var param = "u_id=" + obj[0].u_id;
-		$.ajax({
-			type : 'post',
-			url : "enable?" + param,
-			dataType : "json",
-			success : function(res) {
-				if (res.code == 200) {
-					layer.msg(res.message,{icon:1,time:2000} );
-					$('#dataTable').bootstrapTable('refresh');
-				} else {
-					layer.msg(res.message,{icon:2,time:2000} );
-				}
-			}
-		});
-	});
-	
-	// 禁用按钮
-	$("#disableBtn").click(function() {
-		var obj = table.bootstrapTable('getAllSelections');
-		if (obj.length == 0) {
-			layer.msg('请至少选择一个条记录！',{icon:0,time:2000});
-			return;
-		}
-		if (obj.length > 1) {
-			layer.msg('只能选择一个条记录！',{icon:0,time:2000});
-			return;
-		}
-		var param = "u_id=" + obj[0].u_id;
-		$.ajax({
-			type : 'post',
-			url : "disable?" + param,
-			dataType : "json",
-			success : function(res) {
-				if (res.code == 200) {
-					layer.msg(res.message,{icon:1,time:2000} );
-					$('#dataTable').bootstrapTable('refresh');
-				} else {
-					layer.msg(res.message,{icon:2,time:2000} );
-				}
-			}
-		});
-	});
+
 
 })
 //请求数据
@@ -172,11 +58,14 @@ function getData(params){
 	var sex                 = current.find(".sex").val();
 	var phone               = current.find(".phone").val();
 	var type                = current.find(".type").val();
-    var startTime           = current.find(".startTime").val();
-    var endTime             = current.find(".endTime").val();
+	var status              = current.find(".status").val();
+    var intimeStart         = current.find(".intimeStart").val();
+    var intimeEnd           = current.find(".intimeEnd").val();
+    var outtimeStart        = current.find(".outtimeStart").val();
+    var outtimeEnd          = current.find(".outtimeEnd").val();
 
 	var sort                = params.sort;
-	if(sort == undefined) sort = "createtime";
+	if(sort == undefined) sort = "intime";
 	
 	$.ajax({
 		type:"get",
@@ -186,8 +75,11 @@ function getData(params){
 	    	"sex":sex,
 	    	"phone":phone,
 	    	"type":type,
-	    	"startTime":startTime,
-	    	"endTime":endTime,
+	    	"status":status,
+	    	"intimeStart":intimeStart,
+	    	"intimeEnd":intimeEnd,
+	    	"outtimeStart":outtimeStart,
+	    	"outtimeEnd":outtimeEnd,
 	    	"sort":sort,
 	    	"order":params.order,
 	    	"offset":params.offset,
@@ -226,8 +118,31 @@ function formatName(value, row, index) {
     return action;
 };
 
+function formatterStatus(value, row, index) {
+    if(value == 0){
+        var s = "<span style='color:#FF0000;'> 已入库</span>";
+    	// return "已入库";
+    	return s;
+    }else if(value == 1){
+        return '已出库';
+    }else{
+		return "-";
+	}
+};
+
 function formatterPrice(value, row, index) {
+    if(!row.outtime){
+    	return "-";
+    }
     return value + "元";
+};
+
+function formatOutTime(value, row, index) {
+	if(!row.outtime){
+		return "-";
+	} else {
+		return formatDateTime(value, row, index);
+    }
 };
 
 //用户类型

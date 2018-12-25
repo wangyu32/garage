@@ -53,10 +53,23 @@
 						<option value="2">管理员</option>
 					</select>
 				</span>
+				<span>
+					<b>状态</b>
+					<select class="status" name="status">
+						<option value="">所有</option>
+						<option value="0">已入库</option>
+						<option value="1">已出库</option>
+					</select>
+				</span>
                 <span>
-                    <b>创建时间</b>
-                    <input type="text" id="startTime" class="dateimg mr3 startTime  Wdate" name="startTime" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style='width:110px;'>至
-                    <input type="text" id="endTime" class="dateimg endTime  Wdate"  name="endTime"  value="${endTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style='width:110px;'>
+                    <b>入库时间</b>
+                    <input type="text" id="intimeStart" class="dateimg mr3 intimeStart  Wdate" name="intimeStart" value="${intimeStart}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style='width:110px;'>至
+                    <input type="text" id="intimeEnd" class="dateimg intimeEnd  Wdate"  name="intimeEnd"  value="${intimeEnd}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style='width:110px;'>
+                </span>
+                <span>
+                    <b>出库时间</b>
+                    <input type="text" id="outtimeStart" class="dateimg mr3 outtimeStart  Wdate" name="outtimeStart" value="${outtimeStart}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style='width:110px;'>至
+                    <input type="text" id="outtimeEnd" class="dateimg outtimeEnd  Wdate"  name="outtimeEnd"  value="${outtimeEnd}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" style='width:110px;'>
                 </span>
 				<span class="btn-search">
         			<button class="search-btn" type="button">搜索</button>
@@ -70,7 +83,7 @@
 			  data-ajax="ajaxRequest"  
 			  data-side-pagination="server" 
 			  data-pagination="true" 
-			  data-sort-name="createtime"
+			  data-sort-name="intime"
 			  data-sort-order="desc"
 			  class="table-bordered table-condensed table-striped">
 		<thead>
@@ -79,15 +92,16 @@
 				<%--
 				<th data-field="u_id" data-width="40" data-sortable="true" data-halign="center" data-align="center">用户ID</th>
 				 --%>
-				<th data-field="name" data-sortable="true" data-width="150" data-align="center" data-formatter='formatName'>姓名</th>
+				<th data-field="name" data-sortable="true" data-width="100" data-align="center">姓名</th>
 				<th data-field="sex" data-sortable="true"  data-width="50" data-align="center" data-formatter='formatterSex'>性别</th>
 				<th data-field="phone" data-sortable="true" data-width="200"  data-align="center">手机号</th>
-				<th data-field="type" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterType'>用户类型</th>
+				<th data-field="type" data-sortable="true" data-width="100"  data-align="center" data-formatter='formatterType'>用户类型</th>
+				<th data-field="status" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterStatus'>状态</th>
 				<th data-field="intime" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatDateTime'>入库时间</th>
-				<th data-field="outtime" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatDateTime'>出库时间</th>
-				<th data-field="totaltime" data-sortable="true" data-width="80"  data-align="center" >停车时长</th>
-				<th data-field="amount" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterPrice'>金额</th>
-				<th data-field="price" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterPrice'>单价</th>
+				<th data-field="outtime" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatOutTime'>出库时间</th>
+				<th data-field="totaltime" data-sortable="true" data-width="80"  data-align="right" >停车时长</th>
+				<th data-field="amount" data-sortable="true" data-width="80"  data-align="right" data-formatter='formatterPrice'>金额</th>
+				<th data-field="price" data-sortable="true" data-width="80"  data-align="right" data-formatter='formatterPrice'>单价</th>
 			</tr>
 		</thead>
 	</table>

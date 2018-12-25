@@ -51,8 +51,8 @@ public class StopRecordingController extends BaseController {
         //开始日期-3个月前
         String lg_createtime_begin = DateUtil.addDateStr(lg_createtime_end, -1, "m");
 
-        request.setAttribute("startTime", lg_createtime_begin);
-        request.setAttribute("endTime", lg_createtime_end);
+        request.setAttribute("intimeStart", lg_createtime_begin);
+        request.setAttribute("intimeEnd", lg_createtime_end);
         return "garage/stoprecording/list";
     }
 
