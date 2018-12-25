@@ -26,7 +26,9 @@ public class QrCodeController extends BaseController {
 
     @RequestMapping(value = "/comein", method = RequestMethod.GET)
     public Result getComeinQrCode() {
-        String url = "http://192.168.168.105:" + port + contextPath + "/garage/comein";
+//        String url = "http://192.168.168.105:" + port + contextPath + "/garage/comein";
+        String requstUrl = request.getRequestURL().toString();
+        String url = requstUrl.replace("qccode","garage");
         try {
             QRCodeUtil.generateQRCode(url, 300, 300, "jpg", response);
         } catch (Exception e) {
@@ -37,7 +39,9 @@ public class QrCodeController extends BaseController {
 
     @RequestMapping(value = "/comeout", method = RequestMethod.GET)
     public Result getComeoutQrCode() {
-        String url = "http://192.168.168.105:" + port + contextPath + "/garage/comeout";
+//        String url = "http://192.168.168.105:" + port + contextPath + "/garage/comeout";
+        String requstUrl = request.getRequestURL().toString();
+        String url = requstUrl.replace("qccode","garage");
         try {
             QRCodeUtil.generateQRCode(url, 300, 300, "jpg", response);
         } catch (Exception e) {

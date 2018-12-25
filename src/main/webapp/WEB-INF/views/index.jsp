@@ -8,19 +8,29 @@
 	<link rel="stylesheet" href="<c:url value='/css/comm/global.css' />"/>
 	<jsp:include flush="true" page="comm/iframeInc.jsp">
 		<jsp:param value="yes" name="layer"/>
-		<jsp:param value="yes" name="echarts"/>
 	</jsp:include>
-	<script src='<c:url value="/js/index/index.js" />'></script>
 </head>
 
 <body style="padding:0 5px 0 5px;">
-	<span class="none" id="coin">${CURRENT_USER.u_coinunit }</span>
-	<div class="leftdata">
-		<div class="caption"></div>
-		<div class="chart">
 
-		</div>
-	</div>
+            <div class="leftdata">
+                <div class="caption"></div>
+                <div class="chart">
+                    <div>
+                        <div class="line">入库二维码</div>
+                        <div>
+                            <img src="qccode/comein">
+                        </div>
+                    </div>
+                    <div>
+                        <div class="line">出库二维码</div>
+                        <div>
+                            <img src="qccode/comeout">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 	
 	
 </body>
