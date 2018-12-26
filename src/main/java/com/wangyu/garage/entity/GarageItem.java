@@ -1,6 +1,8 @@
 package com.wangyu.garage.entity;
 
-public class GarageItem {
+import com.wangyu.common.Model;
+
+public class GarageItem extends Model {
     /**
      * 主键ID
      */

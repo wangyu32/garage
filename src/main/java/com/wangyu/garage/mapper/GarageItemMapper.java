@@ -4,6 +4,8 @@ import com.wangyu.garage.entity.GarageItem;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface GarageItemMapper {
     /**
@@ -50,4 +52,11 @@ public interface GarageItemMapper {
     @Select("select * from garage_item where garageid = #{garageid} and status = ${@com.wangyu.garage.enums.GarageItemStatusEnum@NO_CAR.value()} limit 1")
     GarageItem getRandomAvailableGarageItem(Long garageid);
 
+    /**
+     * 根据车库ID查询车位
+     * @param garageid
+     * @return
+     */
+    @Select("select * from garage_item where garageid = #{garageid}")
+    List<GarageItem> queryAllGarageItem(Long garageid);
 }

@@ -3,12 +3,15 @@ package com.wangyu.garage.service.impl;
 import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.GarageItem;
 import com.wangyu.garage.entity.StopRecording;
+import com.wangyu.garage.mapper.GarageItemMapper;
 import com.wangyu.garage.service.IGarageService;
 import com.wangyu.garage.mapper.GarageMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Description
@@ -23,6 +26,9 @@ public class GarageServiceImpl implements IGarageService {
 
     @Autowired
     private GarageMapper garageMapper;
+
+    @Autowired
+    private GarageItemMapper garageItemMapper;
 
     @Override
     public Garage getById(Long id) {
@@ -41,6 +47,11 @@ public class GarageServiceImpl implements IGarageService {
 
     @Override
     public GarageItem getRandomAvailableGarageItem(Long garageid) {
-        return null;
+        return garageItemMapper.getRandomAvailableGarageItem(garageid);
+    }
+
+    @Override
+    public List<GarageItem> queryAllGarageItem(Long garageid) {
+        return garageItemMapper.queryAllGarageItem(garageid);
     }
 }

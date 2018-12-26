@@ -4,6 +4,8 @@ import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.GarageItem;
 import com.wangyu.garage.entity.StopRecording;
 
+import java.util.List;
+
 /**
  * @Description
  * @Author wangyu
@@ -38,4 +40,10 @@ public interface IGarageService {
      */
     GarageItem getRandomAvailableGarageItem(Long garageid);
 
+    /**
+     * 根据车库ID查询车位
+     * @param garageid
+     * @return
+     */
+    List<GarageItem> queryAllGarageItem(Long garageid);
 }

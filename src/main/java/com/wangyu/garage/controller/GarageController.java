@@ -7,6 +7,7 @@ import com.wangyu.garage.dto.ComeinoutDto;
 import com.wangyu.garage.dto.UserComeInDTO;
 import com.wangyu.garage.dto.UserComeOutDTO;
 import com.wangyu.garage.entity.Garage;
+import com.wangyu.garage.entity.GarageItem;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.enums.CarStatusEnum;
@@ -182,7 +183,7 @@ public class GarageController extends BaseController {
             return success(pageInfo);
         } catch (Exception e){
             log.error(e.getMessage(), e);
-            return failed("出库失败");
+            return failed("查询停车记录失败");
         }
     }
 
@@ -200,10 +201,21 @@ public class GarageController extends BaseController {
             return success(pageInfo);
         } catch (Exception e){
             log.error(e.getMessage(), e);
-            return failed("出库失败");
+            return failed("查询停车记录失败");
         }
     }
 
-//    public String
+    @ResponseBody
+    @RequestMapping(value = "/queryAllGarageItem", method = RequestMethod.GET)
+    public Result queryAllGarageItem(Long garageid){
+        try {
+            log.info("查询车位信息：" + toJson(garageid));
+            List<GarageItem> list = garageService.queryAllGarageItem(garageid);
+            return success(list);
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return failed("查询车位信息失败");
+        }
+    }
 
 }
