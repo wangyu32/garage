@@ -35,7 +35,8 @@ public class HttpUtilTest {
         userComeOutDTO.setGarageId(1L);
         userComeOutDTO.setUserId(1L);
 
-        String url = "http://localhost:8081/garage/garage/comeout";
+        String url = "http://localhost:8081/garage/garage/comein";
+//        String url = "http://localhost:8081/garage/garage/comeout";
         String json = HttpUtils.postJson(url, JSON.toJSONString(userComeOutDTO));
         Result result = JSON.parseObject(json, Result.class);
 

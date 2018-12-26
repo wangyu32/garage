@@ -65,6 +65,11 @@ public class StopRecording extends Model {
     private Integer status;
 
     /**
+     * 车位ID
+     */
+    private Long itemId;
+
+    /**
      * 主键ID
      * @return id 主键ID
      */
@@ -238,5 +243,21 @@ public class StopRecording extends Model {
      */
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    /**
+     * 车位ID
+     * @return item_id 车位ID
+     */
+    public Long getItemId() {
+        return itemId;
+    }
+
+    /**
+     * 车位ID
+     * @param itemId 车位ID
+     */
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 }

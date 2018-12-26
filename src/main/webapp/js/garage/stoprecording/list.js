@@ -137,6 +137,13 @@ function formatterPrice(value, row, index) {
     return value + "元";
 };
 
+function formatLevel(value, row, index) {
+    if(!row.level){
+        return "-";
+    }
+    return value + "层";
+};
+
 function formatOutTime(value, row, index) {
 	if(!row.outtime){
 		return "-";

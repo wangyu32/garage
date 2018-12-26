@@ -112,7 +112,6 @@ public class GarageController extends BaseController {
             ComeinoutDto comeinoutDto = new ComeinoutDto(garageId, userId);
 
             ComeinoutVO comeinoutVO = stopRecordingService.carComein(comeinoutDto);
-//            stopRecordingService.save(stopRecording);
             return success(comeinoutVO);
         } catch (Exception e){
             log.error(e.getMessage(), e);

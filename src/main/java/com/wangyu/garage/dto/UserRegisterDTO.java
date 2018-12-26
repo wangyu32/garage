@@ -146,7 +146,7 @@ public class UserRegisterDTO {
         if (SexEnum.getByCode(sex) == null)
             return ValidateResult.INVALID.setMessage("性别错误");
 
-        if (UserEnum.getByCode(type) == null)
+        if (UserEnum.getByValue(type) == null)
             return ValidateResult.INVALID.setMessage("用户类型错误");
 
         if (phone.length() != 11) {

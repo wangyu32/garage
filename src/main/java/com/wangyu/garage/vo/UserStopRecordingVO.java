@@ -79,4 +79,15 @@ public class UserStopRecordingVO {
      */
     private Integer status;
 
+    /**
+     * 车位编码
+     */
+    private String code;
+
+    /**
+     * 车位层级
+     */
+    private Integer level;
+
+
 }

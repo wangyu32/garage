@@ -4,10 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.dto.ComeinoutDto;
 import com.wangyu.garage.entity.Garage;
+import com.wangyu.garage.entity.GarageItem;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.entity.User;
 import com.wangyu.garage.enums.CarStatusEnum;
+import com.wangyu.garage.enums.GarageItemStatusEnum;
 import com.wangyu.garage.enums.UserEnum;
+import com.wangyu.garage.mapper.GarageItemMapper;
 import com.wangyu.garage.mapper.GarageMapper;
 import com.wangyu.garage.mapper.StopRecordingMapper;
 import com.wangyu.garage.mapper.UserMapper;
@@ -43,6 +46,9 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
     @Autowired
     private GarageMapper garageMapper;
 
+    @Autowired
+    private GarageItemMapper garageItemMapper;
+
     @Override
     public int save(StopRecording stopRecording) {
         return stopRecordingMapper.insert(stopRecording);
@@ -63,7 +69,21 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         Long userId = comeinoutDto.getUserid();
 
         User user = userMapper.selectByPrimaryKey(userId);
+
+
         Garage garage = garageMapper.selectByPrimaryKey(garageId);
+        garage.setInuse(garage.getInuse() + 1);//可用车位减1
+        garage.setUnuse(garage.getUnuse() - 1);//已用车位加1
+        //更新车库信息
+        garageMapper.updateByPrimaryKey(garage);
+
+
+        //获取一个随机可用的车位
+        GarageItem garageItem = garageItemMapper.getRandomAvailableGarageItem(garageId);
+        garageItem.setStatus(GarageItemStatusEnum.HAS_CAR.getValue());
+        //更新车位信息
+        garageItemMapper.updateByPrimaryKey(garageItem);
+
 
         StopRecording stopRecording = new StopRecording();
         stopRecording.setGarageid(garageId);
@@ -71,19 +91,15 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         stopRecording.setPhone(user.getPhone());
         stopRecording.setStatus(CarStatusEnum.COME_IN.getValue());//入库
         stopRecording.setIntime(new Date());//停车时间，当前时间
+        stopRecording.setItemId(garageItem.getId());//车位信息
 
         //保存停车记录
         stopRecordingMapper.insert(stopRecording);
 
-        garage.setInuse(garage.getInuse() + 1);//可用车位减1
-        garage.setUnuse(garage.getUnuse() - 1);//已用车位加1
-
-        //更新车库信息
-        garageMapper.updateByPrimaryKey(garage);
-
         ComeinoutVO comeinoutVO = new ComeinoutVO();
         comeinoutVO.setStopRecording(stopRecording);
         comeinoutVO.setGarage(garage);
+        comeinoutVO.setGarageItem(garageItem);
         return comeinoutVO;
     }
 
@@ -105,7 +121,7 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         //TODO 不同类型用户可采取不同策略模式去计算钱数 未来可实现
         BigDecimal price = garage.getPrice();
 
-        if(UserEnum.getByCode(user.getType()) == UserEnum.MEMBERSHIP){
+        if(UserEnum.getByValue(user.getType()) == UserEnum.MEMBERSHIP){
             price = user.getPrice();//会员用户使用自定义价格
         }
 
@@ -124,6 +140,11 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         garage.setUnuse(garage.getUnuse() + 1);//已用车位减1
         //更新车库信息
         garageMapper.updateByPrimaryKey(garage);
+
+        GarageItem garageItem = garageItemMapper.selectByPrimaryKey(stopRecording.getItemId());
+        garageItem.setStatus(GarageItemStatusEnum.NO_CAR.getValue());
+        //更新车位信息
+        garageItemMapper.updateByPrimaryKey(garageItem);
 
         ComeinoutVO comeinoutVO = new ComeinoutVO();
         comeinoutVO.setStopRecording(stopRecording);

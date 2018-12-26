@@ -93,15 +93,17 @@
 				<th data-field="u_id" data-width="40" data-sortable="true" data-halign="center" data-align="center">用户ID</th>
 				 --%>
 				<th data-field="name" data-sortable="true" data-width="100" data-align="center">姓名</th>
-				<th data-field="sex" data-sortable="true"  data-width="50" data-align="center" data-formatter='formatterSex'>性别</th>
-				<th data-field="phone" data-sortable="true" data-width="200"  data-align="center">手机号</th>
+				<th data-field="sex" data-sortable="true"  data-width="30" data-align="center" data-formatter='formatterSex'>性别</th>
+				<th data-field="phone" data-sortable="true" data-width="120"  data-align="center">手机号</th>
 				<th data-field="type" data-sortable="true" data-width="100"  data-align="center" data-formatter='formatterType'>用户类型</th>
 				<th data-field="status" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatterStatus'>状态</th>
-				<th data-field="intime" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatDateTime'>入库时间</th>
-				<th data-field="outtime" data-sortable="true" data-width="80"  data-align="center" data-formatter='formatOutTime'>出库时间</th>
+				<th data-field="code" data-sortable="true" data-width="30"  data-align="center" >车位</th>
+				<th data-field="level" data-sortable="true" data-width="30"  data-align="center" data-formatter='formatLevel'>层级</th>
+				<th data-field="intime" data-sortable="true" data-width="100"  data-align="center" data-formatter='formatDateTime'>入库时间</th>
+				<th data-field="outtime" data-sortable="true" data-width="100"  data-align="center" data-formatter='formatOutTime'>出库时间</th>
 				<th data-field="totaltime" data-sortable="true" data-width="80"  data-align="right" >停车时长</th>
 				<th data-field="amount" data-sortable="true" data-width="80"  data-align="right" data-formatter='formatterPrice'>金额</th>
-				<th data-field="price" data-sortable="true" data-width="80"  data-align="right" data-formatter='formatterPrice'>单价</th>
+				<th data-field="price" data-sortable="true" data-width="30"  data-align="right" data-formatter='formatterPrice'>单价</th>
 			</tr>
 		</thead>
 	</table>

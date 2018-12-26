@@ -1,6 +1,7 @@
 package com.wangyu.garage.service;
 
 import com.wangyu.garage.entity.Garage;
+import com.wangyu.garage.entity.GarageItem;
 import com.wangyu.garage.entity.StopRecording;
 
 /**
@@ -29,5 +30,12 @@ public interface IGarageService {
      * @param stopRecording
      */
     void stop(StopRecording stopRecording);
+
+    /**
+     * 获取一个随机可用的车位
+     * @param garageid
+     * @return
+     */
+    GarageItem getRandomAvailableGarageItem(Long garageid);
 
 }

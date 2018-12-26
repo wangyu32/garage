@@ -1,6 +1,7 @@
 package com.wangyu.garage.service.impl;
 
 import com.wangyu.garage.entity.Garage;
+import com.wangyu.garage.entity.GarageItem;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.service.IGarageService;
 import com.wangyu.garage.mapper.GarageMapper;
@@ -23,9 +24,6 @@ public class GarageServiceImpl implements IGarageService {
     @Autowired
     private GarageMapper garageMapper;
 
-    @Value("")
-    private String value;
-
     @Override
     public Garage getById(Long id) {
         return garageMapper.selectByPrimaryKey(id);
@@ -39,5 +37,10 @@ public class GarageServiceImpl implements IGarageService {
     @Override
     public void stop(StopRecording stopRecording) {
 
+    }
+
+    @Override
+    public GarageItem getRandomAvailableGarageItem(Long garageid) {
+        return null;
     }
 }

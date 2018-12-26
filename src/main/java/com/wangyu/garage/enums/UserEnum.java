@@ -22,7 +22,7 @@ public enum UserEnum {
         this.value = value;
     }
 
-    public static UserEnum getByCode(Integer value) {
+    public static UserEnum getByValue(Integer value) {
         for (UserEnum e : UserEnum.values()) {
             if (e.value == value) {
                 return e;
@@ -31,8 +31,8 @@ public enum UserEnum {
         return null;
     }
 
-    public static boolean idValid(Integer code) {
-        return getByCode(code) != null;
+    public static boolean idValid(Integer value) {
+        return getByValue(value) != null;
     }
 
     public String getName() {

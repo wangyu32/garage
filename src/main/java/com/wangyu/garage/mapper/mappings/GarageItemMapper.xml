@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangyu.garage.mapper.GarageItemMapper">
+  <resultMap id="BaseResultMap" type="com.wangyu.garage.entity.GarageItem">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="garageid" jdbcType="BIGINT" property="garageid" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="level" jdbcType="SMALLINT" property="level" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, garageid, code, level, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from garage_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from garage_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wangyu.garage.entity.GarageItem">
+    insert into garage_item (id, garageid, code, 
+      level, status)
+    values (#{id,jdbcType=BIGINT}, #{garageid,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, 
+      #{level,jdbcType=SMALLINT}, #{status,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wangyu.garage.entity.GarageItem">
+    insert into garage_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="garageid != null">
+        garageid,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="garageid != null">
+        #{garageid,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wangyu.garage.entity.GarageItem">
+    update garage_item
+    <set>
+      <if test="garageid != null">
+        garageid = #{garageid,jdbcType=BIGINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wangyu.garage.entity.GarageItem">
+    update garage_item
+    set garageid = #{garageid,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      level = #{level,jdbcType=SMALLINT},
+      status = #{status,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -18,6 +18,15 @@ public class UserStopRecordingQueryParameter extends StopRecordingQueryParameter
 
 //    private String phone;
 
-    private Integer type
-            ;
+    private Integer type;
+
+    /**
+     * 车位编码
+     */
+    private String code;
+
+    /**
+     * 车位层级
+     */
+    private Integer level;
 }
