@@ -45,12 +45,20 @@ public interface GarageItemMapper {
     int updateByPrimaryKey(GarageItem record);
 
     /**
-     * 获取一个随机可用的车位
+     * 获取第一个可用的车位
      * @param garageid
      * @return
      */
     @Select("select * from garage_item where garageid = #{garageid} and status = ${@com.wangyu.garage.enums.GarageItemStatusEnum@NO_CAR.value()} limit 1")
-    GarageItem getRandomAvailableGarageItem(Long garageid);
+    GarageItem getFirstAvailableGarageItem(Long garageid);
+
+    /**
+     * 查询所有空闲车位
+     * @param garageid
+     * @return
+     */
+    @Select("select * from garage_item where garageid = #{garageid} and status = ${@com.wangyu.garage.enums.GarageItemStatusEnum@NO_CAR.value()} ")
+    List<GarageItem> queryAllAvailableGarageItem(Long garageid);
 
     /**
      * 根据车库ID查询车位

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComeinoutDto {
+public class ComeinoutDTO {
 
     /**
      * 车库ID
@@ -32,7 +32,7 @@ public class ComeinoutDto {
      */
     private Long stopRecordingId;
 
-    public ComeinoutDto(Long garageid, Long userid) {
+    public ComeinoutDTO(Long garageid, Long userid) {
         this.garageid = garageid;
         this.userid = userid;
     }

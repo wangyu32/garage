@@ -38,19 +38,6 @@ public interface IGarageService {
     Garage getById(Long id);
 
     /**
-     * 停车
-     * @param stopRecording
-     */
-    void stop(StopRecording stopRecording);
-
-    /**
-     * 获取一个随机可用的车位
-     * @param garageid
-     * @return
-     */
-    GarageItem getRandomAvailableGarageItem(Long garageid);
-
-    /**
      * 根据车库ID查询车位
      * @param garageid
      * @return

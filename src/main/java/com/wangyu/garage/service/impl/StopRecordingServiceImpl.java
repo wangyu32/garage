@@ -2,18 +2,12 @@ package com.wangyu.garage.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.wangyu.garage.dto.ComeinoutDto;
-import com.wangyu.garage.entity.Garage;
-import com.wangyu.garage.entity.GarageItem;
-import com.wangyu.garage.entity.StopRecording;
-import com.wangyu.garage.entity.User;
+import com.wangyu.garage.dto.ComeinoutDTO;
+import com.wangyu.garage.entity.*;
 import com.wangyu.garage.enums.CarStatusEnum;
 import com.wangyu.garage.enums.GarageItemStatusEnum;
 import com.wangyu.garage.enums.UserEnum;
-import com.wangyu.garage.mapper.GarageItemMapper;
-import com.wangyu.garage.mapper.GarageMapper;
-import com.wangyu.garage.mapper.StopRecordingMapper;
-import com.wangyu.garage.mapper.UserMapper;
+import com.wangyu.garage.mapper.*;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.parameter.UserStopRecordingQueryParameter;
 import com.wangyu.garage.service.IStopRecordingService;
@@ -27,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @Description
@@ -49,6 +44,9 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
     @Autowired
     private GarageItemMapper garageItemMapper;
 
+    @Autowired
+    private PriceUnitMapper priceUnitMapper;
+
     @Override
     public int save(StopRecording stopRecording) {
         return stopRecordingMapper.insert(stopRecording);
@@ -64,7 +62,7 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
      */
     @Transactional
     @Override
-    public ComeinoutVO carComein(ComeinoutDto comeinoutDto){
+    public ComeinoutVO carComein(ComeinoutDTO comeinoutDto){
         Long garageId = comeinoutDto.getGarageid();
         Long userId = comeinoutDto.getUserid();
 
@@ -72,14 +70,14 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
 
 
         Garage garage = garageMapper.selectByPrimaryKey(garageId);
-        garage.setInuse(garage.getInuse() + 1);//可用车位减1
         garage.setUnuse(garage.getUnuse() - 1);//已用车位加1
+        garage.setInuse(garage.getTotal() - garage.getUnuse());//可用车位
         //更新车库信息
         garageMapper.updateByPrimaryKey(garage);
 
 
         //获取一个随机可用的车位
-        GarageItem garageItem = garageItemMapper.getRandomAvailableGarageItem(garageId);
+        GarageItem garageItem = this.getRandomAvailableGarageItem(garageId);
         garageItem.setStatus(GarageItemStatusEnum.HAS_CAR.getValue());
         //更新车位信息
         garageItemMapper.updateByPrimaryKey(garageItem);
@@ -92,20 +90,25 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         stopRecording.setStatus(CarStatusEnum.COME_IN.getValue());//入库
         stopRecording.setIntime(new Date());//停车时间，当前时间
         stopRecording.setItemId(garageItem.getId());//车位信息
+        stopRecording.setPriceUnitId(garage.getPriceUnitId());//计费方式
 
         //保存停车记录
         stopRecordingMapper.insert(stopRecording);
+
+        Integer priceUnitId = garage.getPriceUnitId();
+        PriceUnit priceUnit = priceUnitMapper.selectByPrimaryKey(priceUnitId);
 
         ComeinoutVO comeinoutVO = new ComeinoutVO();
         comeinoutVO.setStopRecording(stopRecording);
         comeinoutVO.setGarage(garage);
         comeinoutVO.setGarageItem(garageItem);
+        comeinoutVO.setPriceUnit(priceUnit);
         return comeinoutVO;
     }
 
     @Transactional
     @Override
-    public ComeinoutVO carComeout(ComeinoutDto comeinoutDto) {
+    public ComeinoutVO carComeout(ComeinoutDTO comeinoutDto) {
         Long garageId = comeinoutDto.getGarageid();
         Long userId = comeinoutDto.getUserid();
 
@@ -116,7 +119,7 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         long inTime = stopRecording.getIntime().getTime();
         Date outDate = new Date();//出库时间
         long outTime = outDate.getTime();
-        long totalTime = (outTime - inTime) / 1000 * 1000;//停车时间去掉毫秒部分,按秒计算
+        long totalTime = (outTime - inTime) / 1000;//停车时间按秒算
 
         //TODO 不同类型用户可采取不同策略模式去计算钱数 未来可实现
         BigDecimal price = garage.getPrice();
@@ -125,19 +128,21 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
             price = user.getPrice();//会员用户使用自定义价格
         }
 
-        BigDecimal unit = new BigDecimal(1000);
-        BigDecimal amount = new BigDecimal(totalTime).multiply(price).divide(unit);//按秒算钱
+        Integer priceUnitId = stopRecording.getPriceUnitId();
+        PriceUnit priceUnit = priceUnitMapper.selectByPrimaryKey(priceUnitId);
+
+        //计算停车时间和停车费
+        setTotaltimeAndAmountAfterCalculate(stopRecording, totalTime, priceUnit, price);
+
         stopRecording.setPrice(price);
-        stopRecording.setAmount(amount);
         stopRecording.setOuttime(outDate);
-        stopRecording.setTotaltime(totalTime / 1000);
         stopRecording.setStatus(CarStatusEnum.COME_OUT.getValue());
 
         //保存停车记录
         stopRecordingMapper.updateByPrimaryKey(stopRecording);
 
         garage.setInuse(garage.getInuse() - 1);//可用车位加1
-        garage.setUnuse(garage.getUnuse() + 1);//已用车位减1
+        garage.setInuse(garage.getTotal() - garage.getUnuse());//可用车位
         //更新车库信息
         garageMapper.updateByPrimaryKey(garage);
 
@@ -149,7 +154,31 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         ComeinoutVO comeinoutVO = new ComeinoutVO();
         comeinoutVO.setStopRecording(stopRecording);
         comeinoutVO.setGarage(garage);
+        comeinoutVO.setGarageItem(garageItem);
+        comeinoutVO.setPriceUnit(priceUnit);
         return comeinoutVO;
+    }
+
+    /**
+     * 计算停车时间和停车费
+     * @param stopRecording
+     * @param totalTime
+     * @param priceUnit
+     * @param price
+     */
+    private void setTotaltimeAndAmountAfterCalculate(StopRecording stopRecording, long totalTime, PriceUnit priceUnit, BigDecimal price) {
+        long unit = priceUnit.getUnit(); //计费单位
+        BigDecimal amount = null;
+        long totalTimeAfterConvert = (long)Math.ceil(totalTime * 1.0 / unit);
+//        long remainder = totalTime % unit;
+//        long totalTimeAfterConvert = totalTime / unit;
+//        if(remainder != 0){
+//            totalTimeAfterConvert++;
+//        }
+        amount = price.multiply(new BigDecimal(totalTimeAfterConvert));
+
+        stopRecording.setAmount(amount);
+        stopRecording.setTotaltime(totalTimeAfterConvert);
     }
 
     @Override
@@ -178,5 +207,14 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         List<UserStopRecordingVO> list = this.stopRecordingMapper.queryUserStopRecording(parameter);
         PageInfo<UserStopRecordingVO> pageInfo = new PageInfo<>(list);
         return pageInfo;
+    }
+
+    @Override
+    public GarageItem getRandomAvailableGarageItem(Long garageid) {
+        List<GarageItem> garageItemList = garageItemMapper.queryAllAvailableGarageItem(garageid);
+        Random random = new Random();
+        int randomNum = random.nextInt(garageItemList.size());
+        return garageItemList.get(randomNum);
+//        return garageItemMapper.getRandomAvailableGarageItem(garageid);
     }
 }

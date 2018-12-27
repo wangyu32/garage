@@ -1,12 +1,12 @@
 package com.wangyu.garage.service;
 
 import com.github.pagehelper.PageInfo;
-import com.wangyu.garage.dto.ComeinoutDto;
+import com.wangyu.garage.dto.ComeinoutDTO;
+import com.wangyu.garage.entity.GarageItem;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.parameter.UserStopRecordingQueryParameter;
 import com.wangyu.garage.vo.ComeinoutVO;
-import com.wangyu.garage.vo.ComeoutVO;
 import com.wangyu.garage.vo.UserStopRecordingVO;
 
 import java.util.List;
@@ -35,14 +35,14 @@ public interface IStopRecordingService {
     /**
      * 入库停车
      */
-    ComeinoutVO carComein(ComeinoutDto comeinoutDto);
+    ComeinoutVO carComein(ComeinoutDTO comeinoutDto);
 
     /**
      * 提车出库
      * @param comeinoutDto
      * @return
      */
-    ComeinoutVO carComeout(ComeinoutDto comeinoutDto);
+    ComeinoutVO carComeout(ComeinoutDTO comeinoutDto);
 
     /**
      * 查询停车记录
@@ -70,4 +70,12 @@ public interface IStopRecordingService {
      * @return
      */
     PageInfo<UserStopRecordingVO> queryUserStopRecording(UserStopRecordingQueryParameter stopRecordingQueryParameter);
+
+    /**
+     * 获取一个随机可用的车位
+     * @param garageid
+     * @return
+     */
+    GarageItem getRandomAvailableGarageItem(Long garageid);
+
 }

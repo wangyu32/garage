@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @Description
@@ -47,16 +48,6 @@ public class GarageServiceImpl implements IGarageService {
     @Override
     public int update(Garage model) {
         return garageMapper.updateByPrimaryKey(model);
-    }
-
-    @Override
-    public void stop(StopRecording stopRecording) {
-
-    }
-
-    @Override
-    public GarageItem getRandomAvailableGarageItem(Long garageid) {
-        return garageItemMapper.getRandomAvailableGarageItem(garageid);
     }
 
     @Override

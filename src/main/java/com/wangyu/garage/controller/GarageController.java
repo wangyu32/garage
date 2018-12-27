@@ -3,7 +3,7 @@ package com.wangyu.garage.controller;
 import com.github.pagehelper.PageInfo;
 import com.wangyu.common.Result;
 import com.wangyu.common.validate.ValidateResult;
-import com.wangyu.garage.dto.ComeinoutDto;
+import com.wangyu.garage.dto.ComeinoutDTO;
 import com.wangyu.garage.dto.UserComeInDTO;
 import com.wangyu.garage.dto.UserComeOutDTO;
 import com.wangyu.garage.entity.*;
@@ -195,7 +195,7 @@ public class GarageController extends BaseController {
                 return success("已经成功扫描入库", stopRecordingList.get(0));
             }
 
-            ComeinoutDto comeinoutDto = new ComeinoutDto(garageId, userId);
+            ComeinoutDTO comeinoutDto = new ComeinoutDTO(garageId, userId);
 
             ComeinoutVO comeinoutVO = stopRecordingService.carComein(comeinoutDto);
             return success(comeinoutVO);
@@ -244,9 +244,8 @@ public class GarageController extends BaseController {
             }
 
             StopRecording stopRecording = stopRecordingList.get(0);
-            ComeinoutDto comeinoutDto = new ComeinoutDto(garageId, userId, stopRecording.getId());
+            ComeinoutDTO comeinoutDto = new ComeinoutDTO(garageId, userId, stopRecording.getId());
             ComeinoutVO comeoutVO = stopRecordingService.carComeout(comeinoutDto);
-//            int num  = stopRecordingService.update(stopRecording);
             return success(comeoutVO);
         } catch (Exception e){
             log.error(e.getMessage(), e);
