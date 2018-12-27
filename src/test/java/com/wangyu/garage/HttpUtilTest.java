@@ -8,6 +8,7 @@ import com.wangyu.garage.dto.UserComeOutDTO;
 import com.wangyu.garage.entity.StopRecording;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.result.ComeinoutResult;
+import com.wangyu.garage.result.GarageItemsResult;
 import com.wangyu.garage.util.HttpUtils;
 
 import java.util.ArrayList;
@@ -26,8 +27,15 @@ public class HttpUtilTest {
 //        test1();
 //        stopRecoding();
 
-        testComeout();
+//        testComeout();
+        queryAllGarageItems();
+    }
 
+    private static void queryAllGarageItems() {
+        String url = "http://localhost:8081/garage/garage/queryAllGarageItem?garageid=1";
+        String json = HttpUtils.get(url);
+        GarageItemsResult result = JSON.parseObject(json, GarageItemsResult.class);
+        System.out.println(result);
     }
 
     private static void testComeout() throws Exception {

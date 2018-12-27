@@ -1,8 +1,11 @@
 package com.wangyu.garage.service;
 
+import com.github.pagehelper.PageInfo;
 import com.wangyu.garage.entity.Garage;
 import com.wangyu.garage.entity.GarageItem;
 import com.wangyu.garage.entity.StopRecording;
+import com.wangyu.garage.parameter.GaragePageQueryParameter;
+import com.wangyu.garage.vo.GarageVO;
 
 import java.util.List;
 
@@ -14,11 +17,18 @@ import java.util.List;
 public interface IGarageService {
 
     /**
-     * 保存车库
+     * 添加车库
      * @param model
      * @return
      */
     int save(Garage model);
+
+    /**
+     * 修改车库
+     * @param model
+     * @return
+     */
+    int update(Garage model);
 
     /**
      * 根据ID查询
@@ -46,4 +56,11 @@ public interface IGarageService {
      * @return
      */
     List<GarageItem> queryAllGarageItem(Long garageid);
+
+    /**
+     * 分页查询车库
+     * @param parameter
+     * @return
+     */
+    PageInfo<GarageVO> pageQueryByParameter(GaragePageQueryParameter parameter);
 }

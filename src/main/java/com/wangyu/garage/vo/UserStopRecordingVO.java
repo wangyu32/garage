@@ -89,5 +89,13 @@ public class UserStopRecordingVO {
      */
     private Integer level;
 
+    /**
+     * 计费单位，多少秒为一个计费单位
+     */
+    private Long unit;
 
+    /**
+     * 计费单位名称
+     */
+    private String uname;
 }

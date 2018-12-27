@@ -38,5 +38,10 @@ public class SessionAttributeConstants {
      */
 	public static final String USER_ = "user_";
 
+	/**
+	 * 车库
+	 */
+	public static final String GARAGE_ = "garage_";
+
 
 }

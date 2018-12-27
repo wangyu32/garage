@@ -14,10 +14,11 @@
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="item_id" jdbcType="BIGINT" property="itemId" />
+    <result column="price_unit_id" jdbcType="INTEGER" property="priceUnitId" />
   </resultMap>
-
   <sql id="Base_Column_List">
-    id, garageid, userid, car_number, phone, intime, outtime, totaltime, price, amount, status, item_id
+    id, garageid, userid, car_number, phone, intime, outtime, totaltime, price, amount, 
+    status, item_id, price_unit_id
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -73,10 +74,12 @@
     <select id="queryUserStopRecording" parameterType="com.wangyu.garage.parameter.UserStopRecordingQueryParameter" resultType="com.wangyu.garage.vo.UserStopRecordingVO">
         select s.userid, u.name, u.sex, u.phone, u.type,
                 s.garageid, s.car_number, s.intime, s.outtime, s.totaltime, s.price, s.amount, s.status,
-                gi.code, gi.level
+                gi.code, gi.level,
+                pu.unit, pu.uname
         from stop_recording s
         left join user u on s.userid = u.id
         left join garage_item gi on s.item_id = gi.id
+        left join price_unit pu on s.price_unit_id = pu.id
 
       <where>
 
@@ -132,13 +135,14 @@
   <insert id="insert" parameterType="com.wangyu.garage.entity.StopRecording">
     insert into stop_recording (garageid, userid,
       car_number, phone, intime, 
-      outtime, totaltime, price, amount, 
-      status, item_id)
+      outtime, totaltime, price, 
+      amount, status, item_id, 
+      price_unit_id)
     values (#{garageid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT},
       #{carNumber,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{intime,jdbcType=TIMESTAMP}, 
       #{outtime,jdbcType=TIMESTAMP}, #{totaltime,jdbcType=BIGINT}, #{price,jdbcType=DECIMAL}, 
-      #{amount,jdbcType=DECIMAL}, #{status,jdbcType=SMALLINT}, #{itemId,jdbcType=BIGINT}
-      )
+      #{amount,jdbcType=DECIMAL}, #{status,jdbcType=SMALLINT}, #{itemId,jdbcType=BIGINT}, 
+      #{priceUnitId,jdbcType=INTEGER})
   </insert>
 
   <insert id="insertSelective" parameterType="com.wangyu.garage.entity.StopRecording">
@@ -180,6 +184,9 @@
       <if test="itemId != null">
         item_id,
       </if>
+      <if test="priceUnitId != null">
+        price_unit_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -218,9 +225,11 @@
       <if test="itemId != null">
         #{itemId,jdbcType=BIGINT},
       </if>
+      <if test="priceUnitId != null">
+        #{priceUnitId,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
-
   <update id="updateByPrimaryKeySelective" parameterType="com.wangyu.garage.entity.StopRecording">
     update stop_recording
     <set>
@@ -257,10 +266,12 @@
       <if test="itemId != null">
         item_id = #{itemId,jdbcType=BIGINT},
       </if>
+      <if test="priceUnitId != null">
+        price_unit_id = #{priceUnitId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-
   <update id="updateByPrimaryKey" parameterType="com.wangyu.garage.entity.StopRecording">
     update stop_recording
     set garageid = #{garageid,jdbcType=BIGINT},
@@ -273,7 +284,8 @@
       price = #{price,jdbcType=DECIMAL},
       amount = #{amount,jdbcType=DECIMAL},
       status = #{status,jdbcType=SMALLINT},
-      item_id = #{itemId,jdbcType=BIGINT}
+      item_id = #{itemId,jdbcType=BIGINT},
+      price_unit_id = #{priceUnitId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

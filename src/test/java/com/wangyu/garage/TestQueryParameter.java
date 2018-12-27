@@ -17,6 +17,7 @@ public class TestQueryParameter extends TestCase {
 	public String getClassName() throws Exception{
 		String className = "";
 		className = "com.wangyu.garage.parameter.StopRecordingQueryParameter";
+		className = "com.wangyu.garage.entity.Garage";
 //		className = "";
 		return className;
 	}
@@ -99,7 +100,7 @@ public class TestQueryParameter extends TestCase {
 //			p(type.getName());
 			String name = field.getName(); 
 			if(type.getName().equals(String.class.getName())){
-				p("if(StringUtil.notBlank(model.get" + StringUtil.firstCharToUpperCase(name) + "())){");
+				p("if(StringUtil.isBlank(model.get" + StringUtil.firstCharToUpperCase(name) + "())){");
 			} else if (type.getName().equals(Integer.class.getName())){
 				p("if(model.get" + StringUtil.firstCharToUpperCase(name) + "() == null){");
 //			} else if (type instanceof String[]){

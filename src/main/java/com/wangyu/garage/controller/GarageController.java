@@ -6,18 +6,24 @@ import com.wangyu.common.validate.ValidateResult;
 import com.wangyu.garage.dto.ComeinoutDto;
 import com.wangyu.garage.dto.UserComeInDTO;
 import com.wangyu.garage.dto.UserComeOutDTO;
-import com.wangyu.garage.entity.Garage;
-import com.wangyu.garage.entity.GarageItem;
-import com.wangyu.garage.entity.StopRecording;
-import com.wangyu.garage.entity.User;
+import com.wangyu.garage.entity.*;
 import com.wangyu.garage.enums.CarStatusEnum;
+import com.wangyu.garage.parameter.GaragePageQueryParameter;
 import com.wangyu.garage.parameter.StopRecordingQueryParameter;
 import com.wangyu.garage.response.GarageResponse;
 import com.wangyu.garage.service.IGarageService;
+import com.wangyu.garage.service.IPriceUnitService;
 import com.wangyu.garage.service.IStopRecordingService;
 import com.wangyu.garage.service.IUserService;
 import com.wangyu.garage.util.NullUtil;
+import com.wangyu.garage.util.StringUtil;
 import com.wangyu.garage.vo.ComeinoutVO;
+import com.wangyu.garage.vo.GarageVO;
+import com.wangyu.system.common.BaseResponse;
+import com.wangyu.system.common.Code;
+import com.wangyu.system.common.ListResponse;
+import com.wangyu.system.constant.MessageConstants;
+import com.wangyu.system.constant.SessionAttributeConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,11 +51,57 @@ public class GarageController extends BaseController {
     @Autowired
     private IStopRecordingService stopRecordingService;
 
-    @ResponseBody
-    @RequestMapping(value = "/test")
-    public String test(){
-        return "hello world";
+    @Autowired
+    private IPriceUnitService priceUnitService;
+
+    /**
+     * 跳转用户列表
+     * @param
+     * @return
+     */
+    @GetMapping(value = "/list",  produces="text/html;charset=utf-8")
+    public String list(){
+        return "garage/garage/list";
     }
+
+    /**
+     * “编辑”按钮
+     * @return 跳转页面
+     */
+    @GetMapping(value = "/edit", produces = "text/html;charset=utf-8")
+    public String edit(Long id) {
+        if(id != null){
+            Garage model = garageService.getById(id);
+
+            request.setAttribute("model", model);
+            setSessionAttribute(getSessionKey(model.getId()), model);//缓存到session
+        }
+        List<PriceUnit> priceUnitList = priceUnitService.queryAll();
+        request.setAttribute("priceUnitList", priceUnitList);
+        return "garage/garage/edit";
+    }
+
+    /**
+     * 分页查询用户信息
+     * @param parameter -用户信分页查询参数
+     * @return String
+     */
+    @GetMapping(value = "/datalist", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public ListResponse dataList(GaragePageQueryParameter parameter) {
+        try {
+            log.info("查询车库信息：" + toJson(parameter));
+            PageInfo<GarageVO> pageInfo  = garageService.pageQueryByParameter(parameter);
+            ListResponse listResponse = new ListResponse();
+            listResponse.setList(pageInfo.getList());
+            listResponse.setTotal((int)pageInfo.getTotal());
+            return listResponse;
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            return ListResponse.faild("查询用户失败");
+        }
+    }
+
 
     @ResponseBody
     @GetMapping(value = "/query")
@@ -60,15 +112,48 @@ public class GarageController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Result save(@RequestBody Garage model){
-        int total = model.getTotal();
-        int inuse = model.getInuse() != null ? model.getInuse() : 0;
-        int unuse = total - inuse;
-        model.setInuse(inuse);
-        model.setUnuse(unuse);
+    public BaseResponse save(@RequestBody Garage model){
+        if(StringUtil.isBlank(model.getName())){
+            return renderError(Code.FAIL, MessageConstants.GARAGE_NAME_CAN_NOT_BE_NULL);
+        }
+        if(model.getTotal() == null){
+            return renderError(Code.FAIL, MessageConstants.GARAGE_TOTAL_CAN_NOT_BE_NULL);
+        }
+        if(model.getInuse() == null){
+            return renderError(Code.FAIL, MessageConstants.GARAGE_INUSE_CAN_NOT_BE_NULL);
+        }
+        if(model.getUnuse() == null){
+            return renderError(Code.FAIL, MessageConstants.GARAGE_UNUSE_CAN_NOT_BE_NULL);
+        }
+        if(model.getPriceUnitId() == null){
+            return renderError(Code.FAIL, MessageConstants.GARAGE_PRICE_UNIT_CAN_NOT_BE_NULL);
+        }
+        if(model.getPrice() == null){
+            return renderError(Code.FAIL, MessageConstants.GARAGE_PRICE_CAN_NOT_BE_NULL);
+        }
+        if(StringUtil.isBlank(model.getServerIp())){
+            return renderError(Code.FAIL, MessageConstants.GARAGE_SERVER_IP_CAN_NOT_BE_NULL);
+        }
+        if(model.getServerPort() == null){
+            return renderError(Code.FAIL, MessageConstants.GARAGE_SERVER_PORT_CAN_NOT_BE_NULL);
+        }
         model.setCreatetime(new Date());
-        int num = garageService.save(model);
-        return success(num);
+        try {
+            int num = 0;
+            if(model.getId() == null){
+                num = garageService.save(model);
+            } else{
+                num = garageService.update(model);
+            }
+            if(num != 1){
+                return renderError("操作失败");
+            }
+        } catch (Exception e){
+            log.error(e.getMessage(), e);
+            renderError("操作失败");
+        }
+
+        return renderSuccess();
     }
 
     /**
@@ -216,6 +301,15 @@ public class GarageController extends BaseController {
             log.error(e.getMessage(), e);
             return failed("查询车位信息失败");
         }
+    }
+
+    /**
+     * 根据对象ID获取缓存到Session的key
+     * @param id - 实体model的ID
+     * @return 缓存到Session的key
+     */
+    private String getSessionKey(Long id){
+        return SessionAttributeConstants.GARAGE_ + id + "_" + getSessionid();
     }
 
 }

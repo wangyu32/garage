@@ -182,6 +182,16 @@ public class MessageConstants {
 	public static final String USER_ID_CAN_NOT_BE_NULL = "注册用户ID不能为空";
 
 	public static final String USER_IMPEACH_TYPE_TYPE_CAN_NOT_BE_NULL = "举报类型不能为空";
-	
+
+
+	public static final String GARAGE_NAME_CAN_NOT_BE_NULL = "车库名称不能为空";
+	public static final String GARAGE_TOTAL_CAN_NOT_BE_NULL = "总车位数不能为空";
+	public static final String GARAGE_INUSE_CAN_NOT_BE_NULL = "已用车位数不能为空";
+	public static final String GARAGE_UNUSE_CAN_NOT_BE_NULL = "空闲车位数不能为空";
+	public static final String GARAGE_PRICE_CAN_NOT_BE_NULL = "单价不能为空";
+	public static final String GARAGE_PRICE_UNIT_CAN_NOT_BE_NULL = "计费单位不能为空";
+	public static final String GARAGE_SERVER_IP_CAN_NOT_BE_NULL = "服务IP不能为空";
+	public static final String GARAGE_SERVER_PORT_CAN_NOT_BE_NULL = "服务端口不能为空";
+
 	
 }
