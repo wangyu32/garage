@@ -191,13 +191,14 @@ public class GarageController extends BaseController {
             stopRecordingQueryParameter.setStatus(CarStatusEnum.COME_IN.getValue());
             //1.查询停车记录
             List<StopRecording> stopRecordingList = stopRecordingService.queryByParameter(stopRecordingQueryParameter);
-            if (stopRecordingList.size() > 0){
-                return success("已经成功扫描入库", stopRecordingList.get(0));
-            }
 
             ComeinoutDTO comeinoutDto = new ComeinoutDTO(garageId, userId);
-
-            ComeinoutVO comeinoutVO = stopRecordingService.carComein(comeinoutDto);
+            ComeinoutVO comeinoutVO = null;
+            if (stopRecordingList.size() > 0){
+                comeinoutVO = stopRecordingService.queryComeInReocrd(comeinoutDto, stopRecordingList.get(0));
+                return success("已经成功扫描入库", comeinoutVO);
+            }
+            comeinoutVO = stopRecordingService.carComein(comeinoutDto);
             return success(comeinoutVO);
         } catch (Exception e){
             log.error(e.getMessage(), e);

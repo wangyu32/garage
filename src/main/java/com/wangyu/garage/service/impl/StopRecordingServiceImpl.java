@@ -68,7 +68,6 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
 
         User user = userMapper.selectByPrimaryKey(userId);
 
-
         Garage garage = garageMapper.selectByPrimaryKey(garageId);
         garage.setUnuse(garage.getUnuse() - 1);//可用车位减1
         garage.setInuse(garage.getTotal() - garage.getUnuse());
@@ -98,6 +97,20 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         Integer priceUnitId = garage.getPriceUnitId();
         PriceUnit priceUnit = priceUnitMapper.selectByPrimaryKey(priceUnitId);
 
+        ComeinoutVO comeinoutVO = new ComeinoutVO();
+        comeinoutVO.setStopRecording(stopRecording);
+        comeinoutVO.setGarage(garage);
+        comeinoutVO.setGarageItem(garageItem);
+        comeinoutVO.setPriceUnit(priceUnit);
+        return comeinoutVO;
+    }
+
+    @Override
+    public ComeinoutVO queryComeInReocrd(ComeinoutDTO comeinoutDto, StopRecording stopRecording) {
+        Long garageId = comeinoutDto.getGarageid();
+        Garage garage = garageMapper.selectByPrimaryKey(garageId);
+        GarageItem garageItem = garageItemMapper.selectByPrimaryKey(stopRecording.getItemId());
+        PriceUnit priceUnit = priceUnitMapper.selectByPrimaryKey(stopRecording.getPriceUnitId());
         ComeinoutVO comeinoutVO = new ComeinoutVO();
         comeinoutVO.setStopRecording(stopRecording);
         comeinoutVO.setGarage(garage);

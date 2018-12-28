@@ -78,4 +78,11 @@ public interface IStopRecordingService {
      */
     GarageItem getRandomAvailableGarageItem(Long garageid);
 
+    /**
+     * 查询已扫描入库记录
+     * @param comeinoutDto
+     * @param stopRecording
+     * @return
+     */
+    ComeinoutVO queryComeInReocrd(ComeinoutDTO comeinoutDto, StopRecording stopRecording);
 }
