@@ -70,8 +70,8 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
 
 
         Garage garage = garageMapper.selectByPrimaryKey(garageId);
-        garage.setUnuse(garage.getUnuse() - 1);//已用车位加1
-        garage.setInuse(garage.getTotal() - garage.getUnuse());//可用车位
+        garage.setUnuse(garage.getUnuse() - 1);//可用车位减1
+        garage.setInuse(garage.getTotal() - garage.getUnuse());
         //更新车库信息
         garageMapper.updateByPrimaryKey(garage);
 
@@ -141,7 +141,7 @@ public class StopRecordingServiceImpl implements IStopRecordingService {
         //保存停车记录
         stopRecordingMapper.updateByPrimaryKey(stopRecording);
 
-        garage.setInuse(garage.getInuse() - 1);//可用车位加1
+        garage.setUnuse(garage.getUnuse() + 1);//可用车位加1
         garage.setInuse(garage.getTotal() - garage.getUnuse());//可用车位
         //更新车库信息
         garageMapper.updateByPrimaryKey(garage);

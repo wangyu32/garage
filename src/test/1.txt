@@ -17,4 +17,4 @@ http://39.107.85.17:8081/garage/
 http://39.107.85.17:8080/garage/qccode/comein
 http://39.107.85.17:8080/garage/qccode/comeout
 
-
+http://localhost:8081/garage/view/hello
