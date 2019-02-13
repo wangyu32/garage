@@ -1,7 +1,9 @@
 package com.wangyu.garage.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @Description
@@ -12,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/view")
 public class HelloController {
 
-    @RequestMapping(value = "/hello")
+    @ApiOperation(value = "hello world", notes = "")
+    @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(){
         return "hello";
     }
