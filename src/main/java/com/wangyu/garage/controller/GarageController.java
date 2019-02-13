@@ -24,6 +24,8 @@ import com.wangyu.system.common.Code;
 import com.wangyu.system.common.ListResponse;
 import com.wangyu.system.constant.MessageConstants;
 import com.wangyu.system.constant.SessionAttributeConstants;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -161,6 +163,8 @@ public class GarageController extends BaseController {
      * @param dto
      * @return
      */
+    @ApiOperation(value = "扫描入库", notes = "用户扫描入库二维码，记录入库时间，随机分配车位")
+    @ApiImplicitParam(name="dto", value = "用户入库DTO", required = true, dataType = "UserComeInDTO")
     @ResponseBody
     @RequestMapping(value = "/comein", method = RequestMethod.POST)
     public Result comein(@RequestBody UserComeInDTO dto){
