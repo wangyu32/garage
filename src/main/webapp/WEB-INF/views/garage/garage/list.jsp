@@ -27,7 +27,7 @@
 	<div class="search-input navml15 search-current" id="search-input">
 			<div class="list-search" id="list-search">
 				<span>
-					<b>姓名</b>
+					<b>名称</b>
 					<input type="text" class="name" size="10" maxlength="15" name="name"/>
 				</span>
 				<span class="btn-search">

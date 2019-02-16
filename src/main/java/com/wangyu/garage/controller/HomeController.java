@@ -131,15 +131,15 @@ public class HomeController extends BaseController{
 		request.setAttribute("password", password);
 
 		//验证码不能为空
-//		if(StringUtil.isBlank(checkcode)){
-//			return reLogin(MessageConstants.CHECKCODE_CAN_NOT_BE_NULL);
-//		}
-//
-//		//判断验证码是否正确
-//		String checkCodeInSesssion = (String)request.getSession().getAttribute(SessionAttributeConstants.LOGINCHECKCODE);
-//		if(!checkcode.equals(checkCodeInSesssion)){
-//			return reLogin(MessageConstants.CHECKCODE_ERROR);
-//		}
+		if(StringUtil.isBlank(checkcode)){
+			return reLogin(MessageConstants.CHECKCODE_CAN_NOT_BE_NULL);
+		}
+
+		//判断验证码是否正确
+		String checkCodeInSesssion = (String)request.getSession().getAttribute(SessionAttributeConstants.LOGINCHECKCODE);
+		if(!checkcode.equals(checkCodeInSesssion)){
+			return reLogin(MessageConstants.CHECKCODE_ERROR);
+		}
 
 		//验证用户格式
 //		String[] userDomain = username.split("@");
