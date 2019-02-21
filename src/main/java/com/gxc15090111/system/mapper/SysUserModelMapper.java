@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 用户信息Mapper
- * @author 	wangyu	wangyu@joygo.com 2016年10月17日 上午9:38:03
+ * @author 	gxc15090111	 2018年10月17日 上午9:38:03
  *
  */
 @Mapper

@@ -31,7 +31,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 /**
  * @Description
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/22 18:24
  */
 public final class QRCodeUtil extends LuminanceSource {

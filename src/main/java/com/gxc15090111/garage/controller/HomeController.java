@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 登录并进入首页的控制层
- * @author 	wangyu	wangyu@joygo.com 2016年10月21日 下午2:54:00
+ * @author 	gxc15090111	 2018年10月21日 下午2:54:00
  *
  */
 @Slf4j

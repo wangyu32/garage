@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 登录用户的Response
- * @author 	wangyu	wangyu@joygo.com 2016年12月4日 上午12:56:02
+ * @author 	gxc15090111	 2018年12月4日 上午12:56:02
  *
  */
 public class UserLoginResponse extends BaseResponse {

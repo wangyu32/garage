@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 用户与角色关系Mapper
- * @author 	wangyu	wangyu@joygo.com 2016年10月18日 上午10:24:17
+ * @author 	gxc15090111	 2018年10月18日 上午10:24:17
  *
  */
 public interface SysUserRoleModelMapper {

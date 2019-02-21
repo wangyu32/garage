@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 模块及对应菜单Response
- * @author 	wangyu wangyu@joygo.com 2016年12月4日
+ * @author 	gxc15090111  2018年12月4日
  *
  */
 public class ModuleMenuResponse {

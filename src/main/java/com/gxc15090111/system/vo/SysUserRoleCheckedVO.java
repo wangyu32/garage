@@ -2,7 +2,7 @@ package com.gxc15090111.system.vo;
 
 /**
  * 用户关联角色的选择Vo
- * @author 	wangyu@joygo.com 2017年1月7日
+ * @author 	 2018年11月7日
  *
  */
 public class SysUserRoleCheckedVO {

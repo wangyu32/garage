@@ -7,7 +7,7 @@ import com.gxc15090111.system.vo.SysUserRoleCheckedVO;
 
 /**
  * 查询用户关联角色List类型返回信息
- * @author 	wangyu	wangyu@joygo.com 2017年1月7日
+ * @author 	gxc15090111	 2018年11月7日
  *
  */
 public class UserRoleCheckedVOListResponse extends BaseResponse {

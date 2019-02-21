@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 查询用户的List类型返回信息
- * @author wangyu@joygo.com 2017年3月13日
+ * @author  2018年10月13日
  *
  */
 public class UserListResponse extends BaseResponse {

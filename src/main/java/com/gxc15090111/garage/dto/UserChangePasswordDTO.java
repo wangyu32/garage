@@ -6,7 +6,7 @@ import lombok.Data;
 
 /**
  * @Description 修改密码
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/6 16:34
  */
 @Data

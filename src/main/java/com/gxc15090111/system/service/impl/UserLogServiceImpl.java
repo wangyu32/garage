@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 用户操作日志服务层实现类
- * @author 	wangyu@joygo.com 2017年3月9日
+ * @author 	 2018年11月9日
  *
  */
 @Slf4j

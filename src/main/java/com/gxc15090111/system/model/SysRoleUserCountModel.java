@@ -2,7 +2,7 @@ package com.gxc15090111.system.model;
 
 /**
  * 角色关联用户数量Model
- * @author 	wangyu wangyu@joygo.com 2016年12月16日
+ * @author 	gxc15090111  2018年12月16日
  *
  */
 public class SysRoleUserCountModel {

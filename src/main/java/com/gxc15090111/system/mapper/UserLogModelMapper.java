@@ -7,7 +7,7 @@ import com.gxc15090111.system.parameter.UserLogPageQueryParameter;
 
 /**
  * 后台用户操作日志Mapper
- * @author 	wangyu@joygo.com 2017年3月8日
+ * @author 	 2018年11月8日
  *
  */
 public interface UserLogModelMapper {

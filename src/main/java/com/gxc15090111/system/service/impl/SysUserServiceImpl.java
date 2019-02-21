@@ -36,7 +36,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 用户管理服务层实现类
- * @author 	wangyu	wangyu@joygo.com 2016年10月17日 上午10:03:54
+ * @author 	gxc15090111	 2018年10月17日 上午10:03:54
  *
  */
 @Slf4j

@@ -2,7 +2,7 @@ package com.gxc15090111.system.bean;
 
 /**
  * 用户登录页输入信息
- * @author 	wangyu	wangyu@joygo.com 2016年10月31日 下午12:17:18
+ * @author 	gxc15090111	 2018年10月31日 下午12:17:18
  *
  */
 public class UserLoginBean {

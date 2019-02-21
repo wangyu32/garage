@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * 模块菜单树节点
- * @author 	wangyu	wangyu@joygo.com 2016年11月17日 下午5:32:56
+ * @author 	gxc15090111	 2018年11月17日 下午5:32:56
  *
  */
 public class ModuleMenuTreeNode {

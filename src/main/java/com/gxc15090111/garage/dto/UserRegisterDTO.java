@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 /**
  * @Description 用户注册DTO
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/5 1:08
  */
 @Data

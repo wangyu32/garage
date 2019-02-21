@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 项目管理服务层的实现类
- * @author 	wangyu wangyu@joygo.com 2016年10月11日
+ * @author 	gxc15090111  2018年10月11日
  *
  */
 @Service("projectService")

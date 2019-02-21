@@ -2,7 +2,7 @@ package com.gxc15090111.system.constant;
 
 /**
  * session内缓存内容key值的常量类
- * @author 	wangyu@joygo.com 2017年3月9日
+ * @author 	 2018年10月9日
  *
  */
 public class SessionAttributeConstants {

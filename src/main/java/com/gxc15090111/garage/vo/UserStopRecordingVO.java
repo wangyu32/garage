@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * @Description 用户停车记录
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/25
  */
 

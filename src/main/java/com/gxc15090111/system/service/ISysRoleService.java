@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * 角色管理接口
- * @author 	wangyu wangyu@joygo.com 2016年10月13日
+ * @author 	gxc15090111  2018年10月13日
  *
  */
 public interface ISysRoleService{

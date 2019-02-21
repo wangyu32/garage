@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Description 停车DTO
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/23 23:55
  */
 @Data

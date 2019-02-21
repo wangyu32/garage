@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 业务异常，用于事务不需要回滚的方法
- * @author 	wangyu wangyu@joygo.com 2016年10月13日
+ * @author 	gxc15090111  2018年10月13日
  *
  */
 public class BizException extends Exception implements Serializable {

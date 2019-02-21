@@ -33,7 +33,7 @@ import com.gxc15090111.system.model.SysRoleMenuModel;
 
 /**
  * 角色管理服务实现类
- * @author 	wangyu	wangyu@joygo.com 2016年10月17日 上午10:03:43
+ * @author 	gxc15090111	 2018年10月17日 上午10:03:43
  *
  */
 @Slf4j

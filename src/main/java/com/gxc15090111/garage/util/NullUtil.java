@@ -7,7 +7,7 @@ import java.util.Objects;
 
 /**
  * @author yu.wang@advance.ai
- * @data 2017/12/27 10:16
+ * @data 2018/12/27 10:16
  * @Description:
  */
 public class NullUtil {

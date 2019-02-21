@@ -5,7 +5,7 @@ import com.gxc15090111.garage.vo.ComeinoutVO;
 
 /**
  * @Description
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/25 1:57
  */
 public class ComeinoutResult extends Result {

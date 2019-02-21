@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 可回滚异常，用于需要事务回滚的方法中抛出
- * @author 	wangyu wangyu@joygo.com 2016年10月13日
+ * @author 	gxc15090111  2018年10月13日
  *
  */
 public class RollbackableBizException extends BizException implements Serializable {

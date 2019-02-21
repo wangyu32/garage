@@ -5,7 +5,7 @@ import com.gxc15090111.system.model.SysRoleModel;
 
 /**
  * 角色的Response
- * @author 	wangyu	wangyu@joygo.com 2016年12月4日 下午12:47:30
+ * @author 	gxc15090111	 2018年12月4日 下午12:47:30
  *
  */
 public class RoleResponse extends BaseResponse {

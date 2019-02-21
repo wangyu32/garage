@@ -2,7 +2,7 @@ package com.gxc15090111.system.page;
 
 /**
  * 分页查询参数公共父类
- * @author 	wangyu wangyu@joygo.com 2016年10月30日
+ * @author 	gxc15090111  2018年10月30日
  *
  */
 public class PageQueryParameter {

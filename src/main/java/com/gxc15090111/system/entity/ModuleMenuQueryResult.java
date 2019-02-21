@@ -2,7 +2,7 @@ package com.gxc15090111.system.entity;
 
 /**
  * 模块及对应菜单查询结果封装对象
- * @author 	wangyu wangyu@joygo.com 2016年10月12日
+ * @author 	gxc15090111  2018年10月12日
  *
  */
 public class ModuleMenuQueryResult {

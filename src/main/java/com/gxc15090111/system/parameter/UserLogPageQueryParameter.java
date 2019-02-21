@@ -4,7 +4,7 @@ import com.gxc15090111.system.page.PageQueryParameter;
 
 /**
  * 用户操作日志查询参数
- * @author 	wangyu@joygo.com 2017年3月9日
+ * @author 	 2018年11月9日
  *
  */
 public class UserLogPageQueryParameter extends PageQueryParameter {

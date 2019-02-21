@@ -6,7 +6,7 @@ import lombok.Data;
 
 /**
  * @Description 用户查询DTO
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/6 17:14
  */
 @Data

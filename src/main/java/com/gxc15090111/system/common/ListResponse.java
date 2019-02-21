@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * 微服务返回信息List类型数据
- * @author 	wangyu wangyu@joygo.com 2016年10月13日
+ * @author 	gxc15090111  2018年10月13日
  *
  */
 public class ListResponse extends BaseResponse {

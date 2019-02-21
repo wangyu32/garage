@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * 项目信息Model
- * @author 	wangyu wangyu@joygo.com 2016年10月13日
+ * @author 	gxc15090111  2018年10月13日
  *
  */
 public class ProjectModel {

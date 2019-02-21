@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * 角色与菜单关系Mapper
- * @author 	wangyu	wangyu@joygo.com 2016年10月17日 下午8:10:58
+ * @author 	gxc15090111	 2018年10月17日 下午8:10:58
  *
  */
 public interface SysRoleMenuModelMapper {

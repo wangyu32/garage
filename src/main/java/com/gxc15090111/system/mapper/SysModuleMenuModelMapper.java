@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * 模块菜单信息Mapper
- * @author 	wangyu wangyu@joygo.com 2016年10月13日
+ * @author 	gxc15090111  2018年10月13日
  *
  */
 public interface SysModuleMenuModelMapper {

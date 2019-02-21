@@ -2,7 +2,7 @@ package com.gxc15090111.system.constant;
 
 /**
  * 后台操作类型常量类（存储所有的后台操作类型）
- * @author 	wangyu@joygo.com 2017年3月12日
+ * @author 	 2018年10月12日
  *
  */
 public class UserLogTypeConstants {

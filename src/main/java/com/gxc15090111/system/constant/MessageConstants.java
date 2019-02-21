@@ -2,7 +2,7 @@ package com.gxc15090111.system.constant;
 
 /**
  * 提示信息常量类
- * @author wangyuwangyu@joygo.com 2016年10月30日 上午11:32:03
+ * @author gxc15090111 2018年10月30日 上午11:32:03
  *
  */
 public class MessageConstants {

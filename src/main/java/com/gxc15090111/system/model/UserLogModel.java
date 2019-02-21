@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * 后台用户操作日志
- * @author 	wangyu@joygo.com 2017年3月8日
+ * @author 	 2018年10月8日
  *
  */
 public class UserLogModel {

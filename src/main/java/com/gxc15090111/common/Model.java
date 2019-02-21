@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * @Description
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/4 23:55
  */
 public class Model implements Serializable {

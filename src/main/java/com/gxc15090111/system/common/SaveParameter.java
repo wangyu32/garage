@@ -2,7 +2,7 @@ package com.gxc15090111.system.common;
 
 /**
  * 通用保存参数（批量保存关系表数据）
- * @author 	wangyu	wangyu@joygo.com 2016年12月8日 10:36:19
+ * @author 	gxc15090111	 2018年12月8日 10:36:19
  *
  */
 public class SaveParameter {

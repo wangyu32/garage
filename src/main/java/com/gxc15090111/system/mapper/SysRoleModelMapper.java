@@ -9,8 +9,8 @@ import java.util.List;
 
 /**
  * 角色信息Mapper
- * @author 	wangyu
- * 	2016年10月16日
+ * @author 	gxc15090111
+ * 	2018年10月16日
  *
  */
 public interface SysRoleModelMapper {

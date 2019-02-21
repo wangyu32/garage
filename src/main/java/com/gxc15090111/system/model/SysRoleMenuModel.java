@@ -2,7 +2,7 @@ package com.gxc15090111.system.model;
 
 /**
  * 角色与菜单关联关系Model
- * @author 	wangyu	wangyu@joygo.com 2016年10月17日 下午6:40:00
+ * @author 	gxc15090111	 2018年10月17日 下午6:40:00
  *
  */
 public class SysRoleMenuModel {

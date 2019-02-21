@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 用户的控制层
- * @author 	wangyu wangyu@joygo.com 2016年10月21日
+ * @author 	gxc15090111  2018年10月21日
  *
  */
 @Slf4j

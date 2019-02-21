@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @Description 停车记录
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/25
  */
 @Slf4j

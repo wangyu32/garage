@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * 用户信息Model
- * @author 	wangyu	wangyu@joygo.com 2016年10月17日 下午1:55:37
+ * @author 	gxc15090111	 2018年10月17日 下午1:55:37
  *
  */
 public class SysUserModel {

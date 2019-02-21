@@ -2,7 +2,7 @@ package com.gxc15090111.garage.enums;
 
 /**
  * @Description 车辆状态枚举类
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/6 17:46
  */
 public enum CarStatusEnum {

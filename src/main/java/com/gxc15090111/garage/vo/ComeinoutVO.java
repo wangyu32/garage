@@ -7,7 +7,7 @@ import com.gxc15090111.garage.entity.StopRecording;
 
 /**
  * @Description
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/23 23:59
  */
 public class ComeinoutVO {

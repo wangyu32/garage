@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * 操作员日志VO
- * @author 	wangyu@joygo.com 2017年3月13日
+ * @author 	 2018年11月13日
  *
  */
 public class UserLogVO {

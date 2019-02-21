@@ -4,7 +4,7 @@ import com.gxc15090111.system.page.PageQueryParameter;
 
 /**
  * 用户角色关联关系查询参数，可分页
- * @author 	wangyu wangyu@joygo.com 2017年01月07日
+ * @author 	gxc15090111  2018年11月07日
  *
  */
 public class SysUserRolePageQueryParameter extends PageQueryParameter {

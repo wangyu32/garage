@@ -4,7 +4,7 @@ import com.gxc15090111.garage.entity.Garage;
 
 /**
  * @Description
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/27 20:33
  */
 public class GarageVO extends Garage {

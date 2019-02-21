@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 /**
  * @Description
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/27 21:41
  */
 public class GarageDTO {

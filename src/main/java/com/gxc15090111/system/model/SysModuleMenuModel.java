@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * 菜单Model
- * @author 	wangyu	wangyu@joygo.com 2016年10月17日 下午6:45:23
+ * @author 	gxc15090111	 2018年10月17日 下午6:45:23
  *
  */
 public class SysModuleMenuModel {

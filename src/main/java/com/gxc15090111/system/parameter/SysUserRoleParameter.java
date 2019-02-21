@@ -2,7 +2,7 @@ package com.gxc15090111.system.parameter;
 
 /**
  * 用户分配角色请求参数类
- * @author 	wangyu	wangyu@joygo.com 2016年10月17日 下午7:41:28
+ * @author 	gxc15090111	 2018年10月17日 下午7:41:28
  *
  */
 public class SysUserRoleParameter {

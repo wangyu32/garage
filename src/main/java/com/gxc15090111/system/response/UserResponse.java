@@ -5,7 +5,7 @@ import com.gxc15090111.system.model.SysUserModel;
 
 /**
  * 用户model对应的Response
- * @author 	wangyu@joygo.com 2016年11月3日
+ * @author 	 2018年11月3日
  *
  */
 public class UserResponse extends BaseResponse {

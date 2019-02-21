@@ -2,7 +2,7 @@ package com.gxc15090111.system.parameter;
 
 /**
  * 用户修改请求参数
- * @author 	wangyu	wangyu@joygo.com 2016年10月30日 上午11:49:18
+ * @author 	gxc15090111	 2018年10月30日 上午11:49:18
  *
  */
 public class ChangePasswordParameter {

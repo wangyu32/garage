@@ -4,7 +4,7 @@ import com.gxc15090111.system.page.PageQueryParameter;
 
 /**
  * @Description
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/24 14:40
  */
 public class GaragePageQueryParameter extends PageQueryParameter {

@@ -3,8 +3,8 @@ package com.gxc15090111.system.util;
 import java.security.MessageDigest;
 
 /** 
-* @author 作者 jinweida
-* @version 创建时间：2016年10月11日 下午6:24:07
+* @author 作者 gxc15090111
+* @version 创建时间：2018年10月11日 下午6:24:07
 */
 public class Md5Util {
 	private static String byteArrayToHexString(byte b[]) {

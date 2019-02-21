@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 /** 
-* @author 作者 jinweida
-* @version 创建时间：2016年10月12日 上午11:38:59
+* @author 作者 gxc15090111
+* @version 创建时间：2018年10月12日 上午11:38:59
 */
 public class StringUtil {
 	/**

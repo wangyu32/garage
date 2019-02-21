@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @Description 出库DTO
- * @Author wangyu
+ * @Author gxc15090111
  * @Date 2018/12/6 17:14
  */
 @Data

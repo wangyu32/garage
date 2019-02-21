@@ -7,7 +7,7 @@ import com.gxc15090111.system.model.SysRoleModel;
 
 /**
  * 查询角色List类型返回信息
- * @author 	wangyu	wangyu@joygo.com 2016年11月17日 下午5:31:05
+ * @author 	gxc15090111	 2018年11月17日 下午5:31:05
  *
  */
 public class RoleModelListResponse extends BaseResponse {

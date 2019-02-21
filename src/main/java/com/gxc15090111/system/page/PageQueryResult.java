@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * 分页查询返回结果公共类
- * @author 	wangyu	wangyu@joygo.com 2016年10月30日 下午1:31:41
+ * @author 	gxc15090111	 2018年10月30日 下午1:31:41
  *
  */
 public class PageQueryResult<T> {

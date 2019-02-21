@@ -4,7 +4,7 @@ import com.gxc15090111.system.page.PageQueryParameter;
 
 /**
  * 角色信息查询参数
- * @author 	wangyu wangyu@joygo.com 2016年10月16日
+ * @author 	gxc15090111  2018年10月16日
  *
  */
 public class SysRolePageQueryParameter extends PageQueryParameter {

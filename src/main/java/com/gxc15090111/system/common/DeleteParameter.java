@@ -2,7 +2,7 @@ package com.gxc15090111.system.common;
 
 /**
  * 删除参数
- * @author 	wangyu@joygo.com 2016年11月18日 下午23:22:34
+ * @author 	 2018年11月18日 下午23:22:34
  *
  */
 public class DeleteParameter {
