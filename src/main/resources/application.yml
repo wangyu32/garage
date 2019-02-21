@@ -50,7 +50,7 @@ mybatis:
 #  config-location: classpath:mybatis.xml
 #  mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
   mapper-locations: classpath:**/*Mapper.xml  #注意：一定要对应mapper映射xml文件的所在路径
-#  type-aliases-package: com.wangyu.garage.entity  # 注意：对应实体类的路径
+#  type-aliases-package: com.gxc15090111.garage.entity  # 注意：对应实体类的路径
 
 # 分页配置
 pagehelper:

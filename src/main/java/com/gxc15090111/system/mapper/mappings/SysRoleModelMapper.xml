@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxc15090111.system.mapper.SysRoleModelMapper">
+  
+  <resultMap id="BaseResultMap" type="com.gxc15090111.system.model.SysRoleModel">
+    <id column="r_id" jdbcType="INTEGER" property="r_id" />
+    <result column="ref_p_id" jdbcType="INTEGER" property="ref_p_id" />
+    <result column="r_name" jdbcType="VARCHAR" property="r_name" />
+    <result column="r_desc" jdbcType="VARCHAR" property="r_desc" />
+    <result column="r_status" jdbcType="TINYINT" property="r_status" />
+    <result column="r_createtime" jdbcType="TIMESTAMP" property="r_createtime" />
+    <result column="r_updatetime" jdbcType="TIMESTAMP" property="r_updatetime" />
+    <result column="r_del" jdbcType="INTEGER" property="r_del" />
+  </resultMap>
+
+  <update id="delete" parameterType="com.gxc15090111.system.model.SysRoleModel">
+    	 update sys_role
+    	    set r_del = 1
+          where r_id = #{r_id,jdbcType=INTEGER}
+            and ref_p_id = #{ref_p_id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="deleteBatch" parameterType="com.gxc15090111.system.common.DeleteParameter" >
+    update sys_role
+       set r_del = 1
+     where ref_p_id = #{ref_p_id}
+       and r_id in
+	   <foreach collection="idArray" item ="item" index="i" open="(" separator="," close=")">  
+	     #{item}
+	  </foreach>
+  </update>
+  
+  <insert id="insert" parameterType="com.gxc15090111.system.model.SysRoleModel" useGeneratedKeys="true" keyProperty="r_id">
+    insert into sys_role (ref_p_id, r_name, r_desc, r_status, r_createtime, r_updatetime)
+    values (#{ref_p_id,jdbcType=INTEGER}, #{r_name,jdbcType=VARCHAR}, 
+    	#{r_desc,jdbcType=VARCHAR}, #{r_status,jdbcType=TINYINT}, now(), now())
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.gxc15090111.system.model.SysRoleModel">
+   update sys_role
+      set 
+	      r_name = #{r_name,jdbcType=VARCHAR},
+	      r_desc = #{r_desc,jdbcType=VARCHAR},
+	      r_status = #{r_status,jdbcType=TINYINT},
+	      r_updatetime = now()
+    where r_id = #{r_id,jdbcType=INTEGER}
+      and ref_p_id = #{ref_p_id,jdbcType=INTEGER}
+      and r_del = 0	
+  </update>
+
+  <update id="updateStatus" parameterType="com.gxc15090111.system.model.SysRoleModel">
+	  update sys_role
+	     set r_status = #{r_status,jdbcType=TINYINT},
+	         r_updatetime = now()
+	   where r_id = #{r_id,jdbcType=INTEGER}
+	     and ref_p_id = #{ref_p_id,jdbcType=INTEGER}
+	     and r_del = 0
+  </update>
+
+	<select id="findCountByPage" parameterType="com.gxc15090111.system.parameter.SysRolePageQueryParameter" resultType="java.lang.Integer">
+	   select count(0)
+		 from sys_role
+	    where r_del = 0
+		  and ref_p_id = #{ref_p_id}
+		<if test="r_id != null">
+		  and r_id = #{r_id}
+		</if>
+	    <if test=" r_name != ''">
+		  and r_name like CONCAT('%',#{r_name},'%')
+		</if>
+		<if test="r_status != null">
+		  and r_status = #{r_status}
+		</if>
+	</select>
+	
+	<select id="findByPage" parameterType="com.gxc15090111.system.parameter.SysRolePageQueryParameter" resultMap="BaseResultMap">
+	   select r_id, ref_p_id, r_name, r_desc, r_status, r_createtime, r_updatetime, r_del
+		 from sys_role
+	    where r_del = 0
+		  and ref_p_id = #{ref_p_id}
+		  
+		<if test="r_id != null">
+		  and r_id = #{r_id}
+		</if>  
+	    <if test=" r_name != ''">
+		  and r_name like CONCAT('%',#{r_name},'%')
+		</if>
+		<if test="r_status != null">
+		  and r_status = #{r_status}
+		</if>
+		
+		<if test=" sort != ''">
+		  order by ${sort} 
+			<if test=" order != ''">
+				${order}
+		  	</if>
+		</if>
+		<if test=" pageQuery ">
+		limit ${offset}, ${limit}
+		</if>
+	</select>
+	  
+  <select id="findByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+   select r_id, ref_p_id, r_name, r_desc, r_status, r_createtime, r_updatetime, r_del
+     from sys_role
+    where r_del = 0
+      and r_id = #{r_id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAll" resultMap="BaseResultMap">
+    select r_id, ref_p_id, r_name, r_desc, r_status, r_createtime, r_updatetime, r_del
+      from sys_role
+     where r_del = 0
+  </select>
+
+<!--  -->
+    <select id="findCountOfRname" parameterType="com.gxc15090111.system.parameter.SysRolePageQueryParameter" resultType="java.lang.Integer">
+		select count(1)
+		from sys_role
+	   where r_del = 0
+	     and ref_p_id = #{ref_p_id}
+	     and r_name = #{r_name}
+	     
+	    <if test="r_id != null">
+		  and r_id != #{r_id}
+		</if>
+	</select>
+
+  
+    <select id="findRolesByUserId" parameterType="com.gxc15090111.system.parameter.SysRolePageQueryParameter" resultMap="BaseResultMap">
+	  select r.r_id, r.r_name, r.r_desc
+	    from sys_user_role ur, sys_role r
+	   where ur.ref_r_id = r.r_id
+	     and r.r_del = 0
+	   	 and ur.ref_u_id = #{u_id}
+		 and r.ref_p_id = #{ref_p_id}
+	</select>
+</mapper>

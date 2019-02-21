@@ -37,19 +37,19 @@
 
     <!-- 定义各个包的详细路径，继承root的值
     <logger name="com.hry.spring" level="TRACE" />
-    <logger name="com.wangyu.garage" level="debug" />
+    <logger name="com.gxc15090111.garage" level="debug" />
     <logger name="com.wangyu.prm" level="debug" />
     -->
 
     <!-- 此值由 application.properties的spring.profiles.active=dev指定
     <springProfile name="dev">
         <property name="LOG_HOME" value="D:/work/Android/code/garage-log1/" />
-        <logger name="com.wangyu.garage" level="DEBUG" />
+        <logger name="com.gxc15090111.garage" level="DEBUG" />
     </springProfile>
 
     <springProfile name="pro">
         <property name="LOG_HOME" value="/garage-log" />
-        <logger name="com.wangyu.garage" level="INFO" />
+        <logger name="com.gxc15090111.garage" level="INFO" />
     </springProfile>
     -->
 
@@ -67,7 +67,7 @@
 </layout>
 </appender>
 
-<logger name="com.wangyu.garage" level="debug"/>
+<logger name="com.gxc15090111.garage" level="debug"/>
 
 <root level="info">
 <appender-ref ref="STDOUT"/>

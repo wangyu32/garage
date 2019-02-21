@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gxc15090111.system.mapper.UserLogModelMapper">
+  
+  <resultMap id="BaseResultMap" type="com.gxc15090111.system.model.UserLogModel">
+    <id column="lg_id" jdbcType="INTEGER" property="lg_id" />
+    <result column="lg_menu" jdbcType="VARCHAR" property="lg_menu" />
+    <result column="lg_type" jdbcType="VARCHAR" property="lg_type" />
+    <result column="ref_u_id" jdbcType="INTEGER" property="ref_u_id" />
+    <result column="lg_obj_id" jdbcType="VARCHAR" property="lg_obj_id" />
+    <result column="lg_obj_desc" jdbcType="VARCHAR" property="lg_obj_desc" />
+    <result column="lg_ip" jdbcType="VARCHAR" property="lg_ip" />
+    <result column="lg_createtime" jdbcType="TIMESTAMP" property="lg_createtime" />
+    <result column="lg_desc" jdbcType="LONGVARCHAR" property="lg_desc" />
+  </resultMap>
+  
+  <insert id="insert" parameterType="com.gxc15090111.system.model.UserLogModel">
+    insert into user_log (
+    	lg_menu, 
+    	lg_type, 
+      	ref_u_id, 
+      	lg_obj_id, 
+      	lg_obj_desc,
+      	lg_ip, 
+      	lg_desc,
+      	lg_createtime 
+      )
+    values (
+    	#{lg_menu,jdbcType=VARCHAR}, 
+    	#{lg_type,jdbcType=VARCHAR}, 
+      	#{ref_u_id,jdbcType=INTEGER}, 
+      	#{lg_obj_id,jdbcType=VARCHAR}, 
+      	#{lg_obj_desc,jdbcType=VARCHAR},
+      	#{lg_ip,jdbcType=VARCHAR}, 
+      	#{lg_desc,jdbcType=LONGVARCHAR},
+      	now()
+      )
+  </insert>
+  
+   <select id="findCountByPage" parameterType="com.gxc15090111.system.parameter.UserLogPageQueryParameter" resultType="java.lang.Integer">
+	     select count(0)
+		   from user_log 
+		  where 1=1
+
+		<if test="ref_u_id_array != null">
+			AND ref_u_id in
+			<foreach collection="ref_u_id_array" item ="item" index="i" open="(" separator="," close=")">  
+						#{item}
+			</foreach>
+		</if>	
+			
+		<if test="lg_menu 				!= ''	">and lg_menu 		like 	CONCAT('%',#{lg_menu},'%')		</if>
+		<if test="ref_u_id 				!= null	">and ref_u_id 		= 		#{ref_u_id}						</if>
+		<if test="lg_type 				!= ''	">and lg_type 		like 	CONCAT('%',#{lg_type},'%')		</if>
+		<if test="lg_obj_id 			!= ''	">and lg_obj_id 	like 	CONCAT('%',#{lg_obj_id},'%')	</if>
+		<if test="lg_obj_desc 			!= ''	">and lg_obj_desc 	like 	CONCAT('%',#{lg_obj_desc},'%')	</if>
+		<if test="lg_ip 				!= ''	">and lg_ip 		like 	CONCAT('%',#{lg_ip},'%')		</if>
+		<if test="lg_createtime_begin 	!= ''	">and lg_createtime &gt;= 	#{lg_createtime_begin}			</if>
+		<if test="lg_createtime_end 	!= ''	">and lg_createtime &lt;= 	#{lg_createtime_end}			</if>
+		<if test="lg_desc 				!= ''	">and lg_desc 		like 	CONCAT('%',#{lg_desc},'%')		</if>
+
+    </select>
+  
+    <select id="findByPage" parameterType="com.gxc15090111.system.parameter.UserLogPageQueryParameter" resultType="com.gxc15090111.system.model.UserLogModel">
+	     select lg_id, lg_menu, lg_type, ref_u_id, lg_obj_id, lg_obj_desc, lg_ip, lg_createtime, lg_desc
+		   from user_log
+		  where 1=1
+		  
+		<if test="ref_u_id_array != null">
+			AND ref_u_id in
+			<foreach collection="ref_u_id_array" item ="item" index="i" open="(" separator="," close=")">  
+						#{item}
+			</foreach>
+		</if>
+		
+		<if test="lg_menu 				!= ''	">and lg_menu 		like 	CONCAT('%',#{lg_menu},'%')		</if>
+		<if test="ref_u_id 				!= null	">and ref_u_id 		= 		#{ref_u_id}						</if>
+		<if test="lg_type 				!= ''	">and lg_type 		like 	CONCAT('%',#{lg_type},'%')		</if>
+		<if test="lg_obj_id 			!= ''	">and lg_obj_id 	like 	CONCAT('%',#{lg_obj_id},'%')	</if>
+		<if test="lg_obj_desc 			!= ''	">and lg_obj_desc 	like 	CONCAT('%',#{lg_obj_desc},'%')	</if>
+		<if test="lg_ip 				!= ''	">and lg_ip 		like 	CONCAT('%',#{lg_ip},'%')		</if>
+		<if test="lg_createtime_begin 	!= ''	">and lg_createtime &gt;= 	#{lg_createtime_begin}			</if>
+		<if test="lg_createtime_end 	!= ''	">and lg_createtime &lt;= 	#{lg_createtime_end}			</if>
+		<if test="lg_desc 				!= ''	">and lg_desc 		like 	CONCAT('%',#{lg_desc},'%')		</if>
+		
+		<if test=" sort != ''">
+		  order by ${sort} 
+			<if test=" order != ''">
+				${order}
+		  	</if>
+		</if>
+		limit ${offset}, ${limit}
+  </select>
+  
+</mapper>

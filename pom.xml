@@ -212,7 +212,7 @@
 				<configuration>
 					<!--fork:设置True，否则可能devtools不会起作用-->
 					<fork>true</fork>
-                    <mainClass>com.wangyu.GarageApplication</mainClass>
+                    <mainClass>com.gxc15090111.GarageApplication</mainClass>
 				</configuration>
 			</plugin>
 
