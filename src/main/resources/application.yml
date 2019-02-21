@@ -61,6 +61,6 @@ pagehelper:
 
 logging:
   level:
-    com.wangyu.system: debug
-    com.wangyu.garage: debug
+    com.gxc15090111.system: debug
+    com.gxc15090111.garage: debug
 
