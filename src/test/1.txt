@@ -9,7 +9,7 @@ http://localhost:8080/garage/apk/garage.apk
 http://localhost:8080/garage/qccode/commin
 http://localhost:8080/garage/qccode/commout
 
-
+安装包下载
 http://39.107.85.17:8080/garage/apk/garage.apk
 
 
