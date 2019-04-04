@@ -229,6 +229,10 @@
 				</dependencies>
                 <configuration>
                     <mainClass>com.wangyu.GarageApplication</mainClass>
+                    <fork>true</fork>
+                    <jvmArguments>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                    </jvmArguments>
                 </configuration>
 			</plugin>
 
