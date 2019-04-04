@@ -1,0 +1,50 @@
+{
+    "taxNo": 36996300000000040,
+    "invoiceTerminalCode": "001",
+    "taxDiskNo": 499000165960,
+    "data": {
+        "checkTotalPrice": "N",
+        "checkBlacklist": "N",
+        "systemId": "DLZZS",
+        "serialNo": "fanjiaduo1112255",
+        "invoiceTypeCode": "026",
+        "invoiceType": 0,
+        "invoiceSpecialMark": "00",
+        "priceTaxMark": 1,
+        "invoiceListMark": 0,
+        "taxationMethod": 2,
+        "buyerName": "范家铎",
+        "buyerTaxNo": "91500000747150890S",
+        "buyerAddressPhone": "北京市海淀区亿城国际中心",
+        "buyerBankAccount": "江苏银行",
+        "buyerPhone": 17701388669,
+        "drawer": "开票人",
+        "invoiceTotalPrice": 1.82,
+        "invoiceTotalTax": 0.18,
+        "invoiceTotalPriceTax": 2,
+        "remarks": "",
+        "redInfoNo": "",
+        "originalInvoiceNo": 98800021,
+        "originalInvoiceCode": 152000111666,
+        "deductibleAmount": 0.5,
+        "invoiceDetailsList": [
+            {
+                "goodsLineNo": 1,
+                "invoiceLineNature": 0,
+                "goodsCode": 1010101070000000000,
+                "goodsName": "燕麦",
+                "goodsTaxItem": "",
+                "goodsSpecification": "5kg/袋",
+                "goodsUnit": "kg",
+                "goodsQuantity": 2,
+                "goodsPrice": 1,
+                "goodsTotalPrice": 2,
+                "goodsTotalTax": 0.18,
+                "goodsTaxRate": 0.1,
+                "vatSpecialManagement": ""
+                "preferentialMarkFlag": 0,
+                "freeTaxMark": "",
+            }
+        ]
+    }
+}
