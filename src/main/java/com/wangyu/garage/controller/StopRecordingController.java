@@ -67,6 +67,7 @@ public class StopRecordingController extends BaseController {
     public ListResponse dataList(UserStopRecordingQueryParameter parameter) {
         try {
             log.info("查询停车记录信息：" + toJson(parameter));
+            log.info("springboot springloaded");
             if (StringUtil.notBlank(parameter.getIntimeEnd())) {
                 parameter.setIntimeEnd(parameter.getIntimeEnd() + CommonConstants.TIME_235959);
             }

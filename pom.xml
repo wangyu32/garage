@@ -188,12 +188,13 @@
         </dependency>
         -->
 
-        <!-- 热部署-->
+        <!-- 热部署
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
+        -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -206,14 +207,29 @@
         <!-- 应与application.properties(或application.yml)中context-path保持一致 -->
         <finalName>garage</finalName>
 		<plugins>
+					<!--fork:设置True，否则可能devtools不会起作用
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<!--fork:设置True，否则可能devtools不会起作用-->
 					<fork>true</fork>
                     <mainClass>com.wangyu.GarageApplication</mainClass>
 				</configuration>
+			</plugin>
+					-->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.springframework</groupId>
+						<artifactId>springloaded</artifactId>
+						<version>1.2.6.RELEASE</version>
+					</dependency>
+				</dependencies>
+                <configuration>
+                    <mainClass>com.wangyu.GarageApplication</mainClass>
+                </configuration>
 			</plugin>
 
             <plugin>

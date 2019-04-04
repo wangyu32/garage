@@ -93,6 +93,7 @@ public class GarageController extends BaseController {
     public ListResponse dataList(GaragePageQueryParameter parameter) {
         try {
             log.info("查询车库信息：" + toJson(parameter));
+            log.info("springboot springloaded ......");
             PageInfo<GarageVO> pageInfo  = garageService.pageQueryByParameter(parameter);
             ListResponse listResponse = new ListResponse();
             listResponse.setList(pageInfo.getList());
