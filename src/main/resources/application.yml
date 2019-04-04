@@ -13,11 +13,11 @@ spring:
       suffix: .jsp
     static-path-pattern: /**
 
-  devtools:
-    restart:
-      enabled: false # 最重要的！！！不重启
-      additional-paths: src/main/java
-      additional-exclude: WEB-INF/**
+#  devtools:
+#    restart:
+#      enabled: false # 最重要的！！！不重启
+#      additional-paths: src/main/java
+#      additional-exclude: WEB-INF/**
 
 #  resources:
 #    static-locations: component/**,css/**,images/**,js/**
