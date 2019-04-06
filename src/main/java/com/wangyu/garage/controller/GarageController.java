@@ -61,7 +61,7 @@ public class GarageController extends BaseController {
      * @param
      * @return
      */
-    @GetMapping(value = "/list",  produces="text/html;charset=utf-8")
+    @RequestMapping(method = RequestMethod.GET, value = "/list",  produces="text/html;charset=utf-8")
     public String list(){
         return "garage/garage/list";
     }
