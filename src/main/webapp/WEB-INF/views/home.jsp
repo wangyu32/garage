@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>智能车库-${CURRENT_APP.p_name}</title>
+	<title>管理系统</title>
 	<link rel="shortcut icon"  href='<c:url value="/images/jiege-favicon.ico" /> '>
 	<jsp:include flush="true" page="comm/homeInc.jsp">
 		<jsp:param value="yes" name="layer"/>
@@ -22,7 +22,7 @@
 		    <div class="logo">
 		        <h1>
 					<!--
-		            <img src="<c:url value='images/logo/${CURRENT_APP.p_id}.png'/>"/>
+		            <img src="<c:url value='images/logo/1.png'/>"/>
 		            -->
 		        </h1>
 		    </div>
@@ -35,12 +35,12 @@
                 <c:forEach var="level1" items="${menu}">
 	                <li>
 	                    <span class="modules">
-	                        <img src="${level1.m_image}"/>${level1.m_name}<i></i>
+	                        <img src="${level1.mimage}"/>${level1.mname}<i></i>
 	                    </span>
 	                    <ul>
 	                        <c:forEach var="level2" items="${level1.items}">
 	                            <li>
-	                                <span class="func" dataType='iframe' dataLink="${level2.mm_url}"><s></s>${level2.mm_name}</span>
+	                                <span class="func" dataType='iframe' dataLink="${level2.url}"><s></s>${level2.name}</span>
 	                            </li> 
 	                        </c:forEach>
 	                    </ul>
@@ -81,7 +81,7 @@
 			        </a> -->
 			        <div class="admin">
 			            <img src="images/home/admin.png" />
-			           <span>${CURRENT_USER.u_logname }</span>
+			           <span>${CURRENT_USER.ULogname }</span>
 			            <s><img src="images/home/admin-arrow.png"></s>
 			            <ul> 
 			                <li>

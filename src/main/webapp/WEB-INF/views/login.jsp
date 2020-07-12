@@ -59,8 +59,8 @@
                         </div>
                     </div>
                     <div class="foot">
-                         <p><a href="http://www.joygo.com" target='_blank'>智能车库有限公司</a></p>
-                         <p>Copyright@2018-2018</p>
+                         <p><a href="http://www.prm.com" target='_blank'>管理系统</a></p>
+                         <p>Copyright@2018-2020</p>
                      </div>
                     </td>
                 </tr>

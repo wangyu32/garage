@@ -5,7 +5,6 @@ import lombok.Data;
 /**
  * @Description
  * @Author wangyu
- * @Date 2018/12/5 1:20
  */
 @Data
 public class ValidateResult {

@@ -28,11 +28,11 @@
 			<div class="list-search" id="list-search">
 				<span>
 					<b>角色名称</b>
-					<input type="text" id="r_name" size="12" maxlength="30"/>
+					<input type="text" id="name" size="12" maxlength="30"/>
 				</span>
 				<span>
 					<b>状态</b>
-					<select name="r_status" id="r_status">
+					<select name="status" id="status">
 						<option value="0">启用</option>
 						<option value="1">禁用</option>
 						<option value="">所有</option>
@@ -50,19 +50,19 @@
 			  data-ajax="ajaxRequest"  
 			  data-side-pagination="server" 
 			  data-pagination="true" 
-			  data-sort-name="r_updatetime" 
+			  data-sort-name="updatetime"
 			  data-sort-order="desc" 
 			  class="table-bordered table-condensed table-striped">
 		<thead>
 			<tr>
 				<th data-checkbox='true' data-width="20" ></th>
 				<%--
-				<th data-field="r_id" data-width="40"  data-sortable="true"  data-halign="center" data-align="center">角色ID</th>
+				<th data-field="id" data-width="40"  data-sortable="true"  data-halign="center" data-align="center">角色ID</th>
 				 --%>
-				<th data-field="r_name" data-sortable="true" data-halign="center" data-align="center" data-formatter='formatName'>角色名称</th>
-				<th data-field="r_desc" data-halign="center" data-align="center">描述</th>
-				<th data-field="r_status" data-width="80"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
-				<th data-field="r_updatetime" data-width="180"  data-sortable="true" data-halign="center" data-align="center" data-formatter="formatDateTime">最后修改于</th>
+				<th data-field="name" data-sortable="true" data-halign="center" data-align="center" data-formatter='formatName'>角色名称</th>
+				<th data-field="desc" data-halign="center" data-align="center">描述</th>
+				<th data-field="status" data-width="80"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
+				<th data-field="updatetime" data-width="180"  data-sortable="true" data-halign="center" data-align="center" data-formatter="formatDateTime">最后修改于</th>
 			</tr>
 		</thead>
 	</table>

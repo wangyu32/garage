@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
 	//判断  新增 or 编辑
-	var r_id = $("#r_id").val();
+	var id = $("#id").val();
 	var title =  $(".title").text();
-	if(r_id != ''){
+	if(id != ''){
 		$(".title").text("编辑操作员角色");
 	}else{
 		$(".title").text("增加操作员角色");
@@ -15,8 +15,8 @@ $(document).ready(function(){
 		 return false;
 	});
 	
-	//r_id为空，是添加时查询；r_id不为空，是修改时查询
-	var treeData = getTreeData(r_id);
+	//id为空，是添加时查询；id不为空，是修改时查询
+	var treeData = getTreeData(id);
 
 	$('#treeview').treeview({
 		data : treeData.list,
@@ -105,12 +105,12 @@ $(document).ready(function(){
 });
 
 
-function getTreeData(r_id){
+function getTreeData(id){
 	$.ajax({
 		type:"get",
 	    url:"queryrolemenu",
 	    data:{
-	    	"r_id":r_id
+	    	"id":id
 	    },
 	    dataType:"json",
 	        async:false,

@@ -26,23 +26,23 @@
 			<div class="list-search" id="list-search">
 				<span>
 					<b>登录名</b>
-					<input type="text" class="u_logname" size="15" maxlength="30" name="u_logname"/>
+					<input type="text" class="logname" size="15" maxlength="30" name="logname"/>
 				</span>
 				<span>
 					<b>姓名</b>
-					<input type="text" class="u_realname" size="10" maxlength="25" name="u_realname"/>
+					<input type="text" class="realname" size="10" maxlength="25" name="realname"/>
 				</span>
 				<span >
 					<b>电子邮箱</b>
-					<input type="text" class="u_email" size="18" maxlength="25"  name="u_email"/>
+					<input type="text" class="email" size="18" maxlength="25"  name="email"/>
 				</span>
 				<span >
 					<b>联系方式</b>
-					<input type="text" class="u_mobilephone" size="12" maxlength="20"  name="u_mobilephone"/>
+					<input type="text" class="mobilephone" size="12" maxlength="20"  name="mobilephone"/>
 				</span>
 				<span>
 					<b>状态</b>
-					<select class="u_status" name="u_status">
+					<select class="status" name="status">
 						<option value="0">启用</option>
 						<option value="1">禁用</option>
 						<option value="">所有</option>
@@ -60,7 +60,7 @@
 			  data-ajax="ajaxRequest"  
 			  data-side-pagination="server" 
 			  data-pagination="true" 
-			  data-sort-name="u_updatetime" 
+			  data-sort-name="updatetime"
 			  data-sort-order="desc"
 			  class="table-bordered table-condensed table-striped">
 		<thead>
@@ -69,12 +69,12 @@
 				<%--
 				<th data-field="u_id" data-width="40" data-sortable="true" data-halign="center" data-align="center">用户ID</th>
 				 --%>
-				<th data-field="u_logname" data-sortable="true" data-halign="center" data-align="left" data-formatter='formatName'>登录名</th>
-				<th data-field="u_realname" data-sortable="true"  data-halign="center" data-align="left">姓名</th>
-				<th data-field="u_email" data-sortable="true"  data-halign="center" data-align="left">电子邮箱</th>
-				<th data-field="u_mobilephone" data-width="120"  data-sortable="true"  data-halign="center" data-align="center">联系方式</th>
-				<th data-field="u_status" data-width="80"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
-				<th data-field="u_updatetime" data-width="180" data-sortable="true"  data-halign="center" data-align="center" data-formatter="formatDateTime">最后修改于</th>
+				<th data-field="logname" data-sortable="true" data-halign="center" data-align="left" data-formatter='formatName'>登录名</th>
+				<th data-field="realname" data-sortable="true"  data-halign="center" data-align="left">姓名</th>
+				<th data-field="email" data-sortable="true"  data-halign="center" data-align="left">电子邮箱</th>
+				<th data-field="mobilephone" data-width="120"  data-sortable="true"  data-halign="center" data-align="center">联系方式</th>
+				<th data-field="status" data-width="80"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
+				<th data-field="updatetime" data-width="180" data-sortable="true"  data-halign="center" data-align="center" data-formatter="formatDateTime">最后修改于</th>
 			</tr>
 		</thead>
 	</table>

@@ -168,24 +168,24 @@ $(document).ready(function(){
 //请求数据
 function getData(params){
 	var current             = $('.search-current');
-	var u_logname           = current.find(".u_logname").val();
-	var u_realname          = current.find(".u_realname").val();
-	var u_email             = current.find(".u_email").val();
-	var u_mobilephone       = current.find(".u_mobilephone").val();
-	var u_status            = current.find(".u_status").val();
+	var logname           = current.find(".logname").val();
+	var realname          = current.find(".realname").val();
+	var email             = current.find(".email").val();
+	var mobilephone       = current.find(".mobilephone").val();
+	var status            = current.find(".status").val();
 	
 	var sort                = params.sort;
-	if(sort == undefined) sort = "u_logname";
+	if(sort == undefined) sort = "logname";
 	
 	$.ajax({
 		type:"get",
 	    url:"datalist",
 	    data:{
-	    	"u_logname":u_logname,
-	    	"u_realname":u_realname,
-	    	"u_email":u_email,
-	    	"u_mobilephone":u_mobilephone,
-	    	"u_status":u_status,
+	    	"logname":logname,
+	    	"realname":realname,
+	    	"email":email,
+	    	"mobilephone":mobilephone,
+	    	"status":status,
 	    	"sort":sort,
 	    	"order":params.order,
 	    	"offset":params.offset,
@@ -217,8 +217,7 @@ function ajaxRequest(params) {
 }
 //编辑
 function formatName(value,row,index){
-	var id = row.u_id;
-	var p_domain = row.p_domain;
-    var action = '<a href = "edit?id='+id+'" style="color:#428bca;">' + value + '@' + p_domain + '</a>';
+	var id = row.id;
+    var action = '<a href = "edit?id='+id+'" style="color:#428bca;">' + value + '</a>';
   return action;
 };

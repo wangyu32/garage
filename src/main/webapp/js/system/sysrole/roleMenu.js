@@ -1,8 +1,8 @@
 $(function() {
 	
-	var r_id = $("#r_id").val();
+	var id = $("#id").val();
 	
-	var treeData = getTreeData(r_id);
+	var treeData = getTreeData(id);
 
 	$('#treeview').treeview({
 		data : treeData.list,
@@ -52,12 +52,12 @@ $(function() {
 	});
 });
 
-function getTreeData(r_id){
+function getTreeData(id){
 	$.ajax({
 		type:"get",
 	    url:"queryrolemenu",
 	    data:{
-	    	"r_id":r_id
+	    	"id":id
 	    },
 	    dataType:"json",
 	        async:false,
@@ -86,7 +86,7 @@ function dosome(num){
 
 //保存
 function save(){
-	var r_id = $("#r_id").val();
+	var id = $("#id").val();
 	var objs = $('#treeview').treeview('getChecked','');
 	var menuidArray = [];
 	for(var i=0; i<objs.length; i++){
@@ -96,12 +96,11 @@ function save(){
 			menuidArray.push(ids[1]);
 		}
 	}
-	
 	$.ajax({
 		type:"post",
 	    url:"saverolemenu",
 	    data:{
-	    	"roleid":r_id,
+	    	"roleid":id,
 	    	"menuidArray":menuidArray
 	    },
 	    traditional :true,

@@ -22,18 +22,18 @@
 	</div>
 	<!-- 表单 -->
 	<form class="form-horizontal editPage" id="form">
-		<input type="hidden" name="r_id" id ="r_id" class="form-control" value="${model.r_id}">
+		<input type="hidden" name="id" id ="id" class="form-control" value="${model.id}">
 		<div class="form-group clearfix">
 		    <label class="col-sm-2 control-label">角色名称</label>
 		    <div class="col-sm-6">
-		      	<input type="text" name="r_name" class="form-control"  maxlength="30"  value="${model.r_name}">
+		      	<input type="text" name="name" class="form-control"  maxlength="30"  value="${model.name}">
 		    </div>
 		    <span class="required">*</span>
 		</div>
 		<div class="form-group clearfix">
 		    <label class="col-sm-2 control-label">描述 </label>
 		    <div class="col-sm-6">
-		    	<textarea rows="2" cols="" type="text" name="r_desc" class="form-control" maxlength="100"  value="${model.r_desc}">${model.r_desc}</textarea>
+		    	<textarea rows="2" cols="" type="text" name="desc" class="form-control" maxlength="100"  value="${model.desc}">${model.desc}</textarea>
 		    </div>
 		</div>
 		<!-- 分配菜单 -->
@@ -61,10 +61,10 @@
 		    <label class="col-sm-2 control-label clearfix">状态</label>
 			<div class=" col-sm-6">
                 <label class="radio-inline">
-					<input type="radio" name="r_status" value='0' <c:if test="${(model.r_status eq 0) or (model.r_status eq null)}">checked</c:if> /> 启用
+					<input type="radio" name="status" value='0' <c:if test="${(model.status eq 0) or (model.status eq null)}">checked</c:if> /> 启用
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="r_status" value='1' <c:if test="${(model.r_status eq 1)}">checked</c:if> /> 禁用
+					<input type="radio" name="status" value='1' <c:if test="${(model.status eq 1)}">checked</c:if> /> 禁用
 				</label>
 		    </div>
 		</div>

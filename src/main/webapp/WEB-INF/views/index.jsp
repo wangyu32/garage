@@ -14,7 +14,7 @@
 </head>
 
 <body style="padding:0 5px 0 5px;">
-	<span class="none" id="coin">${CURRENT_USER.u_coinunit }</span>
+	<span class="none" id="coin"></span>
 	<div class="leftdata">
 		<div class="caption"></div>
 		<div class="chart">

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangyu.mapper.SysModuleMenuMapper">
+
+  <select id="findAllModuleMenu" parameterType="java.lang.Integer" resultType="com.wangyu.entity.ModuleMenuQueryResult">
+		select
+				m.id, m.type, m.name, m.image, m.order,
+				mm.id as mmid, mm.name as mmname, mm.url as mmurl, mm.order as mmorder
+		from sys_module_menu mm
+		inner join sys_module m on mm.mid = m.id
+		where mm.status = 0
+		and m.status = 0
+		order by m.order, mm.order
+  </select>
+
+  <select id="findModuleMenuByUserId" parameterType="java.lang.Integer" resultType="com.wangyu.entity.ModuleMenuQueryResult">
+		select distinct
+				m.id, m.type, m.name, m.image, m.order,
+				mm.id as mmid, mm.name as mmname, mm.url as mmurl, mm.order as mmorder
+		from (
+			select r.* from sys_user_role ur inner join sys_role r on ur.rid = r.id
+			where ur.uid = #{userId, jdbcType=INTEGER}
+		) r
+		inner join sys_role_menu rm on r.id = rm.rid
+		inner join sys_module_menu mm on rm.mmid = mm.id
+		inner join sys_module m on mm.mid = m.id
+		where r.status = 0
+		and mm.status = 0
+		and m.status = 0
+		order by m.order, m.name, mm.order
+  </select>
+
+  <select id="findModuleMenuByRoleId" parameterType="java.lang.Integer" resultType="com.wangyu.entity.ModuleMenuQueryResult">
+		select distinct
+				m.id, m.type, m.name, m.image, m.order,
+				mm.id as mmid, mm.name as mmname, mm.url as mmurl, mm.order as mmorder
+		from (
+			select rm.mmid from sys_role_menu rm where rm.rid = #{roleId, jdbcType=INTEGER}
+		) rm
+		inner join sys_module_menu mm on rm.mmid = mm.id
+		inner join sys_module m on mm.mid = m.id
+		where mm.status = 0
+		and m.status = 0
+		order by m.order, m.name, mm.order
+  </select>
+</mapper>
