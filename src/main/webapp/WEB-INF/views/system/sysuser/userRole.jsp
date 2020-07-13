@@ -25,7 +25,7 @@
         </button>
 	</nav>
 	
-	<input type="hidden" id="u_id" value="${u_id}">
+	<input type="hidden" id="id" value="${id}">
 	
 	<!--数据列表-->
 	<table id="dataTable" 
@@ -34,16 +34,16 @@
 			  data-ajax="ajaxRequest"  
 			  data-side-pagination="server" 
 			  data-pagination="true" 
-			  data-sort-name="r_updatetime" 
+			  data-sort-name="updatetime"
 			  data-sort-order="desc" 
 			  class="table-bordered table-condensed table-striped">
 		<thead>
 			<tr>
 				<th data-checkbox='true' data-width="20" ></th>
-				<th data-field="r_id" data-width="40"  data-sortable="true"  data-halign="center" data-align="center">角色ID</th>
-				<th data-field="r_name" data-width="40"  data-sortable="true" data-halign="center" data-align="center" data-formatter='formatName'>角色名称</th>
-				<th data-field="r_desc" data-width="60" data-halign="center" data-align="center">描述</th>
-				<th data-field="r_status" data-width="100"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
+				<th data-field="id" data-width="40"  data-sortable="true"  data-halign="center" data-align="center">角色ID</th>
+				<th data-field="name" data-width="40"  data-sortable="true" data-halign="center" data-align="center" data-formatter='formatName'>角色名称</th>
+				<th data-field="desc" data-width="60" data-halign="center" data-align="center">描述</th>
+				<th data-field="status" data-width="100"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
 			</tr>
 		</thead>
 	</table>
@@ -59,15 +59,15 @@
 					</span>
 					<span>
 						<b>角色ID</b>
-						<input type="text" id="r_id" size="8" maxlength="8"/>
+						<input type="text" id="id" size="8" maxlength="8"/>
 					</span>
 					<span>
 						<b>角色名称</b>
-						<input type="text" id="r_name" size="12"/>
+						<input type="text" id="name" size="12"/>
 					</span>
 					<span>
 						<b>状态</b>
-						<select name="r_status" id="r_status">
+						<select name="status" id="status">
 							<option value="">-- 所有 --</option>
 							<option value="0">启用</option>
 							<option value="1">禁用</option>
@@ -87,16 +87,16 @@
 				  data-ajax="ajaxRequestRole"  
 				  data-side-pagination="server" 
 				  data-pagination="true" 
-				  data-sort-name="r_updatetime" 
+				  data-sort-name="updatetime"
 				  data-sort-order="desc" 
 				  class="table-bordered table-condensed table-striped">
 			<thead>
 				<tr>
 					<th data-checkbox='true' data-width="20" ></th> 
-					<th data-field="r_id" data-width="40"  data-sortable="true"  data-halign="center" data-align="center">角色ID</th>
-					<th data-field="r_name" data-width="40"  data-sortable="true" data-halign="center" data-align="center" data-formatter='formatName'>角色名称</th>
-					<th data-field="r_desc" data-width="60" data-halign="center" data-align="center">描述</th>
-					<th data-field="r_status" data-width="100"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
+					<th data-field="id" data-width="40"  data-sortable="true"  data-halign="center" data-align="center">角色ID</th>
+					<th data-field="name" data-width="40"  data-sortable="true" data-halign="center" data-align="center" data-formatter='formatName'>角色名称</th>
+					<th data-field="desc" data-width="60" data-halign="center" data-align="center">描述</th>
+					<th data-field="status" data-width="100"  data-halign="center" data-align="center" data-formatter="dataFormatterForCommonStatus">状态</th>
 				</tr>
 			</thead>
 		</table>

@@ -8,6 +8,7 @@ import com.wangyu.constant.SessionAttributeConstants;
 import com.wangyu.constant.UserLogTypeConstants;
 import com.wangyu.entity.page.PageQueryResult;
 import com.wangyu.entity.parameter.ChangePasswordParameter;
+import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.entity.parameter.UserPageQueryParameter;
 import com.wangyu.entity.parameter.UserRolePageQueryParameter;
 import com.wangyu.entity.vo.UserRoleCheckedVO;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,113 +78,112 @@ public class SysUserController extends BaseController{
         return "system/sysuser/edit";
     }
 
-//    /**
-//     * 查询用户关联角色在所有角色中的选择情况
-//     * @param parameter - 用户角色关联关系查询参数
-//     * @return json
-//     */
-//    @RequestMapping(value = "/queryuserrolechecked", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-//    @ResponseBody
-//    public UserRoleCheckedVOListResponse queryUserRoleChecked(UserRolePageQueryParameter parameter) {
-//        try {
-//            Integer u_id = parameter.getU_id();
-//            UserRoleCheckedVOListResponse userRoleCheckedVOListResponse = sysRoleService.queryUserRoleChecked(parameter);
-//            if(u_id != null){
-//                //修改用户时操作
-//                List<String> roleIdList = new ArrayList<String>();
-//                if(NullUtil.notNull(userRoleCheckedVOListResponse.getList())){
-//                    List<UserRoleCheckedVO> roleList = userRoleCheckedVOListResponse.getList();
-//                    for (int i = 0; i < roleList.size(); i++) {
-//                        UserRoleCheckedVO roleCheckedVO = roleList.get(i);
-//                        if(roleCheckedVO.isChecked()){
-//                            //checked的节点说明是已分配给该用户的
-//                            roleIdList.add(String.valueOf(roleCheckedVO.getR_id()));
-//                        }
-//                    }
-//                }
-//
-//                //session缓存处理
-//                SysUser userSession = (SysUser)getSessionAttribute(getSessionKey(u_id));
-//                userSession.setR_id_array(roleIdList.toArray(new String[0]));//set角色节点ID
-//                setSessionAttribute(getSessionKey(u_id), userSession);
-//            }
-//
-//            return userRoleCheckedVOListResponse;
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            UserRoleCheckedVOListResponse userResponse = new UserRoleCheckedVOListResponse();
-//            userResponse.setCode(Code.FAIL);
-//            userResponse.setMessage("操作失败");
-//            return userResponse;
-//        }
-//    }
-//
-//    /**
-//     * 保存用户
-//     * @param SysUser - 用户信息Model
-//     * @return String
-//     */
-//    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    @ResponseBody
-//    public UserResponse save(SysUser SysUser) {
-//        SysUser.setRef_p_id(getCurrentProjectId());
-//
-//        Integer u_id = SysUser.getU_id();
-//        String password = SysUser.getU_password();
-//        if(StringUtil.notBlank(password)){
-//            //MD5加密再存储
-//            password = Md5Util.MD5Encode(password, null).toUpperCase();
-//            SysUser.setU_password(password);
-//        }
-//
-//        UserResponse response = null;
-//        String json = null;
-//        try {
-//            if(u_id == null){
-//                //增加
-//                //从返回的json获取新增用户的ID
-//                response = add(SysUser);
-//
-//                //添加成功，记录操作日志
-//                if(isSuccessResponse(response)){
-//                    SysUser addUser =	response.getData();
-//                    SysUser.setU_id(addUser.getU_id());
-//
-//                    //记录日志
+    /**
+     * 查询用户关联角色在所有角色中的选择情况
+     * @param parameter - 用户角色关联关系查询参数
+     * @return json
+     */
+    @RequestMapping(value = "/queryuserrolechecked", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public UserRoleCheckedVOListResponse queryUserRoleChecked(UserRolePageQueryParameter parameter) {
+        try {
+            Integer u_id = parameter.getUid();
+            parameter.setPageQuery(false);
+            UserRoleCheckedVOListResponse userRoleCheckedVOListResponse = sysRoleService.queryUserRoleChecked(parameter);
+            if(u_id != null){
+                //修改用户时操作
+                List<String> roleIdList = new ArrayList<String>();
+                if(NullUtil.notNull(userRoleCheckedVOListResponse.getList())){
+                    List<UserRoleCheckedVO> roleList = userRoleCheckedVOListResponse.getList();
+                    for (int i = 0; i < roleList.size(); i++) {
+                        UserRoleCheckedVO roleCheckedVO = roleList.get(i);
+                        if(roleCheckedVO.isChecked()){
+                            //checked的节点说明是已分配给该用户的
+                            roleIdList.add(String.valueOf(roleCheckedVO.getId()));
+                        }
+                    }
+                }
+
+                //session缓存处理
+                SysUser userSession = (SysUser)getSessionAttribute(getSessionKey(u_id));
+                userSession.setRIdArray(roleIdList.toArray(new String[0]));//set角色节点ID
+                setSessionAttribute(getSessionKey(u_id), userSession);
+            }
+
+            return userRoleCheckedVOListResponse;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            UserRoleCheckedVOListResponse userResponse = new UserRoleCheckedVOListResponse();
+            userResponse.setCode(Code.FAIL);
+            userResponse.setMessage("操作失败");
+            return userResponse;
+        }
+    }
+
+    /**
+     * 保存用户
+     * @param SysUser - 用户信息Model
+     * @return String
+     */
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public UserResponse save(SysUser SysUser) {
+        Integer u_id = SysUser.getId();
+        String password = SysUser.getPassword();
+        if(StringUtil.notBlank(password)){
+            //MD5加密再存储
+            password = Md5Util.MD5Encode(password, null).toUpperCase();
+            SysUser.setPassword(password);
+        }
+
+        UserResponse response = null;
+        String json = null;
+        try {
+            if(u_id == null){
+                //增加
+                //从返回的json获取新增用户的ID
+                response = add(SysUser);
+
+                //添加成功，记录操作日志
+                if(isSuccessResponse(response)){
+                    SysUser addUser = response.getData();
+                    SysUser.setId(addUser.getId());
+
+                    //记录日志
 //                    addLog(json, MENU_NAME, UserLogTypeConstants.USER_ADD, String.valueOf(SysUser.getU_id()), SysUser.getU_logname(), toJson(SysUser));
-//                }
-//                return response;
-//            } else {
-//                //修改
-//
-//                /** 权限校验，非管理员（isadmin=0）的用户，自己不能修改自己的权限 **/
-//                if(!isAdminUser() && u_id == getCurrentUserId().intValue()){
-//                    return new UserResponse(renderError(Code.FAIL, "非管理员账户不能修改自己信息"));
-//                }
-//
-//                BaseResponse baseResponse = update(SysUser);
-//
-//                //修改成功，记录日志
-//                if(isSuccessResponse(baseResponse)){
-//                    //从session中读取
-//                    SysUser userSession = (SysUser)getSessionAttribute(getSessionKey(u_id));
-//                    //记录日志
+                }
+                return response;
+            } else {
+                //修改
+
+                /** 权限校验，非管理员（isadmin=0）的用户，自己不能修改自己的权限 **/
+                if(!isAdminUser() && u_id == getCurrentUserId().intValue()){
+                    return new UserResponse(renderError(Code.FAIL, "非管理员账户不能修改自己信息"));
+                }
+
+                BaseResponse baseResponse = update(SysUser);
+
+                //修改成功，记录日志
+                if(isSuccessResponse(baseResponse)){
+                    //从session中读取
+                    SysUser userSession = (SysUser)getSessionAttribute(getSessionKey(u_id));
+                    //记录日志
 //                    addLog(null, MENU_NAME, UserLogTypeConstants.USER_UPDATE, u_id + "", SysUser.getU_logname(), toJson(userSession));
-//                    //从session中移除
-//                    removeSessionAttribute(getSessionKey(u_id));
-//                }
-//
-//                response = new UserResponse(baseResponse);
-//                return response;
-//            }
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            UserResponse userResponse = new UserResponse();
-//            userResponse.setCode(Code.FAIL);
-//            userResponse.setMessage("操作失败");
-//            return userResponse;
-//        }
-//    }
+                    //从session中移除
+                    removeSessionAttribute(getSessionKey(u_id));
+                }
+
+                response = new UserResponse(baseResponse);
+                return response;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            UserResponse userResponse = new UserResponse();
+            userResponse.setCode(Code.FAIL);
+            userResponse.setMessage("操作失败");
+            return userResponse;
+        }
+    }
 
     /**
      * 分页查询用户信息
@@ -305,157 +306,144 @@ public class SysUserController extends BaseController{
     private String getSessionKey(Integer id){
         return SessionAttributeConstants.USER_ + id + "_" + getSessionid();
     }
-//
-//    /**
-//     * 添加用户
-//     * @param model
-//     * @return
-//     */
-//    private UserResponse add(SysUser model) {
-//        if(model.getRef_p_id() == null){
-//            return new UserResponse(renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL));
-//        }
-//        if(StringUtil.isBlank(model.getU_logname())){
-//            return new UserResponse(renderError(Code.FAIL, MessageConstants.USER_LOG_NAME_CAN_NOT_BE_NULL));
-//        }
-//        if(StringUtil.isBlank(model.getU_password())){
-//            return new UserResponse(renderError(Code.FAIL, MessageConstants.USER_PASSWORD_CAN_NOT_BE_NULL));
-//        }
-//        if(model.getU_status() == null){
-//            return new UserResponse(renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL));
-//        }
-//
-//        UserPageQueryParameter parameter = new UserPageQueryParameter();
-//        parameter.setRef_p_id(model.getRef_p_id());
-//        parameter.setU_logname(model.getU_logname());
-//
-//        //同一项目id对应的名称不应该有重复,否则容易混淆
-//        int count =	sysUserService.findCountOfUlogname(parameter);
-//        if(count > 0){
-//            return new UserResponse(renderError(Code.FAIL, MessageConstants.USER_NAME_EXIST));
-//        }
-//
-//        String message = null;
-//        try {
-//            message = sysUserService.insertUserAndUserRole(model);
-//        } catch (RollbackableBizException e) {
-//            return new UserResponse(renderError(Code.FAIL));
-//        } catch (Exception e) {
-//            return new UserResponse(renderError(Code.FAIL));
-//        }
-//
-//        if(Code.SUCCESS.equals(message)){
-//            UserResponse response = new UserResponse();
-//            response.setMessage(SAVE_SUCCESS);
-//            SysUser newModel = new SysUser();
-//            newModel.setU_id(model.getU_id());
-//            response.setData(newModel);
-//            return response;
-//        }else{
-//            log.error("增加信息失败!" );
-//            return new UserResponse(renderError(Code.FAIL));
-//        }
-//    }
-//
-//    /**
-//     * 修改
-//     * @param model - 信息Model
-//     * @return BaseResponse
-//     */
-////    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    private BaseResponse update(SysUser model) {
-//        if(model.getU_id() == null){
-//            return renderError(Code.FAIL, MessageConstants.PRIMARY_KEY_CAN_NOT_BE_NULL);
-//        }
-//        if(model.getRef_p_id() == null){
-//            return renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL);
-//        }
-//        if(StringUtil.isBlank(model.getU_logname())){
-//            return renderError(Code.FAIL, MessageConstants.USER_LOG_NAME_CAN_NOT_BE_NULL);
-//        }
-//        if(model.getU_status() == null){
-//            return renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL);
-//        }
-//
-//        //同一项目id对应的登录名不应该有重复
-//        UserPageQueryParameter parameter = new UserPageQueryParameter();
-//        parameter.setU_id(model.getU_id());//排除此uid的
-//        parameter.setRef_p_id(model.getRef_p_id());
-//        parameter.setU_logname(model.getU_logname());
-//        int count =	sysUserService.findCountOfUlogname(parameter);
-//        if(count > 0){
-//            return renderError(Code.FAIL, MessageConstants.USER_NAME_EXIST);
-//        }
-//
-//        String message = null;
-//        try {
-//            message = sysUserService.updateUserAndUserRole(model);
-//        } catch (RollbackableBizException e) {
-//            return renderError(Code.FAIL);
-//        } catch (Exception e) {
-//            return renderError(Code.FAIL);
-//        }
-//        if(Code.SUCCESS.equals(message)){
-//            return renderSuccess();
-//        }else{
-//            log.error("修改信息失败!" );
-//            return renderError(Code.FAIL);
-//        }
-//    }
-//
-//    /**
-//     * 根据用户id删除批量删除
-//     * @param parameter - 批量删除参数
-//     * @return BaseResponse
-//     */
-//    @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    @ResponseBody
-//    public BaseResponse delete(DeleteParameter parameter) {
-//        //校验
-//        if(NullUtil.isNull(parameter.getIdArray())){
-//            return renderError(Code.FAIL, MessageConstants.PRM_USER_ID_CAN_NOT_BE_NULL);
-//        }
-//        if(parameter.getRef_p_id() == null){
-//            return renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL);
-//        }
-//
-//        //查询用户中是否存在管理员账户
-//        List<SysUser> list = sysUserService.findAdminUser(parameter);
-//
-//        if(NullUtil.notNull(list)){
-//            StringBuffer s = new StringBuffer();
-//            s.append("用户");
-//            for (int i = 0; i < list.size(); i++) {
-//                SysUser model = list.get(i);
-//                String name = model.getU_logname();
-//                if(i == 0){
-//                    s.append("[");
-//                    s.append(name);
-//                    s.append("]");
-//                }else{
-//                    s.append("、[");
-//                    s.append(name);
-//                    s.append("]");
-//                }
-//            }
-//            s.append("是管理员用户，不能删除！");
-//            return renderError(Code.FAIL, s.toString());
-//        }
-//
-//        String message = null;
-//        try {
-//            message = sysUserService.deleteBatch(parameter);
-//        } catch (RollbackableBizException e) {
-//            return renderError(Code.FAIL);
-//        } catch (Exception e) {
-//            return renderError(Code.FAIL);
-//        }
-//        if(Code.SUCCESS.equals(message)){
-//            return renderSuccess();
-//        }else{
-//            log.error("删除角色信息失败!" );
-//            return renderError(Code.FAIL);
-//        }
-//    }
-//
+
+    /**
+     * 添加用户
+     * @param model
+     * @return
+     */
+    private UserResponse add(SysUser model) {
+        if(StringUtil.isBlank(model.getLogname())){
+            return new UserResponse(renderError(Code.FAIL, MessageConstants.USER_LOG_NAME_CAN_NOT_BE_NULL));
+        }
+        if(StringUtil.isBlank(model.getPassword())){
+            return new UserResponse(renderError(Code.FAIL, MessageConstants.USER_PASSWORD_CAN_NOT_BE_NULL));
+        }
+        if(model.getStatus() == null){
+            return new UserResponse(renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL));
+        }
+
+        UserPageQueryParameter parameter = new UserPageQueryParameter();
+        parameter.setLogname(model.getLogname());
+
+        //同一项目id对应的名称不应该有重复,否则容易混淆
+        int count =	sysUserService.findCountOfLogname(parameter);
+        if(count > 0){
+            return new UserResponse(renderError(Code.FAIL, MessageConstants.USER_NAME_EXIST));
+        }
+
+        String message = null;
+        try {
+            Date date = new Date();
+            model.setCreatetime(date);
+            model.setUpdatetime(date);
+            message = sysUserService.insertUserAndUserRole(model);
+        } catch (Exception e) {
+            return new UserResponse(renderError(Code.FAIL));
+        }
+
+        if(Code.SUCCESS.equals(message)){
+            UserResponse response = new UserResponse();
+            response.setMessage(SAVE_SUCCESS);
+            SysUser newModel = new SysUser();
+            newModel.setId(model.getId());
+            response.setData(newModel);
+            return response;
+        }else{
+            log.error("增加信息失败!" );
+            return new UserResponse(renderError(Code.FAIL));
+        }
+    }
+
+    /**
+     * 修改
+     * @param model - 信息Model
+     * @return BaseResponse
+     */
+    private BaseResponse update(SysUser model) {
+        if(model.getId() == null){
+            return renderError(Code.FAIL, MessageConstants.PRIMARY_KEY_CAN_NOT_BE_NULL);
+        }
+        if(StringUtil.isBlank(model.getLogname())){
+            return renderError(Code.FAIL, MessageConstants.USER_LOG_NAME_CAN_NOT_BE_NULL);
+        }
+        if(model.getStatus() == null){
+            return renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL);
+        }
+
+        //同一项目id对应的登录名不应该有重复
+        UserPageQueryParameter parameter = new UserPageQueryParameter();
+        parameter.setId(model.getId());//排除此uid的
+        parameter.setLogname(model.getLogname());
+        int count =	sysUserService.findCountOfLogname(parameter);
+        if(count > 0){
+            return renderError(Code.FAIL, MessageConstants.USER_NAME_EXIST);
+        }
+
+        String message = null;
+        try {
+            message = sysUserService.updateUserAndUserRole(model);
+        } catch (Exception e) {
+            return renderError(Code.FAIL);
+        }
+        if(Code.SUCCESS.equals(message)){
+            return renderSuccess();
+        }else{
+            log.error("修改信息失败!" );
+            return renderError(Code.FAIL);
+        }
+    }
+
+    /**
+     * 根据用户id删除批量删除
+     * @param ids - 批量删除参数
+     * @return BaseResponse
+     */
+    @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public BaseResponse delete(Integer[] ids) {
+        DeleteParameter parameter = new DeleteParameter();
+        parameter.setIdArray(ids);
+        //校验
+        if(NullUtil.isNull(parameter.getIdArray())){
+            return renderError(Code.FAIL, MessageConstants.PRM_USER_ID_CAN_NOT_BE_NULL);
+        }
+
+        //查询用户中是否存在管理员账户
+        List<SysUser> list = sysUserService.findAdminUser(parameter);
+
+        if(NullUtil.notNull(list)){
+            StringBuffer s = new StringBuffer();
+            s.append("用户");
+            for (int i = 0; i < list.size(); i++) {
+                SysUser model = list.get(i);
+                String name = model.getLogname();
+                if(i == 0){
+                    s.append("[");
+                    s.append(name);
+                    s.append("]");
+                }else{
+                    s.append("、[");
+                    s.append(name);
+                    s.append("]");
+                }
+            }
+            s.append("是管理员用户，不能删除！");
+            return renderError(Code.FAIL, s.toString());
+        }
+
+        String message = null;
+        try {
+            message = sysUserService.deleteBatch(parameter);
+        } catch (Exception e) {
+            return renderError(Code.FAIL);
+        }
+        if(Code.SUCCESS.equals(message)){
+            return renderSuccess();
+        }else{
+            log.error("删除角色信息失败!" );
+            return renderError(Code.FAIL);
+        }
+    }
+
 }

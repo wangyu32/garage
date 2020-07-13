@@ -9,11 +9,17 @@ import com.wangyu.entity.RoleUserCountModel;
 import com.wangyu.entity.page.PageQueryResult;
 import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.entity.parameter.RolePageQueryParameter;
+import com.wangyu.entity.parameter.UserPageQueryParameter;
+import com.wangyu.entity.parameter.UserRolePageQueryParameter;
+import com.wangyu.entity.vo.UserRoleCheckedVO;
 import com.wangyu.mapper.SysRoleMenuMapper;
 import com.wangyu.mapper.SysUserMapper;
+import com.wangyu.mapper.SysUserRoleMapper;
 import com.wangyu.model.SysRole;
 import com.wangyu.mapper.SysRoleMapper;
 import com.wangyu.model.SysRoleMenu;
+import com.wangyu.model.SysUserRole;
+import com.wangyu.response.UserRoleCheckedVOListResponse;
 import com.wangyu.service.ISysRoleMenuService;
 import com.wangyu.service.ISysRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,7 +30,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -45,6 +53,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Autowired
     private SysRoleMenuMapper sysRoleMenuMapper;
+
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
 
     @Autowired
     private ISysRoleMenuService sysRoleMenuService;
@@ -164,5 +175,60 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public List<RoleUserCountModel> findRoleUserCount(DeleteParameter parameter) {
         return sysUserMapper.findRoleUserCount(parameter);
+    }
+
+    @Override
+    public UserRoleCheckedVOListResponse queryUserRoleChecked(UserRolePageQueryParameter parameter) {
+        UserRoleCheckedVOListResponse listResponse = new UserRoleCheckedVOListResponse();
+
+        RolePageQueryParameter rolePageQueryParameter = new RolePageQueryParameter();
+        rolePageQueryParameter.setStatus(parameter.getRstatus());
+        rolePageQueryParameter.setPageQuery(parameter.isPageQuery());
+        rolePageQueryParameter.setOrder(parameter.getOrder());
+        rolePageQueryParameter.setSort(parameter.getSort());
+        rolePageQueryParameter.setOffset(parameter.getOffset());
+        rolePageQueryParameter.setLimit(parameter.getLimit());
+
+        PageQueryResult result = this.findByPage(rolePageQueryParameter);
+        //全部角色
+        List<SysRole> allRoleList = result.getResultList();
+
+        //关联用户的缓存Map
+        Map<Integer, SysUserRole> userCache = new HashMap<>();
+
+        //用户ID不为空时，是修改用户操作，需要查询出关联的角色
+        if(parameter.getUid() != null){
+
+            QueryWrapper<SysUserRole> sysUserRoleQueryWrapper = new QueryWrapper<>();
+            sysUserRoleQueryWrapper.lambda().eq(SysUserRole::getUid, parameter.getUid());
+            //用户关联的角色
+            List<SysUserRole> userRoleList = this.sysUserRoleMapper.selectList(sysUserRoleQueryWrapper);
+
+            if(NullUtil.notNull(userRoleList)){
+                for (int i = 0; i < userRoleList.size(); i++) {
+                    SysUserRole model = userRoleList.get(i);
+                    userCache.put(model.getRid(), model);
+                }
+            }
+        }
+
+        List<UserRoleCheckedVO> voList = new ArrayList<UserRoleCheckedVO>();
+        for (int i = 0; i < allRoleList.size(); i++) {
+            SysRole model = allRoleList.get(i);
+            UserRoleCheckedVO vo = new UserRoleCheckedVO();
+            vo.setId(model.getId());
+            vo.setName(model.getName());
+            vo.setStatus(model.getStatus());
+            vo.setDesc(model.getDesc());
+            if(userCache.get(model.getId()) != null){
+                vo.setChecked(true);//关联的角色
+            }
+            voList.add(vo);
+        }
+
+        listResponse.setList(voList);
+        listResponse.setTotal(voList.size());
+        return listResponse;
+
     }
 }

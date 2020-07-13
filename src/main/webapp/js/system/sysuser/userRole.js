@@ -35,7 +35,7 @@ $(document).ready(function(){
 		//数组
 		var ids = new Array();  
 		for (var i = 0; i < obj.length; i++) {
-			ids.push(obj[i].r_id);  
+			ids.push(obj[i].id);
 		};
 		
 		layer.confirm('您确认禁用该记录？', {
@@ -65,13 +65,13 @@ $(document).ready(function(){
 
 //请求数据
 function getData(params){
-	var u_id = $("#u_id").val();
+	var uid = $("#uid").val();
 	
 	$.ajax({
 		type:"get",
 	    url:"queryuserrole",
 	    data:{
-	    	"u_id":u_id
+	    	"uid":uid
 	    },
 	    dataType:"json",
 	        async:false,
@@ -100,27 +100,27 @@ function ajaxRequest(params) {
 
 //编辑
 function formatName(value,row,index){
-	var id = row.r_id;
+	var id = row.id;
     var action = '<a href = "edit?id='+id+'" style="color:#428bca;">'+value+'</a>';
   return action;
 };
 
 //请求数据
 function getDataRole(params){
-	var r_id = $("#r_id").val();
-	var r_name = $("#r_name").val();
-	var r_status = $("#r_status").val();
+	var id = $("#id").val();
+	var name = $("#name").val();
+	var status = $("#status").val();
 	
 	var sort = params.sort;
-	if(sort == undefined) sort = "r_name";
+	if(sort == undefined) sort = "name";
 	
 	$.ajax({
 		type:"get",
 	    url:"queryrole",
 	    data:{
-	    	"r_id":r_id,
-	    	"r_name":r_name,
-	    	"r_status":r_status,
+	    	"id":id,
+	    	"name":name,
+	    	"status":status,
 	    	
 	    	"sort":sort,
 	    	"order":params.order,

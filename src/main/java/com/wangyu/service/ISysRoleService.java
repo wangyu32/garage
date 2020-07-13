@@ -4,8 +4,11 @@ import com.wangyu.entity.RoleUserCountModel;
 import com.wangyu.entity.page.PageQueryResult;
 import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.entity.parameter.RolePageQueryParameter;
+import com.wangyu.entity.parameter.UserPageQueryParameter;
+import com.wangyu.entity.parameter.UserRolePageQueryParameter;
 import com.wangyu.model.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wangyu.response.UserRoleCheckedVOListResponse;
 
 import java.util.List;
 
@@ -53,4 +56,11 @@ public interface ISysRoleService extends IService<SysRole> {
      * @return List
      */
     List<RoleUserCountModel> findRoleUserCount(DeleteParameter parameter);
+
+    /**
+     * 查询用户关联角色在所有角色中的选择情况
+     * @param parameter 查询参数
+     * @return UserRoleCheckedVOListResponse
+     */
+    UserRoleCheckedVOListResponse queryUserRoleChecked(UserRolePageQueryParameter parameter);
 }

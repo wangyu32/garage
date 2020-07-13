@@ -20,7 +20,7 @@ $(document).ready(function(){
 			layer.msg('只能选择一个条记录！',{icon:0,time:2000});
 			return;
 		}
-		var param = "u_id=" + obj[0].u_id;
+		var param = "id=" + obj[0].id;
     	window.location.href = 'adduserrole?' + param;
     });
     
@@ -35,7 +35,7 @@ $(document).ready(function(){
 		//数组
 		var ids = new Array();  
 		for (var i = 0; i < obj.length; i++) {
-			ids.push(obj[i].u_id);  
+			ids.push(obj[i].id);
 		};
 		
 		layer.confirm('您确认删除记录？', {
@@ -121,7 +121,7 @@ $(document).ready(function(){
 			layer.msg('只能选择一个条记录！',{icon:0,time:2000});
 			return;
 		}
-		var param = "u_id=" + obj[0].u_id;
+		var param = "id=" + obj[0].id;
 		$.ajax({
 			type : 'post',
 			url : "enable?" + param,
@@ -148,7 +148,7 @@ $(document).ready(function(){
 			layer.msg('只能选择一个条记录！',{icon:0,time:2000});
 			return;
 		}
-		var param = "u_id=" + obj[0].u_id;
+		var param = "id=" + obj[0].id;
 		$.ajax({
 			type : 'post',
 			url : "disable?" + param,

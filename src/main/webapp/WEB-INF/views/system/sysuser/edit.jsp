@@ -4,6 +4,9 @@
 <html lang="zh-CN">
 
 <head>
+	<meta http-equiv= "Pragma" content= "no-cache" /> 
+	<meta http-equiv= "Cache-Control" content= "no-cache" /> 
+	<meta http-equiv= "Expires" content= "0" /> 
 	<jsp:include flush="true" page="../../comm/iframeInc.jsp">
 		<jsp:param value="yes" name="table"/>
 		<jsp:param value="yes" name="validate"/> 
@@ -36,7 +39,7 @@
 		<div class="form-group clearfix" id="up_password">
 		    <label class="col-sm-2 control-label">密码</label>
 		    <div class="col-sm-6">
-		      <input type="password" name="password" class="form-control"  maxlength=25  value="${model.password}" data-noempty='密码' id="password">
+		      <input type="password" name="password" class="form-control" autocomplete="new-password" maxlength=25  value="${model.password}" data-noempty='密码' id="password">
 		    </div><span class="required">*</span>
 		</div>
 		<!-- 角色 -->
@@ -49,14 +52,14 @@
 						  data-ajax="ajaxRequest"  
 						  data-side-pagination="server" 
 						  data-pagination="false" 
-						  data-sort-name="r_id" 
+						  data-sort-name="id"
 						  data-sort-order="asc" 
 						  class="table-bordered table-condensed table-striped">
 					<thead>
 						<tr>
 							<th data-checkbox='true' data-width="20" data-formatter='formatChecked'></th> 
-							<th data-field="r_name" data-width="" data-sortable="true" data-halign="center" data-align="center">角色名称</th>
-							<th data-field="r_desc" data-width="" data-sortable="true" data-halign="center" data-align="center">描述</th>
+							<th data-field="name" data-width="" data-sortable="true" data-halign="center" data-align="center">角色名称</th>
+							<th data-field="desc" data-width="" data-sortable="false" data-halign="center" data-align="center">描述</th>
 							<%--
 							<th data-field="r_id" data-width=""  data-sortable="true"  data-halign="center" data-align="center">角色ID</th>
 							 
@@ -76,7 +79,7 @@
 		    <label class="col-sm-2 control-label">电子邮箱</label>
 		    <div class="col-sm-6">
 				
-				  <input type="email" name="email" class="form-control" placeholder="" value="${model.email}" aria-describedby="basic-addon2">
+				  <input type="email" name="email" class="form-control" autocomplete="new-password" placeholder="" value="${model.email}" aria-describedby="basic-addon2">
 			</div>
 		</div>
 		<div class="form-group clearfix">

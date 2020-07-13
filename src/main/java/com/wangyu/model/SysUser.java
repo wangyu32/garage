@@ -1,9 +1,11 @@
 package com.wangyu.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -85,5 +87,9 @@ public class SysUser implements Serializable {
      */
     private Boolean del;
 
-
+    /**
+     * 角色Id数组
+     */
+    @TableField(exist = false)
+    private String[] rIdArray;
 }

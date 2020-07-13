@@ -1,6 +1,7 @@
 package com.wangyu.service;
 
 import com.wangyu.entity.page.PageQueryResult;
+import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.entity.parameter.UserLoginParameter;
 import com.wangyu.entity.parameter.UserPageQueryParameter;
 import com.wangyu.model.SysUser;
@@ -54,4 +55,40 @@ public interface ISysUserService extends IService<SysUser> {
      * @return PageQueryResult
      */
     PageQueryResult findByPage(UserPageQueryParameter parameter);
+
+    /**
+     * 查询同一项目下登录名的个数（主要用来校验角色名称，防止名称重复）
+     * @param parameter - 查询参数
+     * @return 记录数
+     *
+     */
+    int findCountOfLogname(UserPageQueryParameter parameter);
+
+    /**
+     * 增加用户及关联角色
+     * @param sysUser	用户信息Model及关联角色ID数组
+     * @return			是否增加成功的信息
+     */
+    String insertUserAndUserRole(SysUser sysUser);
+
+    /**
+     * 修改用户信息
+     * @param userModel	用户信息Model及关联角色ID数组
+     * @return			是否修改成功的信息
+     */
+    String updateUserAndUserRole(SysUser userModel);
+
+    /**
+     * 根据项目ID和用户ID数组查询其中的管理员
+     * @param parameter - 项目ID和用户ID数组参数
+     * @return List
+     */
+    List<SysUser> findAdminUser(DeleteParameter parameter);
+
+    /**
+     * 批量删除
+     * @param parameter	删除参数
+     * @return 是否删除成功的信息
+     */
+    String deleteBatch(DeleteParameter parameter);
 }

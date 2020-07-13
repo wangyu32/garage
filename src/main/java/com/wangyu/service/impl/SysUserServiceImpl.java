@@ -9,14 +9,17 @@ import com.wangyu.constant.CommonConstants;
 import com.wangyu.constant.MessageConstants;
 import com.wangyu.entity.ModuleMenuQueryResult;
 import com.wangyu.entity.page.PageQueryResult;
+import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.entity.parameter.UserLoginParameter;
 import com.wangyu.entity.parameter.UserPageQueryParameter;
 import com.wangyu.mapper.SysModuleMenuMapper;
 import com.wangyu.model.SysModuleMenu;
 import com.wangyu.model.SysUser;
 import com.wangyu.mapper.SysUserMapper;
+import com.wangyu.model.SysUserRole;
 import com.wangyu.response.ModuleMenuResponse;
 import com.wangyu.response.UserLoginResponse;
+import com.wangyu.service.ISysUserRoleService;
 import com.wangyu.service.ISysUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wangyu.util.NullUtil;
@@ -24,11 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -47,6 +48,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     private SysModuleMenuMapper sysModuleMenuMapper;
+
+    @Autowired
+    private ISysUserRoleService sysUserRoleService;
 
     @Override
     public SysUser findUserForLogin(UserLoginParameter userLoginParameter) {
@@ -134,7 +138,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userLoginResponse.setUId(sysUser.getId());
         userLoginResponse.setULogname(sysUser.getLogname());
         userLoginResponse.setURealname(sysUser.getRealname());
-
+        userLoginResponse.setUIsadmin(sysUser.getIsadmin());
         //数据库中用户密码
         String passwordDB = sysUser.getPassword();
 
@@ -208,5 +212,116 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         IPage<SysUser> iPage = this.sysUserMapper.selectPage(page, wrapper);
         PageQueryResult pageQueryResult = new PageQueryResult(iPage.getRecords(), Long.valueOf(iPage.getTotal()).intValue());
         return pageQueryResult;
+    }
+
+    @Override
+    public int findCountOfLogname(UserPageQueryParameter parameter) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SysUser::getLogname, parameter.getLogname());
+        if(parameter.getId() != null){
+            wrapper.lambda().ne(SysUser::getId, parameter.getId());
+        }
+        return sysUserMapper.selectCount(wrapper);
+    }
+
+    @Transactional
+    @Override
+    public String insertUserAndUserRole(SysUser userModel) {
+        try {
+            //增加用户
+            int num = sysUserMapper.insert(userModel);
+
+            if(NullUtil.notNull(userModel.getRIdArray())){
+                Integer id = userModel.getId();
+                String[] rIdArray = userModel.getRIdArray();
+                List<SysUserRole> list = new ArrayList<>(rIdArray.length);
+                for (int i = 0; i < rIdArray.length; i++) {
+                    SysUserRole model = new SysUserRole();
+                    model.setUid(id);
+                    model.setRid(Integer.valueOf(rIdArray[i]));
+                    list.add(model);
+                }
+
+                //批量添加用户与角色关联关系
+                num = sysUserRoleService.saveBatch(list) ? list.size() : 0;
+            }
+
+            if(num > 0){
+                return Code.SUCCESS;
+            }else{
+                return Code.FAIL;
+            }
+        } catch (Exception e) {
+            log.error("添加用户及分配角色错误:" + e.getMessage());
+            return Code.FAIL;
+        }
+    }
+
+    @Override
+    public String updateUserAndUserRole(SysUser userModel) {
+        try {
+            //修改用户
+            int num = sysUserMapper.updateById(userModel);
+
+            Integer id = userModel.getId();
+
+            QueryWrapper<SysUserRole> sysUserRoleQueryWrapper = new QueryWrapper<>();
+            sysUserRoleQueryWrapper.lambda().eq(SysUserRole::getUid, id);
+            //删除用户已关联的角色
+            sysUserRoleService.remove(sysUserRoleQueryWrapper);
+
+            if(NullUtil.notNull(userModel.getRIdArray())){
+                String[] rIdArray = userModel.getRIdArray();
+                List<SysUserRole> list = new ArrayList<>(rIdArray.length);
+                for (int i = 0; i < rIdArray.length; i++) {
+                    SysUserRole model = new SysUserRole();
+                    model.setUid(id);
+                    model.setRid(Integer.valueOf(rIdArray[i]));
+                    list.add(model);
+                }
+
+                //批量添加用户与角色关联关系
+                num = sysUserRoleService.saveBatch(list) ? list.size() : 0;
+            }
+            if(num > 0){
+                return Code.SUCCESS;
+            }else{
+                return Code.FAIL;
+            }
+        } catch (Exception e) {
+            log.error("修改用户及分配角色错误:" + e.getMessage());
+            return Code.FAIL;
+        }
+    }
+
+    @Override
+    public List<SysUser> findAdminUser(DeleteParameter parameter) {
+        QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
+        wrapper.lambda().in(SysUser::getId, parameter.getIdArray());
+        wrapper.lambda().eq(SysUser::getIsadmin, CommonConstants.USER_IS_ADMIN);
+        return this.sysUserMapper.selectList(wrapper);
+    }
+
+    @Transactional
+    @Override
+    public String deleteBatch(DeleteParameter parameter) {
+        try {
+            //批量删除用户
+            int num = sysUserMapper.deleteBatchIds(Arrays.asList(parameter.getIdArray()));
+
+            QueryWrapper<SysUserRole> sysUserRoleQueryWrapper = new QueryWrapper<>();
+            sysUserRoleQueryWrapper.lambda().in(SysUserRole::getUid, parameter.getIdArray());
+            //批量删除用户与角色关联关系
+            sysUserRoleService.remove(sysUserRoleQueryWrapper);
+
+            if(num > 0){
+                return Code.SUCCESS;
+            }else{
+                return Code.FAIL;
+            }
+        } catch (Exception e) {
+            log.error("修改用户及分配角色错误:" + e.getMessage());
+            return Code.FAIL;
+        }
     }
 }

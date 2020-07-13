@@ -1,14 +1,16 @@
 $(document).ready(function() {
 
 	// 判断 新增 or 编辑
-	var id = $("#u_id").val();
+	var id = $("#id").val();
 	if (id) {
 		$(".title").text("编辑操作员");
 		$("#up_password").hide();//编辑时，隐藏密码行
-		$("#u_password").val("1");//防止校验出错
+		$("#password").val("1");//防止校验出错
 	} else {
 		$(".title").text("增加操作员");
 		$("#repassword").hide();//增加时，隐藏重设密码按
+		$("#password").val("");//防止自动填充
+		$("#email").val("");//防止自动填充
 	};
 	
 	// 点击取消返回列表页
@@ -55,8 +57,8 @@ $(document).ready(function() {
 							type:'post',
 							dataType:'json',
 							data:{
-								u_id:$('input[name="u_id"]').val(),
-								u_password:$('#repasstwo').val()
+								id:$('input[name="id"]').val(),
+								password:$('#repasstwo').val()
 							},
 							success:function(json){
 								layer.msg('保存成功', {icon: 1,time:2000});
@@ -98,10 +100,10 @@ $(document).ready(function() {
 	function save() {
 		var postData = $('#form').serializeArray();
 		
-		var r_id_array = getRoleIdsArray();
+		var rIdArray = getRoleIdsArray();
 		var object1 = new Object;
-		object1.name = "r_id_array";
-		object1.value = r_id_array;
+		object1.name = "rIdArray";
+		object1.value = rIdArray;
 		postData.push(object1);
 		
 		$.post('save', postData, function(res) {
@@ -127,8 +129,8 @@ function getRoleIdsArray(){
 	var obj = $("#roleTable").bootstrapTable('getAllSelections');
 	if(obj.length > 0){
 		for(var i = 0; i<obj.length; i++){
-			var r_id = obj[i].r_id;
-			ids.push(r_id);
+			var id = obj[i].id;
+			ids.push(id);
 		}
 	}
 	return ids;
@@ -136,13 +138,13 @@ function getRoleIdsArray(){
 
 //请求数据
 function getData(params){
-	var u_id = $("#u_id").val();
+	var id = $("#id").val();
 	$.ajax({
 		type:"get",
 	    url:"queryuserrolechecked",
 	    data:{
-	    	"u_id":u_id,
-//	    	"r_status":"0",
+	    	"uid":id,
+//	    	"status":"0",
 	    	"sort":params.sort,
 	    	"order":params.order,
 	    },
