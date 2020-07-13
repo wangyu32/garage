@@ -1,9 +1,11 @@
 package com.wangyu.mapper;
 
-import com.wangyu.entity.parameter.UserLoginParameter;
+import com.wangyu.entity.RoleUserCountModel;
+import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.model.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wangyu.response.UserLoginResponse;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,4 +23,11 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return 修改的记录数
      */
     int updateLastlogintime(Integer userid);
+
+    /**
+     *
+     * @param parameter - 查询参数
+     * @return List
+     */
+    List<RoleUserCountModel> findRoleUserCount(DeleteParameter parameter);
 }

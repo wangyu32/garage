@@ -1,10 +1,15 @@
 package com.wangyu.entity.page;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 分页查询参数公共父类
  * @author 	wangyu
  *
  */
+@Getter
+@Setter
 public class PageQueryParameter {
 	
 	/**
@@ -68,52 +73,19 @@ public class PageQueryParameter {
 		this.sort = parameter.getSort();
 		this.order = parameter.getOrder();
 	}
-	
-	public int getLimit() {
-		return limit;
-	}
 
-	public void setLimit(int limit) {
-		this.limit = limit;
-	}
+	public boolean isAsc(){
+	    if(this.order != null && this.order.toUpperCase().equals("ASC")){
+	        return true;
+        }
+	    return false;
+    }
 
-	public int getOffset() {
-		return offset;
-	}
+	public boolean isDesc(){
+        if(this.order != null && this.order.toUpperCase().equals("DESC")){
+            return true;
+        }
+        return false;
+    }
 
-	public void setOffset(int offset) {
-		this.offset = offset;
-	}
-
-	public String getSort() {
-		return sort;
-	}
-
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
-
-	public String getOrder() {
-		return order;
-	}
-
-	public void setOrder(String order) {
-		this.order = order;
-	}
-
-	public boolean isPageQuery() {
-		return pageQuery;
-	}
-
-	public void setPageQuery(boolean pageQuery) {
-		this.pageQuery = pageQuery;
-	}
-
-	public int getPageNumber() {
-		return pageNumber;
-	}
-
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
-	}
 }

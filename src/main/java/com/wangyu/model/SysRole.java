@@ -62,5 +62,9 @@ public class SysRole implements Serializable {
      */
     private Boolean del;
 
-
+    /**
+     * 菜单ID数组(role表外字段)，为保存角色同时保存关联菜单
+     */
+    @TableField(exist = false)
+    private String[] mmIdArray;
 }

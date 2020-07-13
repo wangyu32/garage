@@ -8,7 +8,9 @@ import com.wangyu.constant.MessageConstants;
 import com.wangyu.constant.SessionAttributeConstants;
 import com.wangyu.constant.UserLogTypeConstants;
 import com.wangyu.entity.ModuleMenuTreeNode;
+import com.wangyu.entity.RoleUserCountModel;
 import com.wangyu.entity.page.PageQueryResult;
+import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.entity.parameter.RolePageQueryParameter;
 import com.wangyu.model.SysModuleMenu;
 import com.wangyu.model.SysRole;
@@ -29,10 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -133,126 +132,98 @@ public class SysRoleController extends BaseController {
      * @param roleModel - 角色信息Model
      * @return String
      */
-//    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    @ResponseBody
-//    public String save(SysRole roleModel) {
-//        Integer r_id = roleModel.getId();
-//        String json = null;
-//        try {
-//            if(r_id == null){
-//                //增加
-//                RoleResponse response = add(roleModel);
-//                json = toJson(response);
-//                //添加成功，记录操作日志
-//                if(isSuccessResponse(response)){
-//                    SysRole addRole =	response.getData();
-//                    roleModel.setId(addRole.getId());
-//                    //记录日志
-////                    addLog(json, MENU_NAME, UserLogTypeConstants.ROLE_ADD, String.valueOf(roleModel.getR_id()), roleModel.getR_name(), toJson(roleModel));
-//                }
-//            } else {
-//                //修改
-//                BaseResponse baseResponse = update(roleModel);
-//                json = toJson(baseResponse);
-//                //修改成功，记录日志
-//                if(isSuccessResponse(baseResponse)){
-//                    //从session中读取
-//                    SysRole modelInSession = (SysRole)getSessionAttribute(getSessionKey(r_id));
-//                    //记录日志
-////                    addLog(null, MENU_NAME, UserLogTypeConstants.ROLE_UPDATE, r_id + "", roleModel.getR_name(), toJson(modelInSession));
-//                    //从session中移除
-//                    removeSessionAttribute(getSessionKey(r_id));
-//                }
-//            }
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//            return httpError();
-//        }
-//        return json;
-//    }
-
-//    /**
-//     * 根据角色id删除角色
-//     * @param ids - 角色id数组
-//     * @return String
-//     */
-//    @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    @ResponseBody
-//    public String delete (String[] ids) {
-//    	Map<String, Object> paramsMap = new HashMap<String, Object>();
-//    	paramsMap.put("idArray", ids);
-//    	paramsMap.put("ref_p_id", getCurrentProjectIdStr(request));
-//    	String json = null;
-//		try {
-//			json = Http.post(DELETE, paramsMap, null);
-//
-//			//记录日志
-//			addLog(json, MENU_NAME, UserLogTypeConstants.ROLE_DELETE, null, null, toJson(ids));
-//		} catch (Exception e) {
-//			log.error(e.getMessage(), e);
-//			return httpError();
-//		}
-//		return json;
-//    }
+    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public String save(SysRole roleModel) {
+        Integer r_id = roleModel.getId();
+        String json = null;
+        try {
+            if(r_id == null){
+                //增加
+                RoleResponse response = add(roleModel);
+                json = toJson(response);
+                //添加成功，记录操作日志
+                if(isSuccessResponse(response)){
+                    SysRole addRole =	response.getData();
+                    roleModel.setId(addRole.getId());
+                    //记录日志
+//                    addLog(json, MENU_NAME, UserLogTypeConstants.ROLE_ADD, String.valueOf(roleModel.getR_id()), roleModel.getR_name(), toJson(roleModel));
+                }
+            } else {
+                //修改
+                BaseResponse baseResponse = update(roleModel);
+                json = toJson(baseResponse);
+                //修改成功，记录日志
+                if(isSuccessResponse(baseResponse)){
+                    //从session中读取
+                    SysRole modelInSession = (SysRole)getSessionAttribute(getSessionKey(r_id));
+                    //记录日志
+//                    addLog(null, MENU_NAME, UserLogTypeConstants.ROLE_UPDATE, r_id + "", roleModel.getR_name(), toJson(modelInSession));
+                    //从session中移除
+                    removeSessionAttribute(getSessionKey(r_id));
+                }
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return httpError();
+        }
+        return json;
+    }
 
     /**
      * 批量删除角色，并且删除对应角色与菜单的关联关系
      * @param ids - 批量删除参数
      * @return BaseResponse
      */
-//    @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    @ResponseBody
-//    public BaseResponse delete(Integer[] ids) {
-//        DeleteParameter parameter = new DeleteParameter();
-//        parameter.setIdArray(ids);
-//        //校验
-//        if(NullUtil.isNull(parameter.getIdArray())){
-//            return renderError(Code.FAIL, MessageConstants.PRIMARY_KEY_CAN_NOT_BE_NULL);
-//        }
-//
-//        parameter.setRef_p_id(getCurrentProjectId());
-//
-//        //查询关联的主播个数
-//        List<RoleUserCountModel> list = sysUserService.findRoleUserCount(parameter);
-//
-//        if(NullUtil.notNull(list)){
-//            StringBuffer s = new StringBuffer();
-//            s.append("角色");
-//            for (int i = 0; i < list.size(); i++) {
-//                RoleUserCountModel model = list.get(i);
-//                String name = model.getR_name();
-//                if(i == 0){
-//                    s.append("[");
-//                    s.append(name);
-//                    s.append("]");
-//                }else{
-//                    s.append("、[");
-//                    s.append(name);
-//                    s.append("]");
-//                }
-//            }
-//            s.append("有关联用户，不能删除！");
-//            return renderError(Code.FAIL, s.toString());
-//        }
-//
-//        String message = null;
-//        try {
-//            message = sysRoleService.deleteBatch(parameter);
-//        } catch (RollbackableBizException e) {
-//            return renderError(Code.FAIL);
-//        } catch (Exception e) {
-//            return renderError(Code.FAIL);
-//        }
-//
-//        if(Code.SUCCESS.equals(message)){
-//            //记录日志
-////            addLog(MENU_NAME, UserLogTypeConstants.ROLE_DELETE, null, null, toJson(parameter.getIdArray()));
-//            return renderSuccess();
-//        }else{
-//            log.error("删除角色信息失败!" );
-//            return renderError(Code.FAIL);
-//        }
-//    }
+    @RequestMapping(value = "/delete", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public BaseResponse delete(Integer[] ids) {
+        DeleteParameter parameter = new DeleteParameter();
+        parameter.setIdArray(ids);
+        //校验
+        if(NullUtil.isNull(parameter.getIdArray())){
+            return renderError(Code.FAIL, MessageConstants.PRIMARY_KEY_CAN_NOT_BE_NULL);
+        }
+
+        //查询关联的主播个数
+        List<RoleUserCountModel> list = sysRoleService.findRoleUserCount(parameter);
+
+        if(NullUtil.notNull(list)){
+            StringBuffer s = new StringBuffer();
+            s.append("角色");
+            for (int i = 0; i < list.size(); i++) {
+                RoleUserCountModel model = list.get(i);
+                String name = model.getRName();
+                if(i == 0){
+                    s.append("[");
+                    s.append(name);
+                    s.append("]");
+                }else{
+                    s.append("、[");
+                    s.append(name);
+                    s.append("]");
+                }
+            }
+            s.append("有关联用户，不能删除！");
+            return renderError(Code.FAIL, s.toString());
+        }
+
+        String message = null;
+        try {
+            message = sysRoleService.removeByIds(Arrays.asList(parameter.getIdArray())) == true ? Code.SUCCESS : Code.FAIL;
+        } catch (Exception e) {
+            return renderError(Code.FAIL);
+        }
+
+        if(Code.SUCCESS.equals(message)){
+            //记录日志
+//            addLog(MENU_NAME, UserLogTypeConstants.ROLE_DELETE, null, null, toJson(parameter.getIdArray()));
+            return renderSuccess();
+        }else{
+            log.error("删除角色信息失败!" );
+            return renderError(Code.FAIL);
+        }
+    }
 
     /**
      * 分页查询角色信息
@@ -402,103 +373,92 @@ public class SysRoleController extends BaseController {
         }
         return map;
     }
-//
-//    /**
-//     * 增加角色
-//     * @param model - 角色信息Model
-//     * @return BaseResponse
-//     */
-////    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    private RoleResponse add(SysRole model) {
-//        //校验
-//        if(model.getRef_p_id() == null){
-//            return new RoleResponse(renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL));
-//        }
-//        if(StringUtil.isBlank(model.getR_name())){
-//            return new RoleResponse(renderError(Code.FAIL, MessageConstants.ROLE_NAME_NOT_BE_NULL));
-//        }
-//        if(model.getR_status() == null){
-//            return new RoleResponse(renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL));
-//        }
-//
-//        Integer pid = model.getRef_p_id();
-//        RolePageQueryParameter parameter = new RolePageQueryParameter();
-//        parameter.setRef_p_id(pid);
-//        parameter.setR_name(model.getR_name());
-//
-//        //同一项目id对应的角色名称不应该有重复,否则容易混淆
-//        int count =	sysRoleService.findCountOfRname(parameter);
-//        if(count > 0){
-//            return new RoleResponse(renderError(Code.FAIL, MessageConstants.ROLE_NAME_EXIST));
-//        }
-//
-//        String message = null;
-//        try {
-//            message = sysRoleService.insertRoleAndRoleMenu(model);
-//        } catch (RollbackableBizException e) {
-//            return new RoleResponse(renderError(Code.FAIL));
-//        } catch (Exception e) {
-//            return new RoleResponse(renderError(Code.FAIL));
-//        }
-//        if(Code.SUCCESS.equals(message)){
-//            RoleResponse response = new RoleResponse();
-//            response.setMessage(SAVE_SUCCESS);
-//            SysRole newModel = new SysRole();
-//            newModel.setR_id(model.getR_id());
-//            response.setData(newModel);
-//            return response;
-//        }else{
-//            log.error("增加角色信息失败!" );
-//            return new RoleResponse(renderError(Code.FAIL));
-//        }
-//    }
-//
-//    /**
-//     * 修改角色
-//     * @param model - 角色信息Model
-//     * @return BaseResponse
-//     */
-//    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-//    private BaseResponse update(SysRole model) {
-//        //校验
-//        if(model.getR_id() == null){
-//            return renderError(Code.FAIL, MessageConstants.PRIMARY_KEY_CAN_NOT_BE_NULL);
-//        }
-//        if(model.getRef_p_id() == null){
-//            return renderError(Code.FAIL, MessageConstants.PROJECT_ID_CAN_NOT_BE_NULL);
-//        }
-//        if(StringUtil.isBlank(model.getR_name())){
-//            return renderError(Code.FAIL, MessageConstants.ROLE_NAME_NOT_BE_NULL);
-//        }
-//        if(model.getR_status() == null){
-//            return renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL);
-//        }
-//
-//        //同一项目id对应的角色名称不应该有重复,否则容易混淆
-//        RolePageQueryParameter parameter = new RolePageQueryParameter();
-//        parameter.setR_id(model.getR_id());
-//        parameter.setRef_p_id(model.getRef_p_id());
-//        parameter.setR_name(model.getR_name());
-//        int count =	sysRoleService.findCountOfRname(parameter);
-//        if(count > 0){
-//            return renderError(Code.FAIL, MessageConstants.ROLE_NAME_EXIST);
-//        }
-//
-//        String message = null;
-//        try {
-//            message = sysRoleService.updateRoleAndRoleMenu(model);
-//        } catch (RollbackableBizException e) {
-//            return renderError(Code.FAIL);
-//        } catch (Exception e) {
-//            return renderError(Code.FAIL);
-//        }
-//        if(Code.SUCCESS.equals(message)){
-//            return renderSuccess();
-//        }else{
-//            log.error("修改角色信息失败!" );
-//            return renderError(Code.FAIL);
-//        }
-//    }
+
+    /**
+     * 增加角色
+     * @param model - 角色信息Model
+     * @return BaseResponse
+     */
+    private RoleResponse add(SysRole model) {
+        //校验
+        if(StringUtil.isBlank(model.getName())){
+            return new RoleResponse(renderError(Code.FAIL, MessageConstants.ROLE_NAME_NOT_BE_NULL));
+        }
+        if(model.getStatus() == null){
+            return new RoleResponse(renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL));
+        }
+
+        RolePageQueryParameter parameter = new RolePageQueryParameter();
+        parameter.setName(model.getName());
+
+        //同一项目id对应的角色名称不应该有重复,否则容易混淆
+        int count =	sysRoleService.findCountOfRname(parameter);
+        if(count > 0){
+            return new RoleResponse(renderError(Code.FAIL, MessageConstants.ROLE_NAME_EXIST));
+        }
+
+        String message = null;
+        try {
+            Date date = new Date();
+            model.setCreatetime(date);
+            model.setUpdatetime(date);
+            message = sysRoleService.insertRoleAndRoleMenu(model);
+        } catch (Exception e) {
+            return new RoleResponse(renderError(Code.FAIL));
+        }
+        if(Code.SUCCESS.equals(message)){
+            RoleResponse response = new RoleResponse();
+            response.setMessage(SAVE_SUCCESS);
+            SysRole newModel = new SysRole();
+            newModel.setId(model.getId());
+            response.setData(newModel);
+            return response;
+        }else{
+            log.error("增加角色信息失败!" );
+            return new RoleResponse(renderError(Code.FAIL));
+        }
+    }
+
+    /**
+     * 修改角色
+     * @param model - 角色信息Model
+     * @return BaseResponse
+     */
+    private BaseResponse update(SysRole model) {
+        //校验
+        if(model.getId() == null){
+            return renderError(Code.FAIL, MessageConstants.PRIMARY_KEY_CAN_NOT_BE_NULL);
+        }
+        if(StringUtil.isBlank(model.getName())){
+            return renderError(Code.FAIL, MessageConstants.ROLE_NAME_NOT_BE_NULL);
+        }
+        if(model.getStatus() == null){
+            return renderError(Code.FAIL, MessageConstants.STATUS_CAN_NOT_BE_NULL);
+        }
+
+        //同一项目id对应的角色名称不应该有重复,否则容易混淆
+        RolePageQueryParameter parameter = new RolePageQueryParameter();
+        parameter.setId(model.getId());
+        parameter.setName(model.getName());
+        int count =	sysRoleService.findCountOfRname(parameter);
+        if(count > 0){
+            return renderError(Code.FAIL, MessageConstants.ROLE_NAME_EXIST);
+        }
+
+        String message = null;
+        try {
+            model.setUpdatetime(new Date());
+            message = sysRoleService.updateRoleAndRoleMenu(model);
+        } catch (Exception e) {
+            return renderError(Code.FAIL);
+        }
+        if(Code.SUCCESS.equals(message)){
+            return renderSuccess();
+        }else{
+            log.error("修改角色信息失败!" );
+            return renderError(Code.FAIL);
+        }
+    }
 
 
 }

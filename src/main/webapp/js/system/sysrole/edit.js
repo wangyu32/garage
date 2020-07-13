@@ -82,7 +82,7 @@ $(document).ready(function(){
         	var postData = $('#form').serializeArray();
     		
     		var object1 = new Object;
-    		object1.name = "mm_id_array";
+    		object1.name = "mmIdArray";
     		object1.value = mm_id_array;
     		postData.push(object1);
         	

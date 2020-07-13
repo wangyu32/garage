@@ -8,4 +8,19 @@
 		 where u.id = #{uid}
 		   and del = 0
 	</update>
+
+	<!-- 查询角色关联的用户数 -->
+	<select id="findRoleUserCount" parameterType="com.wangyu.entity.parameter.DeleteParameter" resultType="com.wangyu.entity.RoleUserCountModel">
+        SELECT r.id as rId, r.name as rName, count(u.id) as userCount
+        FROM sys_user u, sys_role r, sys_user_role ur
+        WHERE u.id = ur.uid
+        AND u.del = 0
+        AND r.del = 0
+        AND ur.rid = r.id
+		AND r.id in
+		<foreach collection="idArray" item ="item" index="i" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		GROUP BY r.id, r.name
+	</select>
 </mapper>

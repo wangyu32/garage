@@ -1,9 +1,13 @@
 package com.wangyu.service;
 
+import com.wangyu.entity.RoleUserCountModel;
 import com.wangyu.entity.page.PageQueryResult;
+import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.entity.parameter.RolePageQueryParameter;
 import com.wangyu.model.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,4 +26,31 @@ public interface ISysRoleService extends IService<SysRole> {
      */
     PageQueryResult findByPage(RolePageQueryParameter parameter);
 
+    /**
+     * 查询同一项目下角色名称的个数（主要用来校验角色名称，防止名称重复）
+     * @param pageQueryParameter - 查询参数
+     * @return 记录数
+     */
+    int findCountOfRname(RolePageQueryParameter pageQueryParameter);
+
+    /**
+     * 增加角色信息及关联菜单
+     * @param model	角色信息Model及关联菜单ID数组
+     * @return 是否增加成功的信息
+     */
+    String insertRoleAndRoleMenu(SysRole model);
+
+    /**
+     * 修改角色信息
+     * @param model	角色信息Model及关联菜单ID数组
+     * @return 是否修改成功的信息
+     */
+    String updateRoleAndRoleMenu(SysRole model);
+
+    /**
+     * 根据角色Id数组查询关联的用户个数
+     * @param parameter - 查询参数
+     * @return List
+     */
+    List<RoleUserCountModel> findRoleUserCount(DeleteParameter parameter);
 }
