@@ -81,7 +81,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
 
         if (parameter.isPageQuery()) {
-            Page<SysRole> page = new Page<>(parameter.getPageNumber(), parameter.getLimit());
+            Page<SysRole> page = new Page<>(parameter.getOffset() / parameter.getLimit() + 1, parameter.getLimit());
             IPage<SysRole> iPage = this.sysRoleMapper.selectPage(page, wrapper);
             PageQueryResult pageQueryResult = new PageQueryResult(iPage.getRecords(), Long.valueOf(iPage.getTotal()).intValue());
             return pageQueryResult;

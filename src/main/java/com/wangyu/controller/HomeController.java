@@ -4,7 +4,6 @@ import com.wangyu.common.BaseResponse;
 import com.wangyu.common.Code;
 import com.wangyu.constant.MessageConstants;
 import com.wangyu.constant.SessionAttributeConstants;
-import com.wangyu.constant.UserLogTypeConstants;
 import com.wangyu.entity.UserLoginBean;
 import com.wangyu.entity.parameter.UserLoginParameter;
 import com.wangyu.response.UserLoginResponse;

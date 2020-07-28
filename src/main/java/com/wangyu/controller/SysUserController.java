@@ -5,9 +5,7 @@ import com.wangyu.common.Code;
 import com.wangyu.common.ListResponse;
 import com.wangyu.constant.MessageConstants;
 import com.wangyu.constant.SessionAttributeConstants;
-import com.wangyu.constant.UserLogTypeConstants;
 import com.wangyu.entity.page.PageQueryResult;
-import com.wangyu.entity.parameter.ChangePasswordParameter;
 import com.wangyu.entity.parameter.DeleteParameter;
 import com.wangyu.entity.parameter.UserPageQueryParameter;
 import com.wangyu.entity.parameter.UserRolePageQueryParameter;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -208,7 +208,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 wrapper.orderByDesc(parameter.getSort());
             }
         }
-        Page<SysUser> page = new Page<>(parameter.getPageNumber(), parameter.getLimit());
+        Page<SysUser> page = new Page<>(parameter.getOffset() / parameter.getLimit() + 1, parameter.getLimit());
         IPage<SysUser> iPage = this.sysUserMapper.selectPage(page, wrapper);
         PageQueryResult pageQueryResult = new PageQueryResult(iPage.getRecords(), Long.valueOf(iPage.getTotal()).intValue());
         return pageQueryResult;
